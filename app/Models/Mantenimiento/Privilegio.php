@@ -9,7 +9,7 @@ use DB;
 
 class Privilegio extends Model
 {
-    protected   $table = 'm_privilegios';
+    protected   $table = 'am_privilegios';
 
     public static function runEditStatus($r)
     {

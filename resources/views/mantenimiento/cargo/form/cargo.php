@@ -14,18 +14,6 @@
                             <input type="text" onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_cargo" name="txt_cargo">
                         </div>
                     </div> 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Sueldo Mes Base</label>
-                            <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_sueldo_mensual_base" name="txt_sueldo_mensual_base">
-                        </div>
-                    </div>                  
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Monto Adicional</label>
-                            <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_monto_adicional_base" name="txt_monto_adicional_base">
-                        </div>
-                    </div>                     
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Estado</label>

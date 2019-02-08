@@ -14,72 +14,92 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+    {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+    {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+
     @include( 'mantenimiento.persona.js.persona_ajax' )
     @include( 'mantenimiento.persona.js.persona' )
+    @include( 'mantenimiento.persona.js.persona_modal_ajax' )
+    @include( 'mantenimiento.persona.js.persona_modal' )
     
 
 @stop
 
 @section('content')
-<section class="content-header">
-    <h1>Personas
-        <small>Mantenimiento</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Personas</li>
-    </ol>
-</section>
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <div class="breadcomb-ctn">
+                                    <h2>Personas</h2>
+                                    <p>Gestionar registro de las Personas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
+<div class="data-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-list">
                 <form id="PersonaForm">
                     <div class="box-body table-responsive no-padding">
                         <table id="TablePersona" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
                                     <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>Apellido Paterno:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Apellido Paterno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>Apellido Materno:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Apellido Materno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>Nombre:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombre" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
                                      <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>DNI:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="DNI" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>Email:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Email" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
@@ -87,9 +107,9 @@
                                     </th>
                                     
                                     <th class="col-xs-2">
-                                        <div class="form-group">
+                                        <div class="form-group col-xs-12">
                                             <label><h4>Estado:</h4></label>
-                                            <div class="input-group">
+                                            <div class="input-group col-xs-12">
                                                 <select class="form-control" name="slct_estado" id="slct_estado">
                                                     <option value='' selected>.::Todo::.</option>
                                                     <option value='0'>Inactivo</option>
@@ -120,13 +140,14 @@
                         </div>
                     </div><!-- .box-body -->
                 </form><!-- .form -->
-            </div><!-- .box -->
-        </div><!-- .col -->
-    </div><!-- .row -->
-</section><!-- .content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('form')
-     @include( 'mantenimiento.persona.form.persona' )
+     @include( 'mantenimiento.persona.form.persona_modal' )
      
 @stop

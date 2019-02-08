@@ -36,7 +36,7 @@ class CargoEM extends Controller
             $rules = array(
                 'cargo' => 
                        ['required',
-                        Rule::unique('m_cargos','cargo')->where(function ($query) use($r) {
+                        Rule::unique('am_cargos','cargo')->where(function ($query) use($r) {
 //                                $query->where('pregunta_id',$r->pregunta_id );
                         }),
                         ],
@@ -69,7 +69,7 @@ class CargoEM extends Controller
             $rules = array(
                 'cargo' => 
                        ['required',
-                        Rule::unique('m_cargos','cargo')->ignore($r->id)->where(function ($query) use($r) {
+                        Rule::unique('am_cargos','cargo')->ignore($r->id)->where(function ($query) use($r) {
                               //  $query->where('pregunta_id',$r->pregunta_id );
                         }),
                         ],
@@ -113,16 +113,4 @@ class CargoEM extends Controller
             return response()->json($return);
         }
     }
-    
-    public function SueldoCargo (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Cargo::SueldoCargo($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
 }

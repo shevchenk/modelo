@@ -7,7 +7,7 @@ use DB;
 
 class Opcion extends Model
 {
-    protected   $table = 'm_opciones';
+    protected   $table = 'am_opciones';
 
     public static function runEditStatus($r)
     {

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Input;
 
 class Menu extends Model
 {
-    protected   $table = 'm_menus';
+    protected   $table = 'am_menus as m';
 
     public static function runEditStatus($r)
     {

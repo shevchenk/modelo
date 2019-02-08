@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Mantenimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Persona;
-use App\Models\Mantenimiento\Privilegio;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -37,7 +36,7 @@ class PersonaEM extends Controller
             $rules = array(
                 'dni' => 
                        ['required',
-                        Rule::unique('m_personas','dni')->where(function ($query) use($r) {
+                        Rule::unique('am_personas','dni')->where(function ($query) use($r) {
                             if( $r->dni!='99999999' ){
                                 $query->where('dni', $r->dni);
                             }
@@ -46,9 +45,6 @@ class PersonaEM extends Controller
                             }
                         }),
                         ],
-                'password' => 
-                       ['required',
-                       ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
@@ -79,7 +75,7 @@ class PersonaEM extends Controller
             $rules = array(
                 'dni' => 
                        ['required',
-                        Rule::unique('m_personas','dni')->ignore($r->id)->where(function ($query) use($r) {
+                        Rule::unique('am_personas','dni')->ignore($r->id)->where(function ($query) use($r) {
                             if( $r->dni=='99999999' ){
                                 $query->where('dni','!=' ,$r->dni);
                             }
@@ -113,50 +109,25 @@ class PersonaEM extends Controller
             return response()->json($return);
         }
     }
-    
-    public function ListPrivilegio (Request $r )
+
+    public function LoadAdicional(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Privilegio::ListPrivilegio($r);
+            $renturnModel = Persona::runLoadAdicional($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }
-    
-    public function CargarAreas(Request $r)
-    {
-        if ( $r->ajax() ) {
-            $personaId =$r->persona_id;
-            $return = Persona::getAreas($personaId);
-            return response()->json($return);
-        }
-    }
-    
-    public function CargarGrados(Request $r)
-    {
-        if ( $r->ajax() ) {
-            $personaId =$r->persona_id;
-            $return = Persona::getGrado($personaId);
-            return response()->json($return);
-        }
-    }
 
-    public function CargarInvestigaciones(Request $r)
+    public function LoadPrivilegio(Request $r )
     {
         if ( $r->ajax() ) {
-            $personaId =$r->persona_id;
-            $return = Persona::getInvestigaciones($personaId);
-            return response()->json($return);
-        }
-    }
-
-    public function CargarPublicaciones(Request $r)
-    {
-        if ( $r->ajax() ) {
-            $personaId =$r->persona_id;
-            $return = Persona::getPublicaciones($personaId);
+            $renturnModel = Persona::runLoadPrivilegio($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }

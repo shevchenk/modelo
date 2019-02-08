@@ -463,10 +463,10 @@
     .dataTables_filter label::after {
         right: 10px;
     }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    /*.dataTables_wrapper .dataTables_paginate .paginate_button {
         margin: 5px 2px;
         margin-bottom: 0px;
-    }
+    }*/
     .dropdown-trig-hd h2{
         line-height:24px;
     }
@@ -635,6 +635,17 @@
     .table.table-hover > tbody > tr > td, .table.table-hover > tbody > tr > th, .table.table-hover > tfoot > tr > td, .table.table-hover > tfoot > tr > th, .table.table-hover > thead > tr > td, .table.table-hover > thead > tr > th {
         white-space: nowrap;
     }
+    .easy-autocomplete-container ul li, .easy-autocomplete-container ul .eac-category {
+      background: inherit;
+      border-color: #ccc;
+      border-image: none;
+      border-style: solid;
+      border-width: 0 1px;
+      display: block;
+      font-size: 25px !important;
+      font-weight: normal;
+      padding: 4px 12px;
+    }
     
 }
  
@@ -657,9 +668,9 @@
         left: -40px;
         width: 350px;
     }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    /*.dataTables_wrapper .dataTables_paginate .paginate_button {
         margin-bottom: 30px;
-    }
+    }*/
     .img-preview-custom {
         width: 345px;
         height: 205px;
@@ -683,6 +694,16 @@
     .bread-ntd{
         display:inline-block;
     }
-    
+    .easy-autocomplete-container ul li, .easy-autocomplete-container ul .eac-category {
+      background: inherit;
+      border-color: #ccc;
+      border-image: none;
+      border-style: solid;
+      border-width: 0 1px;
+      display: block;
+      font-size: 25px !important;
+      font-weight: normal;
+      padding: 4px 12px;
+    }
 }
  

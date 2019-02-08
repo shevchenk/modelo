@@ -34,8 +34,8 @@
                                     <i class="fa fa-cogs"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Cargo</h2>
-                                    <p>Administrar Cargos de los usuarios</p>
+                                    <h2>Puestos de Trabajo</h2>
+                                    <p>Gestionar los puestos de Trabajo</p>
                                 </div>
                             </div>
                         </div>
@@ -57,33 +57,15 @@
                         <table id="TableRegimen" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-3">
-                                        <div class="form-group">
-                                            <label><h4>Cargo:</h4></label><br>
-                                            <div class="input-group">
+                                    <th class="col-xs-5">
+                                        <div class="form-group col-xs-12">
+                                            <label><h4>Puesto de Trabajo:</h4></label><br>
+                                            <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_cargo" id="txt_cargo" placeholder="Cargo" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-3">
-                                        <div class="form-group">
-                                            <label><h4>Sueldo Mes Base:</h4></label><br>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_sueldo_mensual_base" id="txt_sueldo_mensual_base" placeholder="Aporte" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-3">
-                                        <div class="form-group">
-                                            <label><h4>Monto Adicional:</h4></label><br>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_monto_adicional_base" id="txt_monto_adicional_base" placeholder="Comisión" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>
-                                        </div>
-                                    </th>                                    
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado:</h4></label><br>
@@ -103,9 +85,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Regimen</th>
-                                  <th>Aporte</th>
-                                  <th>Comisión</th>
+                                  <th>Puesto de Trabajo</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

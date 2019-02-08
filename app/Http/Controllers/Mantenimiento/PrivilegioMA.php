@@ -36,7 +36,7 @@ class PrivilegioMA extends Controller
             $rules = array(
                 'privilegio' => 
                        ['required',
-                        Rule::unique('m_privilegios','privilegio'),
+                        Rule::unique('am_privilegios','privilegio'),
                         ],
             );
 
@@ -67,7 +67,7 @@ class PrivilegioMA extends Controller
             $rules = array(
                 'privilegio' => 
                        ['required',
-                        Rule::unique('m_privilegios','privilegio')->ignore($r->id),
+                        Rule::unique('am_privilegios','privilegio')->ignore($r->id),
                         ],
             );
 

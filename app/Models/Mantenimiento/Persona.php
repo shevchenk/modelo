@@ -8,9 +8,7 @@ use DB;
 
 class Persona extends Model
 {
-    protected   $table = 'm_personas';
-
-
+    protected   $table = 'am_personas';
 
     public static function runEditStatus($r)
     {
@@ -32,137 +30,72 @@ class Persona extends Model
         $persona->dni = trim( $r->dni );
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
-        $bcryptpassword = bcrypt($r->password);
-        $persona->password=$bcryptpassword;
+        $persona->password=bcrypt($r->dni);
+
+        if( trim( $r->password ) != ''){
+            $persona->password=bcrypt($r->password);
+        }
+        
         $persona->telefono = trim( $r->telefono );
         $persona->celular = trim( $r->celular );
-
-        $persona->regina = trim( $r->regina );
-        if($r->regina_anio)
-            $persona->regina_anio = trim( $r->regina_anio );
-
-        $persona->dina = trim( $r->dina );
-        if($r->dina_anio)
-            $persona->dina_anio = trim( $r->dina_anio );
+        $persona->estado_civil = trim( $r->estado_civil );
 
         if(trim( $r->fecha_nacimiento )!=''){
-        $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );}
+            $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );}
         else {
-        $persona->fecha_nacimiento = null;
+            $persona->fecha_nacimiento = null;
         }
+
         $persona->estado = trim( $r->estado );
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
 
-        if ($r->cargos_selec) {
-            $privilegios = explode(',', $r->cargos_selec);
-            if (is_array($privilegios)) {
-                for ($i=0; $i<count($privilegios); $i++) {
-
-                    if($r['sedes'.$privilegios[$i]]){
-                        $sedes = implode(',', $r['sedes'.$privilegios[$i]]);
-                    }else{
-                        $sedes='';
-                    }
-                    if($r['consorcios'.$privilegios[$i]]){
-                        $consorcios = implode(',', $r['consorcios'.$privilegios[$i]]);
-                    }else{
-                        $consorcios='';
-                    }
-                    if($r['fecha_salida'.$privilegios[$i]]){
-                        $fecha_salida = $r['fecha_salida'.$privilegios[$i]];
-                    }else{
-                        $fecha_salida=null;
-                    }
-
-                    $fecha_ingreso = $r['fecha_ingreso'.$privilegios[$i]];
-                    
-                    DB::table('m_sedes_privilegios_personas')->insert(
-                        array(
-                            'sede_ids' => $sedes,
-                            'consorcio_ids' => $consorcios,
-                            'privilegio_id' => $privilegios[$i],
-                            'persona_id' => $persona->id,
-                            'fecha_ingreso' => $fecha_ingreso,
-                            'fecha_salida' => $fecha_salida,
-                            'created_at'=> date('Y-m-d h:m:s'),
-                            'persona_id_created_at'=> Auth::user()->id,
-                            'estado' => 1,
-                        )
-                    );
-                }
-            }
+        $personaAdicional = new PersonaAdicional;
+        $personaAdicional->persona_id=$persona->id;
+        
+        if(trim( $r->colegio_id )!=''){
+            $personaAdicional->colegio_id=$r->colegio_id;
         }
 
-        // Tabla m_personas_grados
-        if ($r->grados_selec) {
-            $data = explode(',', $r->grados_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $universidad = $r['universidad'.$data[$i]];
-                    $grado_instruccion = $r['grado_instruccion'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    
-                    DB::table('m_personas_grados')->insert(
-                        array(
-                            'persona_id' => $persona->id,
-                            'universidad' => $universidad,
-                            'grado_instruccion' => $grado_instruccion,                            
-                            'anio' => $anio,
-                            'created_at'=> date('Y-m-d h:m:s'),
-                            'persona_id_created_at'=> Auth::user()->id,
-                            'estado' => 1,
-                        )
-                    );
-                }
-            }
+        if(trim( $r->pais_id )!=''){
+            $personaAdicional->pais_id=$r->pais_id;
         }
-        // --
 
-        // Tabla m_personas_investigaciones
-        if ($r->investiga_selec) {
-            $data = explode(',', $r->investiga_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $investiga = $r['investiga'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    
-                    DB::table('m_personas_investigaciones')->insert(
-                        array(
-                            'persona_id' => $persona->id,
-                            'investiga' => $universidad,
-                            'anio' => $anio,
-                            'created_at'=> date('Y-m-d h:m:s'),
-                            'persona_id_created_at'=> Auth::user()->id,
-                            'estado' => 1,
-                        )
-                    );
-                }
-            }
+        if(trim( $r->distrito_id )!=''){
+            $personaAdicional->region_id=$r->region_id;
+            $personaAdicional->provincia_id=$r->provincia_id;
+            $personaAdicional->distrito_id=$r->distrito_id;
         }
-        // --
 
-        // Tabla m_personas_publicaciones
-        if ($r->publica_selec) {
-            $data = explode(',', $r->publica_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $publica = $r['publica'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    $revista = $r['revista'.$data[$i]];
-                    
-                    DB::table('m_personas_publicaciones')->insert(
-                        array(
-                            'persona_id' => $persona->id,
-                            'publica' => $publica,
-                            'anio' => $anio,
-                            'revista' => $revista,
-                            'created_at'=> date('Y-m-d h:m:s'),
-                            'persona_id_created_at'=> Auth::user()->id,
-                            'estado' => 1,
-                        )
-                    );
+        if(trim( $r->distrito_id_dir )!=''){
+            $personaAdicional->region_id_dir=$r->region_id_dir;
+            $personaAdicional->provincia_id_dir=$r->provincia_id_dir;
+            $personaAdicional->distrito_id_dir=$r->distrito_id_dir;
+        }
+
+        $personaAdicional->direccion= trim($r->direccion);
+        $personaAdicional->tenencia= trim($r->tenencia);
+        $personaAdicional->empresa_laboral= trim($r->empresa_laboral);
+        $personaAdicional->direccion_laboral= trim($r->direccion_laboral);
+        $personaAdicional->telefono_laboral= trim($r->telefono_laboral);
+        $personaAdicional->persona_id_created_at=$persona_id;
+        $personaAdicional->save();
+
+        if ( $r->has("privilegio_id") ) {
+            $privilegios = $r->privilegio_id;
+            for ($i=0; $i < count($privilegios) ; $i++) { 
+                $personaPrivilegio= new PersonaPrivilegio;
+                $personaPrivilegio->persona_id=$persona->id;
+                $personaPrivilegio->privilegio_id=$privilegios[$i];
+                $local_ids='';
+                if( isset($r['locales'.$privilegios[$i]]) ){
+                    $local_ids=$r['locales'.$privilegios[$i]];
+                    $local_ids=implode(",",$local_ids);
                 }
+                $personaPrivilegio->local_ids=$local_ids;
+                $personaPrivilegio->persona_id_created_at=$persona_id;
+                $personaPrivilegio->estado=1;
+                $personaPrivilegio->save();
             }
         }
         // --
@@ -182,323 +115,99 @@ class Persona extends Model
         $persona->dni = trim( $r->dni );
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
+        
         if(trim( $r->password )!=''){
-        $persona->password=bcrypt($r->password);}
+            $persona->password=bcrypt($r->password);
+        }
 
         $persona->telefono = trim( $r->telefono );
         $persona->celular = trim( $r->celular );
+        $persona->estado_civil = trim( $r->estado_civil );
 
-        $persona->regina = trim( $r->regina );
-        if($r->regina_anio)
-            $persona->regina_anio = trim( $r->regina_anio );
-
-        $persona->dina = trim( $r->dina );
-        if($r->dina_anio)
-            $persona->dina_anio = trim( $r->dina_anio );
-
-        if(trim( $r->fecha_nacimiento )!='')
-        {
-        $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );
+        if(trim( $r->fecha_nacimiento )!=''){
+            $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );
         }
-        else
-        {
-        $persona->fecha_nacimiento = null;
+        else{
+            $persona->fecha_nacimiento = null;
         }
 
         $persona->estado = trim( $r->estado );
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
                 
+        $personaAdicional = PersonaAdicional::where('persona_id',$persona->id)
+                            ->first();
         
-        if ($r->cargos_selec) {
-            
-            DB::table('m_sedes_privilegios_personas')
-                ->where('persona_id', $r->id)
-                ->update(array('estado' => 0,
-                    'persona_id_updated_at' => Auth::user()->id));
-            
-            $privilegios = explode(',', $r->cargos_selec);
-            if (is_array($privilegios)) {
-                for ($i=0; $i<count($privilegios); $i++) {
-                    
-                    if($r['sedes'.$privilegios[$i]]){
-                        $sedes = implode(',', $r['sedes'.$privilegios[$i]]);
-                    }else{
-                        $sedes='';
-                    }
-                    if($r['consorcios'.$privilegios[$i]]){
-                        $consorcios = implode(',', $r['consorcios'.$privilegios[$i]]);
-                    }else{
-                        $consorcios='';
-                    }
-                    if($r['fecha_salida'.$privilegios[$i]]){
-                        $fecha_salida = $r['fecha_salida'.$privilegios[$i]];
-                    }else{
-                        $fecha_salida=null;
-                    }
-                    
-                    $fecha_ingreso = $r['fecha_ingreso'.$privilegios[$i]];
-                    
-                            
-                    $privilegioPersona=DB::table('m_sedes_privilegios_personas')
-                            ->where('privilegio_id', $privilegios[$i])
-                            ->where('persona_id', $r->id)
-                            ->first();
-                    
-                    if (is_null($privilegioPersona)) {
-                        
-                        DB::table('m_sedes_privilegios_personas')->insert(
-                            array(
-                                'sede_ids' => $sedes,
-                                'consorcio_ids' => $consorcios,
-                                'privilegio_id' => $privilegios[$i],
-                                'persona_id' => $persona->id,
-                                'fecha_ingreso' => $fecha_ingreso,
-                                'fecha_salida' => $fecha_salida,
-                                'created_at'=> date('Y-m-d h:m:s'),
-                                'persona_id_created_at'=> Auth::user()->id,
-                                'estado' => 1,
-                            )
-                        );
-                    } else {
-                        DB::table('m_sedes_privilegios_personas')
-                        ->where('persona_id', '=', $r->id)
-                        ->where('privilegio_id', '=', $privilegios[$i])
-                        ->update(
-                            array(
-                                'sede_ids' => $sedes,
-                                'consorcio_ids' => $consorcios,
-                                'fecha_ingreso' => $fecha_ingreso,
-                                'fecha_salida' => $fecha_salida,
-                                'estado' => 1,
-                                'persona_id_updated_at' => Auth::user()->id
-                            ));
-                    }
-                   
-
-                }
-            }
+        $personaAdicional->colegio_id=null;
+        if(trim( $r->colegio_id )!=''){
+            $personaAdicional->colegio_id=$r->colegio_id;
         }
 
-        // Tabla m_personas_grados       
-        if ($r->grados_delete) {
-            $data = explode(',', $r->grados_delete);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    DB::table('m_personas_grados')
-                            ->where('id', '=', $data[$i])
-                            ->update(
-                                array(
-                                    'estado' => 0,
-                                    'updated_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                        );
-                }
-            }
+        $personaAdicional->pais_id=null;
+        if(trim( $r->pais_id )!=''){
+            $personaAdicional->pais_id=$r->pais_id;
         }
 
-        if ($r->grados_selec) {
-            $data = explode(',', $r->grados_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $universidad = $r['universidad'.$data[$i]];
-                    $grado_instruccion = $r['grado_instruccion'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    
-                    if($universidad)
-                    {
-                        $persona_grados=DB::table('m_personas_grados')
-                            ->where('id', $data[$i])
-                            ->first();
-
-                        if (is_null($persona_grados))
-                        {
-                            DB::table('m_personas_grados')->insert(
-                                array(
-                                    'persona_id' => $persona->id,
-                                    'universidad' => $universidad,
-                                    'grado_instruccion' => $grado_instruccion,                            
-                                    'anio' => $anio,
-                                    'created_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'estado' => 1,
-                                )
-                            );
-                        } 
-                        else 
-                        {
-                            DB::table('m_personas_grados')
-                                ->where('id', '=', $data[$i])
-                                ->where('estado', '=', 1)
-                                ->update(
-                                    array(
-                                        'universidad' => $universidad,
-                                        'grado_instruccion' => $grado_instruccion,                            
-                                        'anio' => $anio,
-                                        'estado' => 1,
-                                        'updated_at'=> date('Y-m-d h:m:s'),
-                                        'persona_id_updated_at' => Auth::user()->id
-                                    )
-                            );
-                        }
-                        
-                    }
-                    
-                }
-            }
-        }
-        // --
-
-        // Tabla m_personas_investigaciones
-        if ($r->investiga_delete) {
-            $data = explode(',', $r->investiga_delete);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    DB::table('m_personas_investigaciones')
-                            ->where('id', '=', $data[$i])
-                            ->update(
-                                array(
-                                    'estado' => 0,
-                                    'updated_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                        );
-                }
-            }
+        $personaAdicional->region_id=null;
+        $personaAdicional->provincia_id=null;
+        $personaAdicional->distrito_id=null;
+        if(trim( $r->distrito_id )!=''){
+            $personaAdicional->region_id=$r->region_id;
+            $personaAdicional->provincia_id=$r->provincia_id;
+            $personaAdicional->distrito_id=$r->distrito_id;
         }
 
-        if ($r->investiga_selec) {
-            $data = explode(',', $r->investiga_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $investiga = $r['investiga'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    
-                    if($investiga)
-                    {
-                        $persona_investiga=DB::table('m_personas_investigaciones')
-                            ->where('id', $data[$i])
-                            ->first();
-
-                        if (is_null($persona_investiga))
-                        {
-                            DB::table('m_personas_investigaciones')->insert(
-                                array(
-                                    'persona_id' => $persona->id,
-                                    'investiga' => $investiga,
-                                    'anio' => $anio,
-                                    'created_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'estado' => 1,
-                                )
-                            );
-                        } 
-                        else 
-                        {
-                            DB::table('m_personas_investigaciones')
-                                ->where('id', '=', $data[$i])
-                                ->update(
-                                    array(
-                                        'investiga' => $investiga,                                        
-                                        'anio' => $anio,
-                                        'estado' => 1,
-                                        'updated_at'=> date('Y-m-d h:m:s'),
-                                        'persona_id_updated_at' => Auth::user()->id
-                                    )
-                            );
-                        }
-                        
-                    }
-                    
-                }
-            }
+        $personaAdicional->region_id_dir=null;
+        $personaAdicional->provincia_id_dir=null;
+        $personaAdicional->distrito_id_dir=null;
+        if(trim( $r->distrito_id_dir )!=''){
+            $personaAdicional->region_id_dir=$r->region_id_dir;
+            $personaAdicional->provincia_id_dir=$r->provincia_id_dir;
+            $personaAdicional->distrito_id_dir=$r->distrito_id_dir;
         }
-        // --
 
-
-        // Tabla m_personas_publicaciones
-        if ($r->publica_delete) {
-            $data = explode(',', $r->publica_delete);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    DB::table('m_personas_publicaciones')
-                            ->where('id', '=', $data[$i])
-                            ->update(
-                                array(
-                                    'estado' => 0,
-                                    'updated_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                        );
-                }
-            }
-        }
+        $personaAdicional->direccion= trim($r->direccion);
+        $personaAdicional->tenencia= trim($r->tenencia);
+        $personaAdicional->empresa_laboral= trim($r->empresa_laboral);
+        $personaAdicional->direccion_laboral= trim($r->direccion_laboral);
+        $personaAdicional->telefono_laboral= trim($r->telefono_laboral);
+        $personaAdicional->persona_id_updated_at=$persona_id;
+        $personaAdicional->save();
         
-        if ($r->publica_selec) {
-            $data = explode(',', $r->publica_selec);
-            if (is_array($data)) {
-                for ($i=0; $i<count($data); $i++) {
-                    $publica = $r['publica'.$data[$i]];
-                    $anio = $r['anio'.$data[$i]];
-                    $revista = $r['revista'.$data[$i]];
-                    
-                    if($publica)
-                    {
-                        $persona_publica=DB::table('m_personas_publicaciones')
-                            ->where('id', $data[$i])
-                            ->first();
+        PersonaPrivilegio::where('persona_id',$persona->id)
+        ->update(['estado'=>0]);
 
-                        if (is_null($persona_publica))
-                        {
-                            DB::table('m_personas_publicaciones')->insert(
-                                array(
-                                    'persona_id' => $persona->id,
-                                    'publica' => $publica,
-                                    'anio' => $anio,
-                                    'revista' => $revista,
-                                    'created_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'estado' => 1,
-                                )
-                            );
-                        } 
-                        else 
-                        {
-                            DB::table('m_personas_publicaciones')
-                                ->where('id', '=', $data[$i])
-                                ->update(
-                                    array(
-                                        'publica' => $publica,
-                                        'anio' => $anio,
-                                        'revista' => $revista,
-                                        'estado' => 1,
-                                        'updated_at'=> date('Y-m-d h:m:s'),
-                                        'persona_id_updated_at' => Auth::user()->id
-                                    )
-                            );
-                        }
-                        
-                    }
-                    
+        if ( $r->has("privilegio_id") ) {
+            $privilegios = $r->privilegio_id;
+            for ($i=0; $i < count($privilegios) ; $i++) { 
+                $personaPrivilegio= PersonaPrivilegio::where('persona_id',$persona->id)
+                                    ->where('privilegio_id',$privilegios[$i])
+                                    ->first();
+                if( !isset($personaPrivilegio->id) ){
+                    $personaPrivilegio= new PersonaPrivilegio;
                 }
+                $personaPrivilegio->persona_id=$persona->id;
+                $personaPrivilegio->privilegio_id=$privilegios[$i];
+                $local_ids='';
+                if( isset($r['locales'.$privilegios[$i]]) ){
+                    $local_ids=$r['locales'.$privilegios[$i]];
+                    $local_ids=implode(",",$local_ids);
+                }
+                $personaPrivilegio->local_ids=$local_ids;
+                $personaPrivilegio->persona_id_created_at=$persona_id;
+                $personaPrivilegio->estado=1;
+                $personaPrivilegio->save();
             }
         }
-        // --
 
         DB::commit();
     }
-
 
     public static function runLoad($r)
     {
         $sql=Persona::select('id','paterno','materno','nombre','dni','email',
                 DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),
-                'sexo','telefono','celular','password','estado',
-                DB::raw('IFNULL(regina,"") as regina'),
-                DB::raw('IFNULL(regina_anio,"") as regina_anio'),
-                DB::raw('IFNULL(dina,"") as dina'),
-                DB::raw('IFNULL(dina_anio,"") as dina_anio'))
+                'sexo','telefono','celular','password','estado_civil','estado')
             ->where(
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -543,49 +252,69 @@ class Persona extends Model
         return $result;
     }
 
-    public static function getAreas($personaId) {
-        $sql = DB::table('m_sedes_privilegios_personas as mspp')
-                   ->select('mspp.privilegio_id','mspp.sede_ids',"mp.privilegio",
-                           'mspp.consorcio_ids',DB::raw('IFNULL(mspp.fecha_ingreso,"") as fecha_ingreso'),
-                           DB::raw('IFNULL(mspp.fecha_salida,"") as fecha_salida'))
-                   ->join("m_privilegios as  mp","mp.id","=","mspp.privilegio_id")
-                   ->where('mspp.persona_id','=',$personaId)
-                   ->where('mspp.estado','=',1)
-                    ->get();
-        
-        return $sql;
+    public static function runLoadAdicional($r)
+    {
+        $result=DB::table('am_personas_adicionales as pa')
+                ->leftJoin('aa_distritos AS di',function($join){
+                    $join->on('pa.distrito_id','=','di.id')
+                    ->where('di.estado','=',1);
+                })
+                ->leftJoin('aa_provincias AS pr',function($join){
+                    $join->on('pa.provincia_id','=','pr.id')
+                    ->where('pr.estado','=',1);
+                })
+                ->leftJoin('aa_regiones AS re',function($join){
+                    $join->on('pa.region_id','=','re.id')
+                    ->where('re.estado','=',1);
+                })
+                ->leftJoin('aa_distritos AS di2',function($join){
+                    $join->on('pa.distrito_id_dir','=','di2.id')
+                    ->where('di2.estado','=',1);
+                })
+                ->leftJoin('aa_provincias AS pr2',function($join){
+                    $join->on('pa.provincia_id_dir','=','pr2.id')
+                    ->where('pr2.estado','=',1);
+                })
+                ->leftJoin('aa_regiones AS re2',function($join){
+                    $join->on('pa.region_id_dir','=','re2.id')
+                    ->where('re2.estado','=',1);
+                })
+                ->leftJoin('am_paises AS p',function($join){
+                    $join->on('pa.pais_id','=','p.id')
+                    ->where('p.estado','=',1);
+                })
+                ->leftJoin('am_colegios AS co',function($join){
+                    $join->on('pa.colegio_id','=','co.id')
+                    ->where('co.estado','=',1);
+                })
+                ->select('pa.pais_id','pa.colegio_id','pa.distrito_id','pa.provincia_id'
+                ,'pa.region_id','pa.distrito_id_dir','pa.provincia_id_dir','pa.region_id_dir'
+                ,'pa.direccion','pa.tenencia','pa.empresa_laboral','pa.direccion_laboral'
+                ,'pa.telefono_laboral','di.distrito','pr.provincia','re.region','p.pais'
+                ,'di2.distrito AS distrito_dir','pr2.provincia AS provincia_dir'
+                ,'re2.region AS region_dir','co.colegio')
+                ->where('pa.persona_id',$r->persona_id)
+                ->first();
+        return $result;
     }
 
-    public static function getGrado($personaId) {
-        $sql = DB::table('m_personas_grados as mpg')
-                   ->select('mpg.id','mpg.persona_id',"mpg.universidad","mpg.grado_instruccion",
-                           'mpg.anio')
-                   //->join("m_privilegios as  mp","mp.id","=","mspp.privilegio_id")
-                   ->where('mpg.persona_id','=',$personaId)
-                   ->where('mpg.estado','=',1)
-                   ->get();        
-        return $sql;
-    }
-
-    public static function getInvestigaciones($personaId) {
-        $sql = DB::table('m_personas_investigaciones as mpi')
-                   ->select('mpi.id','mpi.persona_id',"mpi.investiga",
-                           'mpi.anio')
-                   ->where('mpi.persona_id','=',$personaId)
-                   ->where('mpi.estado','=',1)
-                   ->get();        
-        return $sql;
-    }
-
-    public static function getPublicaciones($personaId) {
-        $sql = DB::table('m_personas_publicaciones as mpa')
-                   ->select('mpa.id','mpa.persona_id',"mpa.publica",
-                            DB::raw('IFNULL(mpa.revista,"") as revista'),
-                           'mpa.anio')
-                   ->where('mpa.persona_id','=',$personaId)
-                   ->where('mpa.estado','=',1)
-                   ->get();        
-        return $sql;
+    public static function runLoadPrivilegio($r)
+    {
+        $result=DB::table('am_personas_privilegios AS pp')
+                ->join('am_personas AS p',function($join){
+                    $join->on('pp.persona_id','=','p.id')
+                    ->where('p.estado','=',1);
+                })
+                ->join('am_privilegios AS pr',function($join){
+                    $join->on('pp.privilegio_id','=','pr.id')
+                    ->where('pr.estado','=',1);
+                })
+                ->select('pp.id','pp.privilegio_id','pr.privilegio','pp.local_ids')
+                ->where('p.id',$r->persona_id)
+                ->where('pp.estado',1)
+                ->orderBy('privilegio','asc')
+                ->get();
+        return $result;
     }
 
 }

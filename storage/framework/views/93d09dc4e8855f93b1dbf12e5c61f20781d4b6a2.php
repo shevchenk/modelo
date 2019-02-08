@@ -275,7 +275,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div>
+            <div style="text-align: center; margin: 20px 20px;">
                 <?php echo e(Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre); ?>
 
             </div>

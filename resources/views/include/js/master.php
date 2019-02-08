@@ -8,30 +8,28 @@ $(document).ready(function() {
       iconom=opcionesm.split(validarutaurlm)[1].split("|")[1];
     }
     else if( validarutaurlm=='secureaccess.myself' ){
-      iconom="fa fa-lock";
+      iconom="fa fa-user-secret";
     }
-    $("ol.breadcrumb>li>i").removeClass().addClass("fa "+iconom);
+    $(".breadcomb-icon>i").removeClass().addClass(iconom);
 
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $('.selectpicker').selectpicker('mobile');
     }
     
-    $('ul.sidebar-menu>li').each(function(indice, elemento) {
+    $('div.custom-menu-content').each(function(indice, elemento) {
         htm=$(elemento).html();
         if(htm.split('<a href="'+validarutaurlm+'"').length>1){
-            $(elemento).addClass('active').addClass('menu-open');
-            $(elemento).find('li').each(function(ind,ele) {
-              htm=$(ele).html();
-              if(htm.split('<a href="'+validarutaurlm+'"').length>1){
-                $(ele).addClass('active');
-              }
-            });
+            var idmenu=$(htm).attr('id');
+            $('#'+idmenu).addClass('active');
+            $("ul.notika-menu-wrap a[href='#"+idmenu+"']").attr('aria-expanded','true');
+            $("ul.notika-menu-wrap a[href='#"+idmenu+"']").parent('li').addClass('active');
         }
 
         if( "<?php echo $valida_ruta_url; ?>"=="secureaccess.inicio" ){
           msjG.mensaje('success','Bienvenido',3000);
         }
     });
+    jQuery('nav#dropdown').meanmenu();
 });
 
 $.ajaxSetup({
@@ -79,13 +77,13 @@ var masterG ={
     CargarPaginacion:function(HTML,ajax,result,id){
         var html='<ul class="pagination">';
         if( result.current_page==1 ){
-            html+=  '<li class="paginate_button previous disabled">'+
-                        '<a>Atras</a>'+
+            html+=  '<li class="paginate_button disabled">'+
+                        '<a class="notika-icon notika-left-arrow"></a>'+
                     '</li>';
         }
         else{
-            html+=  '<li class="paginate_button previous" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page-1)+');">'+
-                        '<a>Atras</a>'+
+            html+=  '<li class="paginate_button " onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page-1)+');">'+
+                        '<a class="notika-icon notika-left-arrow"></a>'+
                     '</li>';
         }
         var ini=1; var fin=result.last_page;
@@ -128,13 +126,13 @@ var masterG ={
         }
 
         if( result.current_page==result.last_page || result.last_page==0){
-            html+=  '<li class="paginate_button next disabled">'+
-                        '<a>Siguiente</a>'+
+            html+=  '<li class="paginate_button disabled">'+
+                        '<a class="notika-icon notika-right-arrow"></a>'+
                     '</li>';
         }
         else{
-            html+=  '<li class="paginate_button next" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page*1+1)+');">'+
-                        '<a>Siguiente</a>'+
+            html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page*1+1)+');">'+
+                        '<a class="notika-icon notika-right-arrow"></a>'+
                     '</li>';
         }
         html+='</ul>';
@@ -213,29 +211,75 @@ var masterG ={
         if( result.rst==1 ){
             window.location='secureaccess.inicio';
         }
+    },
+    OpenCloseMenu:function(){
+    //
     }
 }
 
 var msjG = {
-    mensaje: function (tipo, texto, tiempo) {
-      var img=tipo;
-        if(tipo=="success"){
-          img="check";
-        }
-        else if(tipo=="danger"){
-          img="ban";
-        }
-        if (tipo == 'danger' && texto.length == 0) {
-            texto = 'Ocurrio una interrupción en el proceso, favor de intentar nuevamente.';
-        }
-        etiqueta='msjG';
-        $('.'+etiqueta).html('<div class="alert alert-dismissable alert-' + tipo + '">' +
-                '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
-                '<h4><i class="icon fa fa-'+img+'"> '+texto+'</h4>'+
-                '</div>');
-        $('.'+etiqueta).slideToggle(500);
-        $('.'+etiqueta).fadeOut(tiempo);
+    notify: function (from, align, icon, type, animIn, animOut, timer, message){
+        $.growl({
+            icon: icon,
+            title: '',
+            message: message,
+            url: ''
+        },{
+                element: 'body',
+                type: type,
+                allow_dismiss: true,
+                placement: {
+                        from: from,
+                        align: align
+                },
+                offset: {
+                    x: 20,
+                    y: 85
+                },
+                spacing: 10,
+                z_index: 1031,
+                delay: 2500,
+                timer: timer,
+                url_target: '_blank',
+                mouse_over: false,
+                animate: {
+                        enter: animIn,
+                        exit: animOut
+                },
+                icon_type: 'class',
+                template: '<div data-growl="container" class="alert" role="alert">' +
+                                '<button type="button" class="close" data-growl="dismiss">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                    '<span class="sr-only">Close</span>' +
+                                '</button>' +
+                                '<span data-growl="icon"></span>' +
+                                '<span data-growl="title"></span>' +
+                                '<span data-growl="message"></span>' +
+                                '<a href="#" data-growl="url"></a>' +
+                            '</div>'
+        });
     },
+    mensaje: function (nType, texto, tiempo) {
+      var img='';
+      var nFrom='top';
+      var nAlign='center';
+      var nIcons='fa fa-check';
+      var nAnimIn='animated fadeInDown';
+      var nAnimOut='animated fadeOutDown';
+      var nTimer=tiempo;
+      var nMessage=texto;
+        if(nType=="danger"){
+          nIcons="fa fa-ban";
+        }
+        if(nType=="warning"){
+          nIcons="fa fa-warning";
+        }
+        if (nType == 'danger' && texto.length == 0) {
+            nMessage = 'Ocurrio una interrupción en el proceso, favor de intentar nuevamente.';
+        }
+        msjG.notify(nFrom, nAlign, nIcons, nType, nAnimIn, nAnimOut, nTimer, nMessage);
+    },
+
 }
 
 var sweetalertG = {
@@ -246,6 +290,7 @@ var sweetalertG = {
           showCancelButton: true,
           //type: 'warning',
           confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar",
           closeOnConfirm: true
       },
       consulta

@@ -12,9 +12,17 @@
                         </li>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-                <li><a data-toggle="tab" href="#Tables"><i class="fa fa-table"></i> Tables</a>
+                <li>
+                    <a href="secureaccess.myself">
+                        <i class="fa fa-user-secret"></i>
+                        <span>Mi Acceso</span>
+                    </a>
                 </li>
-                <li><a data-toggle="tab" href="#Page"><i class="fa fa-cog fa-spin"></i> Pages</a>
+                <li>
+                    <a href="salir">
+                        <i class="glyphicon glyphicon-log-in"></i>
+                        <span>Cesar Sesión</span>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content custom-menu-content">
@@ -31,30 +39,6 @@
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-                <div id="Tables" class="tab-pane active notika-tab-menu-bg animated flipInX">
-                    <ul class="notika-main-menu-dropdown">
-                        <li><a href="normal-table.html">Normal Table</a>
-                        </li>
-                        <li><a href="data-table.html">Data Table</a>
-                        </li>
-                    </ul>
-                </div>
-                <div id="Page" class="tab-pane notika-tab-menu-bg animated flipInX">
-                    <ul class="notika-main-menu-dropdown">
-                        <li><a href="contact.html">Contact</a>
-                        </li>
-                        <li><a href="invoice.html">Invoice</a>
-                        </li>
-                        <li><a href="typography.html">Typography</a>
-                        </li>
-                        <li><a href="color.html">Color</a>
-                        </li>
-                        <li><a href="login-register.html">Login Register</a>
-                        </li>
-                        <li><a href="404.html">404 Page</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

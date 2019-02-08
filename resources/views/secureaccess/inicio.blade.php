@@ -5,18 +5,27 @@
 @stop
 
 @section('content')
-<section class="content-header">
-    <h1>Inicio
-        <small>Bienvenido</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li class="active">Bienvenido</li>
-    </ol>
-</section>
-
-<section class="content">
-    <div class="row">
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-icon">
+                                    <i class="fa fa-user-secret"></i>
+                                </div>
+                                <div class="breadcomb-ctn">
+                                    <h2>Inicio</h2>
+                                    <p>Bienvenido</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
+</div>
 @stop

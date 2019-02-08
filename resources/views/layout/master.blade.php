@@ -71,7 +71,6 @@
             {{ Html::script('lib/wave/js/waves.min.js') }}
             {{ Html::script('lib/wave/js/wave-active.js') }}
             {{ Html::script('lib/notification/js/bootstrap-growl.min.js') }}
-            {{ Html::script('lib/notification/js/notification-active.js') }}
             {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
             {{ Html::script('lib/chat/jquery.chat.js') }}
             {{ Html::script('js/jquery.todo.js') }}
@@ -97,7 +96,6 @@
         </div>
 
         <div>
-            <div class="msjG" style="display: none;"> </div>
             @yield('content')
         </div>
 
@@ -106,7 +104,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="footer-copy-right">
-                            <p><strong>Copyright &copy; 2017-2018 <a href="http://jssoluciones.pe" target="_blank">JS</a></strong>. All rights
+                            <p><strong>Copyright &copy; 2019 <a href="http://jssoluciones.pe" target="_blank">JS</a></strong>. All rights
             reserved.</p>
                         </div>
                     </div>
