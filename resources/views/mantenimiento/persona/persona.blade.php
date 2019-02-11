@@ -60,6 +60,7 @@
                         <table id="TablePersona" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
+                                    <th class="col-xs-1">Foto</th>
                                     <th class="col-xs-2">
                                         <div class="form-group col-xs-12">
                                             <label><h4>Apellido Paterno:</h4></label>
@@ -96,7 +97,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group col-xs-12">
                                             <label><h4>Email:</h4></label>
                                             <div class="input-group col-xs-12">
@@ -106,7 +107,7 @@
                                         </div>
                                     </th>
                                     
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group col-xs-12">
                                             <label><h4>Estado:</h4></label>
                                             <div class="input-group col-xs-12">
@@ -125,6 +126,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
+                                  <th>Foto</th>
                                   <th>Paterno</th>
                                   <th>Materno</th>
                                   <th>Nombre</th>

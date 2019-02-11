@@ -47,6 +47,7 @@ HTMLCargarPersona=function(result){
         }
        
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td><a  target='_blank' href='"+r.foto+"'><img src='"+r.foto+"' style='height: 40px;width: 40px;'></a></td>"+
             "<td class='paterno'>"+r.paterno+"</td>"+
             "<td class='materno'>"+r.materno+"</td>"+
             "<td class='nombre'>"+r.nombre+"</td>"+
@@ -58,6 +59,7 @@ HTMLCargarPersona=function(result){
             "<input type='hidden' class='telefono' value='"+r.telefono+"'>"+
             "<input type='hidden' class='celular' value='"+r.celular+"'>"+
             "<input type='hidden' class='estado_civil' value='"+r.estado_civil+"'>"+
+            "<input type='hidden' class='foto' value='"+r.foto+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

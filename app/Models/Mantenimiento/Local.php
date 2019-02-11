@@ -143,7 +143,23 @@ class Local extends Model
     
     public static function ListLocal($r)
     {
-        $sql=Local::select('id','local','estado')
+        $sql=Local::select('id','local','estado','codigo')
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('local','like','%'.$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('codigo','like','%'.$dphrase[1].'%');
+                            }
+                        }
+                    }
+                }
+            )
             ->where('estado','=','1');
         $result = $sql->orderBy('local','asc')->get();
         return $result;

@@ -64,6 +64,18 @@ class Cargo extends Model
     // --
     public static function ListCargo($r){
         $sql=Cargo::select('id','cargo','estado')
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('cargo','like','%'.$dphrase[0].'%');
+                        }
+                    }
+                }
+            )
             ->where('estado','=','1');
         $result = $sql->orderBy('cargo','asc')->get();
         return $result;
