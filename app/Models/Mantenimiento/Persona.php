@@ -50,6 +50,19 @@ class Persona extends Model
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
 
+        $persona->foto='';
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/persona/Foto_".$persona->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $persona->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
+        }
+        $persona->save();
+
         $personaAdicional = new PersonaAdicional;
         $personaAdicional->persona_id=$persona->id;
         
@@ -131,6 +144,17 @@ class Persona extends Model
             $persona->fecha_nacimiento = null;
         }
 
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/persona/Foto_".$persona->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $persona->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
+        }
+
         $persona->estado = trim( $r->estado );
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
@@ -207,7 +231,8 @@ class Persona extends Model
     {
         $sql=Persona::select('id','paterno','materno','nombre','dni','email',
                 DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),
-                'sexo','telefono','celular','password','estado_civil','estado')
+                'sexo','telefono','celular','password','estado_civil','estado',
+                'foto')
             ->where(
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -314,6 +339,41 @@ class Persona extends Model
                 ->where('pp.estado',1)
                 ->orderBy('privilegio','asc')
                 ->get();
+        return $result;
+    }
+
+    public static function ListPersona($r)
+    {
+        $sql=DB::table('am_personas AS p')
+            ->select('p.id','p.dni','p.foto'
+                ,DB::raw( 'CONCAT(p.paterno," ",p.materno,", ",p.nombre) as persona')
+            )
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('p.paterno','like',$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('p.materno','like',$dphrase[1].'%');
+                            }
+                            if( count($dphrase)>2 AND trim($dphrase[2])!='' ){
+                                $dphrase[2]=trim($dphrase[2]);
+                                $query->where('p.nombre','like',$dphrase[2].'%');
+                            }
+                            if( count($dphrase)>3 AND trim($dphrase[3])!='' ){
+                                $dphrase[3]=trim($dphrase[3]);
+                                $query->where('p.dni','like',$dphrase[3].'%');
+                            }
+                        }
+                    }
+                }
+            )
+            ->where('p.estado','=','1');
+        $result = $sql->get();
         return $result;
     }
 

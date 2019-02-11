@@ -212,6 +212,11 @@ var masterG ={
             window.location='secureaccess.inicio';
         }
     },
+    Limpiar:function(t,v){
+        if( $.trim(v)=='' ){
+            $(t).val('');
+        }
+    },
     OpenCloseMenu:function(){
     //
     }

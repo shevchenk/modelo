@@ -36,7 +36,6 @@
                                                         </div>           
                                                     </div> <!--FIN DE COL SM 12-->
 
-
                                                     <div class="col-sm-12"><!--INICIO DE COL SM 12-->
                                                         <div class="col-sm-4">
                                                             <label>DNI:</label>
@@ -68,7 +67,10 @@
 
                                                         <div class="col-sm-4">
                                                             <label>Fecha Nacimiento:</label>
-                                                            <input type="text" class="form-control fecha" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" placeholder="AAAA-MM-DD" readonly=""> <!-- onfocus="blur()"/-->
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon btn btn-warning" onclick="masterG.Limpiar('#txt_fecha_nacimiento','');"><i class="fa fa-eraser"></i></div>
+                                                                <input type="text" class="form-control fecha" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" placeholder="AAAA-MM-DD" readonly="">
+                                                            </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <label>Estado Civil:</label>
@@ -82,7 +84,7 @@
                                                     </div><!--FIN DE COL SM 12-->
 
                                                     <div class="col-sm-12"><!--INICIO DE COL SM 12-->
-                                                         <div class="col-sm-4">
+                                                        <div class="col-sm-4">
                                                             <label>Teléfono:</label>
                                                             <textarea cols="3" class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Teléfono"></textarea>
                                                         </div>
@@ -98,6 +100,24 @@
                                                             </select>
                                                         </div>
                                                     </div><!--FIN DE COL SM 12-->
+
+                                                    <div class="col-sm-12"><!--INICIO DE COL SM 12-->
+                                                        <div class="col-sm-4">
+                                                            <label>Foto</label>
+                                                            <input type="text"  readOnly class="form-control input-sm" id="txt_imagen_nombre"  name="txt_imagen_nombre" value="">
+                                                            <input type="text" class="mant" style="display: none;" id="txt_imagen_archivo" name="txt_imagen_archivo">
+                                                            <label class="btn btn-default btn-flat margin btn-xs">
+                                                                <i class="fa fa-file-image-o fa-5x"></i>
+                                                                <input type="file" class="mant" style="display: none;" onchange="onImagen(event);" >
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <img class="img-circle" style="height: 200px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px"> 
+                                                            </div>
+                                                        </div>
+                                                    </div><!--FIN DE COL SM 12-->
+
                                                 </div>
                                             </fieldset>
                                         </div>

@@ -8,24 +8,26 @@
             </div>
             <div class="modal-body">
                 <form id="ModalRegimenForm">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Cargo</label>
-                            <input type="text" onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_cargo" name="txt_cargo">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Cargo</label>
+                                <input type="text" onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_cargo" name="txt_cargo">
+                            </div>
+                        </div> 
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
+                                    <option  value='0'>Inactivo</option>
+                                    <option  value='1'>Activo</option>
+                                </select>
+                            </div>
                         </div>
-                    </div> 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Estado</label>
-                            <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
-                                <option  value='0'>Inactivo</option>
-                                <option  value='1'>Activo</option>
-                            </select>
-                        </div>
+                         <div class="form-group"> 
+                             <label></label>
+                         </div>
                     </div>
-                     <div class="form-group"> 
-                         <label></label>
-                     </div>
                 </form>
             </div>
             <div class="modal-footer">

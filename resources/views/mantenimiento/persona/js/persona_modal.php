@@ -13,6 +13,7 @@ var PersonaG = {id:0,
     celular:"",
     fecha_nacimiento:"",
     estado_civil:"",
+    foto:'',
     estado:1
 }; // Datos Globales
 var PersonaAdicionalG = {colegio_id:"",
@@ -41,7 +42,7 @@ var ColegioOpciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_colegio").getSelectedItemData().id;
             $("#ModalPersonaForm #txt_colegio_id").val(value).trigger("change");
         }
@@ -69,11 +70,10 @@ var PaisOpciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_pais").getSelectedItemData().id;
             $("#ModalPersonaForm #txt_pais_id").val(value).trigger("change");
-        },
-        onClickEvent: function() {
+
             $(".paisafectado input").removeAttr('disabled');
             if( $("#ModalPersonaForm #txt_pais").getSelectedItemData().id!=173 ){
                 $(".paisafectado input,.paisafectado2 input").val('').attr('disabled','true');
@@ -99,7 +99,7 @@ var DistritoOpciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_distrito").getSelectedItemData().id;
             var value2 = $("#ModalPersonaForm #txt_distrito").getSelectedItemData().provincia_id;
             var value3 = $("#ModalPersonaForm #txt_distrito").getSelectedItemData().region_id;
@@ -131,7 +131,7 @@ var DistritoDirOpciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().id;
             var value2 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().provincia_id;
             var value3 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().region_id;
@@ -193,6 +193,8 @@ $(document).ready(function() {
         $('#ModalPersonaForm #txt_fecha_nacimiento').val( PersonaG.fecha_nacimiento );
         $('#ModalPersonaForm #slct_estado_civil').val( PersonaG.estado_civil );
         $('#ModalPersonaForm #slct_estado').val( PersonaG.estado );
+        $('#ModalPersonaForm #txt_imagen_nombre').val(PersonaG.foto);
+        $('#ModalPersonaForm .img-circle').attr('src',PersonaG.foto);
 
         $("#ModalPersonaForm select").not('.mant').selectpicker('refresh');
         $('#ModalPersonaForm #txt_nombre').focus();
@@ -200,7 +202,8 @@ $(document).ready(function() {
 
     $('#ModalPersona').on('hidden.bs.modal', function (event) {
         $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
-        $("#MPdatoadicional input,#MPdatoadicional select").val('');
+        $("#MPdatoadicional input,#MPdatoadicional select,#ModalPersonaForm textarea").val('');
+        $('#TablePrivilegio tbody').html('');
         $('#ModalPersonaForm select').not('.mant').selectpicker('destroy');
     });
 });
@@ -246,6 +249,7 @@ AgregarEditar=function(val,id){
     PersonaG.celular='';
     PersonaG.fecha_nacimiento='';
     PersonaG.estado_civil='S';
+    PersonaG.foto='';
     PersonaG.estado='1';
     if( val==0 ){
         PersonaG.id=id;
@@ -259,7 +263,13 @@ AgregarEditar=function(val,id){
         PersonaG.celular=$("#TablePersona #trid_"+id+" .celular").val();
         PersonaG.fecha_nacimiento=$("#TablePersona #trid_"+id+" .fecha_nacimiento").val();
         PersonaG.estado_civil=$("#TablePersona #trid_"+id+" .estado_civil").val();
+        PersonaG.foto=$("#TablePersona #trid_"+id+" .foto").val();
         PersonaG.estado=$("#TablePersona #trid_"+id+" .estado").val();
+    }
+    else{
+        $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
+        $("#MPdatoadicional input,#MPdatoadicional select,#ModalPersonaForm textarea").val('');
+        $('#TablePrivilegio tbody').html('');
     }
     $('#ModalPersona').modal('show');
 }
@@ -424,4 +434,19 @@ FechaAnio=function(){
         autoclose: true,
     });
 }
+
+onImagen = function (event) {
+    var files = event.target.files || event.dataTransfer.files;
+    if (!files.length)
+        return;
+    var image = new Image();
+    var reader = new FileReader();
+    reader.onload = (e) => {
+        $('#ModalPersonaForm #txt_imagen_archivo').val(e.target.result);
+        $('#ModalPersonaForm .img-circle').attr('src',e.target.result);
+    };
+    reader.readAsDataURL(files[0]);
+    $('#ModalPersonaForm #txt_imagen_nombre').val(files[0].name);
+    console.log(files[0].name);
+};
 </script>

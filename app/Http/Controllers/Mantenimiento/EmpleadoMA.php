@@ -3,61 +3,57 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Persona;
+use App\Models\Mantenimiento\Empleado;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PersonaEM extends Controller
+class EmpleadoMA extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
-    }
+    } 
 
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Persona::runEditStatus($r);
+            Empleado::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
         }
     }
 
-    public function New(Request $r )
+   public function New(Request $r )
     {
         if ( $r->ajax() ) {
-           
+
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'dni' => 
+                'empleado' => 
                        ['required',
-                        Rule::unique('am_personas','dni')->where(function ($query) use($r) {
-                            if( $r->dni!='99999999' ){
-                                $query->where('dni', $r->dni);
-                            }
-                            else {
-                               $query->where('dni','!=' ,$r->dni); 
-                            }
+                        Rule::unique('am_empleados','empleado')->where(function ($query) use($r) {
+//                                $query->where('pregunta_id',$r->pregunta_id );
                         }),
                         ],
             );
 
-            $validator=Validator::make($r->all(), $rules,$mensaje);
             
-            if (!$validator->fails()) {
-                Persona::runNew($r);
+            $validator=Validator::make($r->all(), $rules,$mensaje);
+
+            if ( !$validator->fails() ) {
+                Empleado::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
-            }else{
+            }
+            else{
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];
             }
-
             return response()->json($return);
         }
     }
@@ -65,36 +61,31 @@ class PersonaEM extends Controller
     public function Edit(Request $r )
     {
         if ( $r->ajax() ) {
-            
             $mensaje= array(
                 'required'    => ':attribute es requerido',
                 'unique'        => ':attribute solo debe ser único',
-
             );
 
             $rules = array(
-                'dni' => 
+                'empleado' => 
                        ['required',
-                        Rule::unique('am_personas','dni')->ignore($r->id)->where(function ($query) use($r) {
-                            if( $r->dni=='99999999' ){
-                                $query->where('dni','!=' ,$r->dni);
-                            }
+                        Rule::unique('am_empleados','empleado')->ignore($r->id)->where(function ($query) use($r) {
+                              //  $query->where('pregunta_id',$r->pregunta_id );
                         }),
                         ],
-           
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
-            
-            if (!$validator->fails()) {
-                Persona::runEdit($r);
+
+            if ( !$validator->fails() ) {
+                Empleado::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
-            }else{
+            }
+            else{
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];
             }
-            
             return response()->json($return);
         }
     }
@@ -102,45 +93,25 @@ class PersonaEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Persona::runLoad($r);
+            $r['estado']=1;
+            $renturnModel = Empleado::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
         }
     }
 
-    public function LoadAdicional(Request $r )
+
+    // --
+    public function ListEmpleado (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Persona::runLoadAdicional($r);
+            $renturnModel = Empleado::ListEmpleado($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }
-
-    public function LoadPrivilegio(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Persona::runLoadPrivilegio($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
-    public function ListPersona (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Persona::ListPersona($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
 }
