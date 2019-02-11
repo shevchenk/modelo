@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var EmpleadoG={id:0,persona_id:"",cargo_id:"",local_id:"",medio_captacion_id:"",codigo:"",estado:1}; // Datos Globales
+var EmpleadoG={id:0,persona_id:"",persona:"",dni:"",cargo_id:"",cargo:"",local_id:"",local:"",codigo_local:"",medio_captacion_id:"",medio_captacion:"",codigo:"",fecha_ingreso:"",fecha_cese:"",estado:1}; // Datos Globales
 var PersonaOpciones = {
     placeholder: 'Persona',
     url: "AjaxDinamic/Mantenimiento.PersonaEM@ListPersona",
@@ -123,14 +123,26 @@ $(document).ready(function() {
 
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $('#ModalEmpleadoForm #txt_persona').removeAttr( 'disabled' );
         }
         else{
+            $('#ModalEmpleadoForm #txt_persona').attr( 'disabled','true' );
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalEmpleadoForm").append("<input type='hidden' value='"+EmpleadoG.id+"' name='id'>");
         }
-        $('#ModalEmpleadoForm #txt_empleado').val( EmpleadoG.empleado );
-        $('#ModalEmpleadoForm #slct_estado').selectpicker( 'val',EmpleadoG.estado );
-        $('#ModalEmpleadoForm #txt_empleado').focus();
+        $('#ModalEmpleadoForm #txt_persona').val( EmpleadoG.persona );
+        $('#ModalEmpleadoForm #txt_persona_id').val( EmpleadoG.persona_id );
+        $('#ModalEmpleadoForm #txt_dni  ').val( EmpleadoG.dni  );
+        $('#ModalEmpleadoForm #txt_codigo').val( EmpleadoG.codigo );
+        $('#ModalEmpleadoForm #txt_cargo').val( EmpleadoG.cargo );
+        $('#ModalEmpleadoForm #txt_cargo_id').val( EmpleadoG.cargo_id );
+        $('#ModalEmpleadoForm #txt_local').val( EmpleadoG.local );
+        $('#ModalEmpleadoForm #txt_local_id').val( EmpleadoG.local_id );
+        $('#ModalEmpleadoForm #txt_codigo_local').val( EmpleadoG.codigo_local );
+        $('#ModalEmpleadoForm #txt_medio_captacion').val( EmpleadoG.medio_captacion );
+        $('#ModalEmpleadoForm #txt_medio_captacion_id').val( EmpleadoG.medio_captacion_id );
+        $('#ModalEmpleadoForm #txt_fecha_ingreso').val( EmpleadoG.fecha_ingreso );
+        $('#ModalEmpleadoForm #txt_fecha_cese').val( EmpleadoG.fecha_cese );
     });
 
     $('#ModalEmpleado').on('hidden.bs.modal', function (event) {
@@ -161,19 +173,33 @@ AgregarEditar=function(val,id){
     AddEdit=val;
     EmpleadoG.id='';
     EmpleadoG.persona_id='';
+    EmpleadoG.persona='';
+    EmpleadoG.dni='';
     EmpleadoG.local_id='';
+    EmpleadoG.local='';
+    EmpleadoG.codigo_local='';
     EmpleadoG.cargo_id='';
+    EmpleadoG.cargo='';
     EmpleadoG.medio_captacion_id='';
+    EmpleadoG.medio_captacion='';
     EmpleadoG.codigo='';
-    EmpleadoG.estado='1';
+    EmpleadoG.fecha_ingreso='';
+    EmpleadoG.fecha_cese='';
     if( val==0 ){
         EmpleadoG.id=id;
         EmpleadoG.persona_id=$("#TableEmpleado #trid_"+id+" .persona_id").val();
+        EmpleadoG.persona=$("#TableEmpleado #trid_"+id+" .paterno").text()+' '+$("#TableEmpleado #trid_"+id+" .materno").text()+', '+$("#TableEmpleado #trid_"+id+" .nombre").text();
+        EmpleadoG.dni=$("#TableEmpleado #trid_"+id+" .dni").text();
         EmpleadoG.local_id=$("#TableEmpleado #trid_"+id+" .local_id").val();
+        EmpleadoG.local=$("#TableEmpleado #trid_"+id+" .local").val();
+        EmpleadoG.codigo_local=$("#TableEmpleado #trid_"+id+" .codigo_local").val();
         EmpleadoG.cargo_id=$("#TableEmpleado #trid_"+id+" .cargo_id").val();
+        EmpleadoG.cargo=$("#TableEmpleado #trid_"+id+" .cargo").val();
         EmpleadoG.medio_captacion_id=$("#TableEmpleado #trid_"+id+" .medio_captacion_id").val();
+        EmpleadoG.medio_captacion=$("#TableEmpleado #trid_"+id+" .medio_captacion").val();
         EmpleadoG.codigo=$("#TableEmpleado #trid_"+id+" .codigo").text();
-        EmpleadoG.estado=$("#TableEmpleado #trid_"+id+" .estado").val();
+        EmpleadoG.fecha_ingreso=$("#TableEmpleado #trid_"+id+" .fecha_ingreso").val();
+        EmpleadoG.fecha_cese=$("#TableEmpleado #trid_"+id+" .fecha_cese").val();
     }
     else{
         $("#ModalEmpleadoForm input[type='hidden']").not('.mant').remove();
@@ -229,8 +255,14 @@ HTMLCargarEmpleado=function(result){
             "<td>";
         html+="<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
                 "<input type='hidden' class='cargo_id' value='"+r.cargo_id+"'>"+
+                "<input type='hidden' class='cargo' value='"+r.cargo+"'>"+
                 "<input type='hidden' class='local_id' value='"+r.local_id+"'>"+
-                "<input type='hidden' class='medio_captacion_id' value='"+r.medio_captacion_id+"'>"+
+                "<input type='hidden' class='local' value='"+r.local+"'>"+
+                "<input type='hidden' class='codigo_local' value='"+r.codigo_local+"'>"+
+                "<input type='hidden' class='medio_captacion_id' value='"+$.trim(r.medio_captacion_id)+"'>"+
+                "<input type='hidden' class='medio_captacion' value='"+$.trim(r.medio_captacion)+"'>"+
+                "<input type='hidden' class='fecha_ingreso' value='"+$.trim(r.fecha_inicio)+"'>"+
+                "<input type='hidden' class='fecha_cese' value='"+$.trim(r.fecha_final)+"'>"+
                 estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";

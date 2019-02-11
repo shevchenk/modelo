@@ -12,28 +12,120 @@ class Empleado extends Model
     
     public static function runEditStatus($r)
     {
-        $regimen = Empleado::find($r->id);
-        $regimen->estado = trim( $r->estadof );
-        $regimen->persona_id_updated_at=Auth::user()->id;
-        $regimen->save();
+        DB::beginTransaction();
+        $empleado = Empleado::find($r->id);
+        $empleado->estado = trim( $r->estadof );
+        $empleado->persona_id_updated_at=Auth::user()->id;
+        $empleado->save();
+
+        $empleadoHistorico = new EmpleadoHistorico;
+        $empleadoHistorico->empleado_id = $empleado->id;
+        $empleadoHistorico->persona_id = $empleado->persona_id;
+        $empleadoHistorico->cargo_id = $empleado->cargo_id;
+        $empleadoHistorico->local_id = $empleado->local_id;
+        $empleadoHistorico->codigo = $empleado->codigo;
+        $empleadoHistorico->medio_captacion_id = $empleado->medio_captacion_id;
+        $empleadoHistorico->fecha_inicio = $empleado->fecha_inicio;
+        $empleadoHistorico->fecha_final = $empleado->fecha_final;
+        $empleadoHistorico->estado = $empleado->estado;
+        $empleadoHistorico->persona_id_created_at = Auth::user()->id;
+        $empleadoHistorico->save();
+        DB::commit();
     }
 
     public static function runNew($r)
     {
-        $regimen = new Empleado;
-        $regimen->empleado = trim( $r->empleado );
-        $regimen->estado = trim( $r->estado );
-        $regimen->persona_id_created_at=Auth::user()->id;
-        $regimen->save();
+        DB::beginTransaction();
+        $crear=0;
+        $empleado = Empleado::where('persona_id',$r->persona_id)
+                    ->first();
+        if( !isset($empleado->id) ){
+            $crear=1;
+            $empleado = new Empleado;
+            $empleado->persona_id_created_at=Auth::user()->id;
+        }
+        else{
+            $empleado->persona_id_updated_at=Auth::user()->id;
+        }
+
+        $empleado->persona_id = trim( $r->persona_id );
+        $empleado->cargo_id = trim( $r->cargo_id );
+        $empleado->local_id = trim( $r->local_id );
+        $empleado->codigo = trim( $r->codigo );
+
+        $empleado->medio_captacion_id = null;
+        if( $r->has('medio_captacion_id') AND trim($r->medio_captacion_id)!='' ){
+            $empleado->medio_captacion_id = trim( $r->medio_captacion_id );
+        }
+
+        $empleado->fecha_inicio = null;
+        if( $r->has('fecha_ingreso') AND trim($r->fecha_ingreso)!='' ){
+            $empleado->fecha_inicio = trim( $r->fecha_ingreso );
+        }
+
+        $empleado->fecha_final = null;
+        if( $r->has('fecha_cese') AND trim($r->fecha_cese)!='' ){
+            $empleado->fecha_final = trim( $r->fecha_cese );
+        }
+        $empleado->estado=1;
+        $empleado->save();
+
+        $empleadoHistorico = new EmpleadoHistorico;
+        $empleadoHistorico->empleado_id = $empleado->id;
+        $empleadoHistorico->persona_id = $empleado->persona_id;
+        $empleadoHistorico->cargo_id = $empleado->cargo_id;
+        $empleadoHistorico->local_id = $empleado->local_id;
+        $empleadoHistorico->codigo = $empleado->codigo;
+        $empleadoHistorico->medio_captacion_id = $empleado->medio_captacion_id;
+        $empleadoHistorico->fecha_inicio = $empleado->fecha_inicio;
+        $empleadoHistorico->fecha_final = $empleado->fecha_final;
+        $empleadoHistorico->estado = $empleado->estado;
+        $empleadoHistorico->persona_id_created_at = Auth::user()->id;
+        $empleadoHistorico->save();
+        DB::commit();
     }
 
     public static function runEdit($r)
     {
-        $regimen = Empleado::find($r->id);
-        $regimen->empleado = trim( $r->empleado );
-        $regimen->estado = trim( $r->estado );
-        $regimen->persona_id_updated_at=Auth::user()->id;
-        $regimen->save();
+        DB::beginTransaction();
+        $empleado = Empleado::find($r->id);
+        $empleado->persona_id = trim( $r->persona_id );
+        $empleado->cargo_id = trim( $r->cargo_id );
+        $empleado->local_id = trim( $r->local_id );
+        $empleado->codigo = trim( $r->codigo );
+
+        $empleado->medio_captacion_id = null;
+        if( $r->has('medio_captacion_id') AND trim($r->medio_captacion_id)!='' ){
+            $empleado->medio_captacion_id = trim( $r->medio_captacion_id );
+        }
+
+        $empleado->fecha_inicio = null;
+        if( $r->has('fecha_ingreso') AND trim($r->fecha_ingreso)!='' ){
+            $empleado->fecha_inicio = trim( $r->fecha_ingreso );
+        }
+
+        $empleado->fecha_final = null;
+        if( $r->has('fecha_cese') AND trim($r->fecha_cese)!='' ){
+            $empleado->fecha_final = trim( $r->fecha_cese );
+        }
+
+        $empleado->estado=1;
+        $empleado->persona_id_updated_at=Auth::user()->id;
+        $empleado->save();
+
+        $empleadoHistorico = new EmpleadoHistorico;
+        $empleadoHistorico->empleado_id = $empleado->id;
+        $empleadoHistorico->persona_id = $empleado->persona_id;
+        $empleadoHistorico->cargo_id = $empleado->cargo_id;
+        $empleadoHistorico->local_id = $empleado->local_id;
+        $empleadoHistorico->codigo = $empleado->codigo;
+        $empleadoHistorico->medio_captacion_id = $empleado->medio_captacion_id;
+        $empleadoHistorico->fecha_inicio = $empleado->fecha_inicio;
+        $empleadoHistorico->fecha_final = $empleado->fecha_final;
+        $empleadoHistorico->estado = $empleado->estado;
+        $empleadoHistorico->persona_id_created_at = Auth::user()->id;
+        $empleadoHistorico->save();
+        DB::commit();
     }
 
 
@@ -55,7 +147,8 @@ class Empleado extends Model
             })
             ->select('e.id','e.estado','e.persona_id','e.cargo_id','e.local_id'
                 ,'e.medio_captacion_id','l.local','c.cargo','mc.medio_captacion'
-                ,'p.paterno','p.materno','p.nombre','p.dni','e.codigo'
+                ,'p.paterno','p.materno','p.nombre','p.dni','e.codigo','l.codigo AS codigo_local'
+                ,'e.fecha_inicio','e.fecha_final'
             )
             ->where( 
                     

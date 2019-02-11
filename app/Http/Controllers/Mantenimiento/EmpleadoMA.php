@@ -34,15 +34,8 @@ class EmpleadoMA extends Controller
             );
 
             $rules = array(
-                'empleado' => 
-                       ['required',
-                        Rule::unique('am_empleados','empleado')->where(function ($query) use($r) {
-//                                $query->where('pregunta_id',$r->pregunta_id );
-                        }),
-                        ],
+                'persona_id' => ['required'],
             );
-
-            
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
@@ -67,12 +60,7 @@ class EmpleadoMA extends Controller
             );
 
             $rules = array(
-                'empleado' => 
-                       ['required',
-                        Rule::unique('am_empleados','empleado')->ignore($r->id)->where(function ($query) use($r) {
-                              //  $query->where('pregunta_id',$r->pregunta_id );
-                        }),
-                        ],
+                'persona_id' => ['required'],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
