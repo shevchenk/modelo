@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var ProductoG={id:0,local_id:0,ps_nivel3_id:0,nivel3_id:"",precio_venta:"",precio_compra:"",moneda:0,stock:"",
+var ProductoG={id:0,local_id:0,local:"",local_codigo:"",ps_nivel3_id:0,nivel3_id:"",precio_venta:"",precio_compra:"",moneda:0,stock:"",
                stock_minimo:"",dias_alerta:"",fecha_vencimiento:"",dias_vencimiento:"",estado:1}; // Datos Globales
 
 var Nivel3Opciones = {
@@ -31,10 +31,35 @@ var Nivel3Opciones = {
     },
     adjustWidth:false,
 };
+var LocalOpciones = {
+    placeholder: 'Local',
+    url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocal",
+    listLocation: "data",
+    getValue: "local",
+    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    preparePostData: function(data) {
+        data.phrase = $("#txt_local").val();
+        return data;
+    },
+    list: {
+        onClickEvent: function() {
+            var value = $("#ModalProductoForm #txt_local").getSelectedItemData().id;
+            var value2 = $("#ModalProductoForm #txt_local").getSelectedItemData().codigo;
+            $("#ModalProductoForm #txt_local_id").val(value).trigger("change");
+            $("#ModalProductoForm #txt_codigo_local").val(value2).trigger("change");
+        }
+    },
+    template: {
+        type: "description",
+        fields: {
+            description: "codigo"
+        }
+    },
+    adjustWidth:false,
+};
 $(document).ready(function() {
     $("#ModalProductoForm #txt_nivel3").easyAutocomplete(Nivel3Opciones);
-    AjaxProducto.CargarLocal(SlctCargarLocal);
-    
+    $("#ModalProductoForm #txt_local").easyAutocomplete(LocalOpciones);
     $("#TableProducto").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -70,7 +95,9 @@ $(document).ready(function() {
         }
         $('#ModalProductoForm #txt_nivel3').val( ProductoG.nivel3 );
         $('#ModalProductoForm #txt_ps_nivel3_id').val( ProductoG.ps_nivel3_id );
-        $('#ModalProductoForm #slct_local_id').val( ProductoG.local_id );
+        $('#ModalProductoForm #txt_local_id').val( ProductoG.local_id );
+        $('#ModalProductoForm #txt_local').val( ProductoG.local );
+        $('#ModalProductoForm #txt_codigo_local').val( ProductoG.local_codigo );
         $('#ModalProductoForm #txt_precio_venta').val( ProductoG.precio_venta );
         $('#ModalProductoForm #txt_precio_compra').val( ProductoG.precio_compra );
         $('#ModalProductoForm #slct_moneda').val( ProductoG.moneda );
@@ -96,7 +123,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Nivel 3',4000);
     }
-    else if( $.trim( $("#ModalProductoForm #slct_local_id").val() )=='' ){
+    else if( $.trim( $("#ModalProductoForm #txt_local_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Local',4000);
     }
@@ -138,6 +165,8 @@ AgregarEditar=function(val,id){
     ProductoG.ps_nivel3_id='';
     ProductoG.nivel3='';
     ProductoG.local_id='';
+    ProductoG.local='';
+    ProductoG.local_codigo='';
     ProductoG.moneda='';
     ProductoG.stock='';
     ProductoG.stock_minimo='';
@@ -153,6 +182,8 @@ AgregarEditar=function(val,id){
         ProductoG.ps_nivel3_id=$("#TableProducto #trid_"+id+" .ps_nivel3_id").val();
         ProductoG.nivel3=$("#TableProducto #trid_"+id+" .nivel3").text();
         ProductoG.local_id=$("#TableProducto #trid_"+id+" .local_id").val();
+        ProductoG.local=$("#TableProducto #trid_"+id+" .local").text();
+        ProductoG.local_codigo=$("#TableProducto #trid_"+id+" .local_codigo").val();
         ProductoG.moneda=$("#TableProducto #trid_"+id+" .moneda").val();
         ProductoG.stock=$("#TableProducto #trid_"+id+" .stock").text();
         ProductoG.stock_minimo=$("#TableProducto #trid_"+id+" .stock_minimo").val();
@@ -212,6 +243,8 @@ HTMLCargarProducto=function(result){
         html+="<input type='hidden' class='ps_nivel3_id' value='"+r.ps_nivel3_id+"'>"+
               "<input type='hidden' class='nivel3' value='"+r.nivel3+"'>"+
               "<input type='hidden' class='local_id' value='"+r.local_id+"'>"+
+              "<input type='hidden' class='local' value='"+r.local+"'>"+
+              "<input type='hidden' class='local_codigo' value='"+r.local_codigo+"'>"+
               "<input type='hidden' class='precio_compra' value='"+r.precio_compra+"'>"+
               "<input type='hidden' class='moneda' value='"+r.moneda+"'>"+
               "<input type='hidden' class='stock' value='"+r.stock+"'>"+
@@ -247,12 +280,4 @@ HTMLCargarProducto=function(result){
 LimpiarProductoModal=function(limpiar){
     $("#"+limpiar).val('');
 };
-SlctCargarLocal=function(result){
-    var html="<option value=''>.::Seleccione::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.local+"</option>";
-    });
-    $("#ModalProductoForm #slct_local_id").html(html);
-    $("#ModalProductoForm #slct_local_id").selectpicker('refresh');
-}
 </script>

@@ -1,4 +1,4 @@
-<div class="modal" id="ModalProducto" tabindex="-1" role="dialog">
+<div class="modal" id="ModalProducto" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-info">
@@ -8,19 +8,22 @@
             </div>
             <div class="modal-body">
                 <form id="ModalProductoForm">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label>Nivel 3:</label>
                             <input type="hidden" class="mant" id="txt_ps_nivel3_id" name="txt_ps_nivel3_id">
                             <input type="text" class="form-control" onblur="LimpiarProductoModal('txt_ps_nivel3_id,#txt_nivel3');" id="txt_nivel3" placeholder="Nivel 3">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Local</label>
-                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_local_id" name="slct_local_id">
-                                <option value="0">.::Seleccione::.</option>
-                            </select>
+                    <div class="col-md-7">
+                        <div class="col-md-8">
+                            <label>Local:</label>
+                            <input type="hidden" class="mant" id="txt_local_id" name="txt_local_id">
+                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_local_id,#txt_codigo_local',this.value);" id="txt_local" placeholder="Local">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Código Local:</label>
+                            <input type="text" class="form-control" id="txt_codigo_local" disabled>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -68,7 +71,10 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha Vencimiento</label>
-                            <input type="text" class="form-control fechas" id="txt_fecha_vencimiento" name="txt_fecha_vencimiento" placeholder="0000-00-00">
+                            <div class="input-group">
+                                <div class="input-group-addon btn btn-warning" onclick="masterG.Limpiar('#txt_fecha_vencimiento','');"><i class="fa fa-eraser"></i></div>
+                                <input type="text" class="form-control fechas" id="txt_fecha_vencimiento" name="txt_fecha_vencimiento" placeholder="0000-00-00" readonly="">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
