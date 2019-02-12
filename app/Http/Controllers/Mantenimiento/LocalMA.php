@@ -35,9 +35,9 @@ class LocalMA extends Controller
             );
 
             $rules = array(
-                'sede' => 
+                'local' => 
                        ['required',
-                        Rule::unique('m_sedes','sede'),
+                        Rule::unique('am_locales','local'),
                         ],
             );
 
@@ -66,9 +66,9 @@ class LocalMA extends Controller
             );
 
             $rules = array(
-                'sede' => 
+                'local' => 
                        ['required',
-                        Rule::unique('m_sedes','sede')->ignore($r->id),
+                        Rule::unique('am_locales','local')->ignore($r->id),
                         ],
             );
 

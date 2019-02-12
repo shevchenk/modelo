@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class Local extends Model
 {
@@ -25,19 +26,27 @@ class Local extends Model
         $persona_id = Auth::user()->id;
         $local = new Local;
         $local->local = trim( $r->local );
+        $local->empleado_id = trim( $r->empleado_id );
+        $local->codigo = trim( $r->codigo );
+        $local->serie = trim( $r->serie );
         $local->direccion = trim( $r->direccion );
         $local->telefono = trim( $r->telefono );
         $local->celular = trim( $r->celular );
         $local->email = trim( $r->email );
         $local->estado = trim( $r->estado );
         $local->persona_id_created_at=$persona_id;
-        if(trim($r->imagen_nombre)!=''){
-        $local->foto=$r->imagen_nombre;
-        $este = new Local;
-        $url = "img/local/".$r->imagen_nombre; 
-        $este->fileToFile($r->imagen_archivo, $url);}
-        else {
-        $local->foto=null;    
+        $local->save();
+
+        $local->foto='';
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/local/Foto_".$local->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $local->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
         }
         $local->save();
     }
@@ -47,64 +56,83 @@ class Local extends Model
         $persona_id = Auth::user()->id;
         $local = Local::find($r->id);
         $local->local = trim( $r->local );
+        $local->empleado_id = trim( $r->empleado_id );
+        $local->codigo = trim( $r->codigo );
+        $local->serie = trim( $r->serie );
         $local->direccion = trim( $r->direccion );
         $local->telefono = trim( $r->telefono );
         $local->celular = trim( $r->celular );
         $local->email = trim( $r->email );
         $local->estado = trim( $r->estado );
         $local->persona_id_updated_at=$persona_id;
-        if(trim($r->imagen_nombre)!=''){
-            $local->foto=$r->imagen_nombre;
-        }else {
-            $local->foto=null;    
+
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
         }
-        if(trim($r->imagen_archivo)!=''){
-            $este = new Local;
-            $url = "img/local/".$r->imagen_nombre; 
-            $este->fileToFile($r->imagen_archivo, $url);
+        $url = "img/local/Foto_".$local->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $local->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
         }
         $local->save();
     }
 
     public static function runLoad($r)
     {
-        $sql=Local::select('id','local','direccion','telefono','celular','email','foto','estado')
+        $sql=DB::table('am_locales AS l')
+            ->join('am_empleados AS e',function($join){
+                $join->on('l.empleado_id','=','e.id');
+            })
+            ->join('am_personas AS p',function($join){
+                $join->on('e.persona_id','=','p.id');
+            })
+            ->select('l.id','l.local','l.codigo','l.direccion','l.telefono','l.celular'
+            ,'l.email','l.foto','l.estado','p.paterno','p.materno','p.nombre','p.dni'
+            ,'l.serie','l.empleado_id')
             ->where( 
                 function($query) use ($r){
-                    if( $r->has("local") ){
+                    if( $r->has("l.local") ){
                         $local=trim($r->local);
                         if( $local !='' ){
-                            $query->where('local','like','%'.$local.'%');
+                            $query->where('l.local','like','%'.$local.'%');
+                        }
+                    }
+                    if( $r->has("codigo") ){
+                        $codigo=trim($r->codigo);
+                        if( $codigo !='' ){
+                            $query->where('l.codigo','like','%'.$codigo.'%');
                         }
                     }
                     if( $r->has("direccion") ){
                         $direccion=trim($r->direccion);
                         if( $direccion !='' ){
-                            $query->where('direccion','like','%'.$direccion.'%');
+                            $query->where('l.direccion','like','%'.$direccion.'%');
                         }
                     }
                     if( $r->has("telefono") ){
                         $telefono=trim($r->telefono);
                         if( $telefono !='' ){
-                            $query->where('telefono','like',$telefono.'%');
+                            $query->where('l.telefono','like',$telefono.'%');
                         }
                     }
                     if( $r->has("celular") ){
                         $celular=trim($r->celular);
                         if( $celular !='' ){
-                            $query->where('celular','like','%'.$celular.'%');
+                            $query->where('l.celular','like',$celular.'%');
                         }
                     }
                     if( $r->has("email") ){
                         $email=trim($r->email);
                         if( $email !='' ){
-                            $query->where('email','like','%'.$email.'%');
+                            $query->where('l.email','like','%'.$email.'%');
                         }
                     }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('estado','like','%'.$estado.'%');
+                            $query->where('l.estado','=',$estado);
                         }
                     }
                 }
@@ -118,27 +146,6 @@ class Local extends Model
         $sql=Local::select('id','local','direccion','telefono','celular','email')->where('estado','=',1);
         $result = $sql->orderBy('local','asc')->get();
         return $result;
-    }
-
-    public function fileToFile($file, $url)
-    {
-        if ( !is_dir('img') ) {
-            mkdir('img',0777);
-        }
-        if ( !is_dir('img/local') ) {
-            mkdir('img/local',0777);
-        }
-        list($type, $file) = explode(';', $file);
-        list(, $type) = explode('/', $type);
-        if ($type=='jpeg') $type='jpg';
-        if (strpos($type,'document')!==False) $type='docx';
-        if (strpos($type, 'sheet') !== False) $type='xlsx';
-        if (strpos($type, 'pdf') !== False) $type='pdf';
-        if ($type=='plain') $type='txt';
-        list(, $file)      = explode(',', $file);
-        $file = base64_decode($file);
-        file_put_contents($url , $file);
-        return $url. $type;
     }
     
     public static function ListLocal($r)

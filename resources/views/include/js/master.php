@@ -176,7 +176,7 @@ var masterG ={
         valida=t.value.substring(0,2);
         if (tecla==8 || tecla==0) return true;//8 barra, 0 flechas desplaz
         if( tipo=='ruc' ){
-          if( (valida.length==0 && tecla!=50) || (valida.length==1 && tecla!=48) ){
+          if( (valida.length==0 && (tecla!=50 && tecla!=49 )) || (valida.length==1 && tecla!=48) ){
             return false;
           }
         }
@@ -216,6 +216,20 @@ var masterG ={
         if( $.trim(v)=='' ){
             $(t).val('');
         }
+    },
+    onImagen: function (ev,nombre,archivo,src) {
+        var files = ev.target.files || ev.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(archivo).val(e.target.result);
+            $(src).attr('src',e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $(nombre).val(files[0].name);
+        console.log(files[0].name);
     },
     OpenCloseMenu:function(){
     //

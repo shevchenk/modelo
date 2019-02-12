@@ -97,7 +97,7 @@ class CursoEM extends Controller
         }
     }
     
-            public function ListCurso (Request $r )
+    public function ListCurso (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Curso::ListCurso($r);

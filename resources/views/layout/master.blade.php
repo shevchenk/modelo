@@ -9,14 +9,14 @@
         @section('author')
         <meta name="author" content="Jorge Salcedo (Shevchenko)">
         @show
-        <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="img/entidad/logo_1.ico">
 
         @section('description')
         <meta name="description" content="Software Modelo">
         @show
         <title>
             @section('title')
-                Software Modelo (JS)
+                Software Gestión Académico (JS)
             @show
         </title>
 
