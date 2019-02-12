@@ -45,7 +45,7 @@ class Producto extends Model
     {
         $producto = Producto::find($r->id);
         $producto->ps_nivel3_id = trim( $r->ps_nivel3_id );
-        $producto->local_id = 2;
+        $producto->local_id = trim( $r->local_id );
         $producto->precio_venta=trim( $r->precio_venta );
         $producto->precio_compra=trim( $r->precio_compra );
         $producto->moneda=trim( $r->moneda );
@@ -75,7 +75,7 @@ class Producto extends Model
             $join->on('bpn.id','=','bm_ps_nivel3_local.ps_nivel3_id');
         })
         ->join('am_locales AS al',function($join){
-            $join->on('al.id','=','bm_ps_nivel3_local.id');
+            $join->on('al.id','=','bm_ps_nivel3_local.local_id');
         })
             ->where( 
                     
