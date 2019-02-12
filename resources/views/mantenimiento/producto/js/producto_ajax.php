@@ -25,10 +25,5 @@ var AjaxProducto={
         url='AjaxDinamic/Mantenimiento.ProductoEM@EditStatus';
         masterG.postAjax(url,data,evento);
     },
-    CargarLocal:function(evento){
-        url='AjaxDinamic/Mantenimiento.LocalMA@ListLocal';
-        data={};
-        masterG.postAjax(url,data,evento);
-    },
 };
 </script>

@@ -70,12 +70,12 @@ class Producto extends Model
         $sql=Producto::select('bm_ps_nivel3_local.id','bm_ps_nivel3_local.ps_nivel3_id','bm_ps_nivel3_local.local_id',
                 'bm_ps_nivel3_local.precio_venta','bm_ps_nivel3_local.precio_compra','bm_ps_nivel3_local.moneda',
                 'bm_ps_nivel3_local.stock','bm_ps_nivel3_local.stock_minimo','bm_ps_nivel3_local.dias_alerta','bm_ps_nivel3_local.fecha_vencimiento',
-                'bm_ps_nivel3_local.dias_vencimiento','bm_ps_nivel3_local.estado','bpn.nivel3','al.local')
+                'bm_ps_nivel3_local.dias_vencimiento','bm_ps_nivel3_local.estado','bpn.nivel3','al.local','al.codigo as local_codigo')
         ->join('bm_ps_nivel3 AS bpn',function($join){
             $join->on('bpn.id','=','bm_ps_nivel3_local.ps_nivel3_id');
         })
         ->join('am_locales AS al',function($join){
-            $join->on('al.id','=','bm_ps_nivel3_local.id');
+            $join->on('al.id','=','bm_ps_nivel3_local.local_id');
         })
             ->where( 
                     
