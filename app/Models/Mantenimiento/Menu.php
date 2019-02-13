@@ -9,37 +9,37 @@ use Illuminate\Support\Facades\Input;
 
 class Menu extends Model
 {
-    protected   $table = 'am_menus as m';
+    protected   $table = 'am_menus';
 
     public static function runEditStatus($r)
     {
-        $certificadoestadoe = Auth::user()->id;
-        $certificadoestado = Menu::find($r->id);
-        $certificadoestado->estado = trim( $r->estadof );
-        $certificadoestado->persona_id_updated_at=$certificadoestadoe;
-        $certificadoestado->save();
+        $persona_id=Auth::user()->id;
+        $menu = Menu::find($r->id);
+        $menu->estado = trim( $r->estadof );
+        $menu->persona_id_updated_at=$persona_id;
+        $menu->save();
     }
 
     public static function runNew($r)
     {
-        $certificadoestadoe = Auth::user()->id;
-        $certificadoestado = new Menu;
-        $certificadoestado->menu = trim( $r->menu );
-        $certificadoestado->class_icono = trim( $r->class_icono );
-        $certificadoestado->estado = trim( $r->estado );
-        $certificadoestado->persona_id_created_at=$certificadoestadoe;
-        $certificadoestado->save();
+        $persona_id=Auth::user()->id;
+        $menu = new Menu;
+        $menu->menu = trim( $r->menu );
+        $menu->class_icono = trim( $r->class_icono );
+        $menu->estado = trim( $r->estado );
+        $menu->persona_id_created_at=$persona_id;
+        $menu->save();
     }
 
     public static function runEdit($r)
     {
-        $certificadoestadoe = Auth::user()->id;
-        $certificadoestado = Menu::find($r->id);
-        $certificadoestado->menu = trim( $r->menu );
-        $certificadoestado->class_icono = trim( $r->class_icono );
-        $certificadoestado->estado = trim( $r->estado );
-        $certificadoestado->persona_id_updated_at=$certificadoestadoe;
-        $certificadoestado->save();
+        $persona_id=Auth::user()->id;
+        $menu = Menu::find($r->id);
+        $menu->menu = trim( $r->menu );
+        $menu->class_icono = trim( $r->class_icono );
+        $menu->estado = trim( $r->estado );
+        $menu->persona_id_updated_at=$persona_id;
+        $menu->save();
     }
 
     public static function runLoad($r)
@@ -75,6 +75,18 @@ class Menu extends Model
     public static function ListMenu($r)
     {
         $sql=Menu::select('id','menu','class_icono','estado')
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('menu','like','%'.$dphrase[0].'%');
+                        }
+                    }
+                }
+            )
             ->where('estado','=','1');
         $result = $sql->orderBy('menu','asc')->get();
         return $result;

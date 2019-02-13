@@ -36,7 +36,7 @@ class MenuMA extends Controller
             $rules = array(
                 'menu' => 
                        ['required',
-                        Rule::unique('menus','menu'),
+                        Rule::unique('am_menus','menu'),
                         ],
             );
 
@@ -67,7 +67,7 @@ class MenuMA extends Controller
             $rules = array(
                 'menu' => 
                        ['required',
-                        Rule::unique('menus','menu')->ignore($r->id),
+                        Rule::unique('am_menus','menu')->ignore($r->id),
                         ],
             );
 

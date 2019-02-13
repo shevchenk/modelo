@@ -108,4 +108,15 @@ class PrivilegioMA extends Controller
         }
     }
 
+    public function ListOpcion (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Privilegio::ListOpcion($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }

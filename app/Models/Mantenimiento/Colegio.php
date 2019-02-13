@@ -9,11 +9,12 @@ use DB;
 
 class Colegio extends Model
 {
-    protected   $table = 'am_colegios AS co';
+    protected   $table = 'am_colegios';
     
     public static function ListColegio($r)
     {
-        $sql=Colegio::select('di.distrito','co.id','co.colegio','co.direccion')
+        $sql=DB::table('am_colegios AS co')
+            ->select('di.distrito','co.id','co.colegio','co.direccion')
             ->join('aa_distritos AS di',function($join){
                 $join->on('co.distrito_id','=','di.id')
                 ->where('di.estado','=',1);

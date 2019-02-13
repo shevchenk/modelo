@@ -8,7 +8,7 @@ use DB;
 
 class Dias extends Model
 {
-    protected   $table = 'a_dias';
+    protected   $table = 'aa_dias';
 
     public static function runLoad($r)
     {

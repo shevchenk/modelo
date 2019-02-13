@@ -36,7 +36,7 @@ class OpcionMA extends Controller
             $rules = array(
                 'opcion' => 
                        ['required',
-                        Rule::unique('opciones','opcion'),
+                        Rule::unique('am_opciones','opcion'),
                         ],
             );
 
@@ -67,7 +67,7 @@ class OpcionMA extends Controller
             $rules = array(
                 'opcion' => 
                        ['required',
-                        Rule::unique('opciones','opcion')->ignore($r->id),
+                        Rule::unique('am_opciones','opcion')->ignore($r->id),
                         ],
             );
 

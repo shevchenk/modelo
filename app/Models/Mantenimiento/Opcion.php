@@ -3,6 +3,9 @@
 namespace App\Models\Mantenimiento;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 use DB;
 
 class Opcion extends Model
@@ -11,42 +14,42 @@ class Opcion extends Model
 
     public static function runEditStatus($r)
     {
+        $persona_id=Auth::user()->id;
         $opcion = Opcion::find($r->id);
         $opcion->estado = trim( $r->estadof );
-        $opcion->persona_id_updated_at=1;
+        $opcion->persona_id_updated_at=$persona_id;
         $opcion->save();
     }
 
     public static function runNew($r)
     {
+        $persona_id=Auth::user()->id;
         $opcion = new Opcion;
         $opcion->opcion = trim( $r->opcion );
         $opcion->menu_id = trim( $r->menu_id );
         $opcion->ruta = trim( $r->ruta );
-        $opcion->class_icono = trim( $r->class_icono );
         $opcion->estado = trim( $r->estado );
-        $opcion->persona_id_created_at=1;
+        $opcion->persona_id_created_at=$persona_id;
         $opcion->save();
     }
 
     public static function runEdit($r)
     {
+        $persona_id=Auth::user()->id;
         $opcion = Opcion::find($r->id);
         $opcion->opcion = trim( $r->opcion );
         $opcion->menu_id = trim( $r->menu_id );
         $opcion->ruta = trim( $r->ruta );
-        $opcion->class_icono = trim( $r->class_icono );
         $opcion->estado = trim( $r->estado );
-        $opcion->persona_id_updated_at=1;
+        $opcion->persona_id_updated_at=$persona_id;
         $opcion->save();
     }
 
-        public static function runLoad($r)
+    public static function runLoad($r)
     {
-        $sql=DB::table('m_opciones as o')
-            ->join('m_menus AS m',function($join){
-                $join->on('m.id','=','o.menu_id')
-                ->where('m.estado','=',1);
+        $sql=DB::table('am_opciones as o')
+            ->join('am_menus AS m',function($join){
+                $join->on('m.id','=','o.menu_id');
             })
             ->select(
                 'o.id',
@@ -55,7 +58,6 @@ class Opcion extends Model
                 'o.class_icono',
                 'o.estado',
                 'm.menu as menu',
-                'm.class_icono as class_icono_menu',
                 'o.menu_id'
             )
             ->where( 
@@ -64,13 +66,19 @@ class Opcion extends Model
                         $menu=trim($r->menu);
                         if( $menu !='' ){
                             $query->where('m.menu','like','%'.$menu.'%');
-                        }   
+                        }
                     }
                     if( $r->has("opcion") ){
                         $opcion=trim($r->opcion);
                         if( $opcion !='' ){
                             $query->where('o.opcion','like','%'.$opcion.'%');
-                        }   
+                        }
+                    }
+                    if( $r->has("ruta") ){
+                        $ruta=trim($r->ruta);
+                        if( $ruta !='' ){
+                            $query->where('o.ruta','like','%'.$ruta.'%');
+                        }
                     }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
@@ -83,35 +91,14 @@ class Opcion extends Model
         $result = $sql->orderBy('o.opcion','asc')->paginate(10);
         return $result;
     }
-
-/*    public static function runLoad($r)
-    {
-        $sql=Opcion::select('id','opcion','estado')
-            ->where( 
-                function($query) use ($r){
-                    if( $r->has("opcion") ){
-                        $opcion=trim($r->opcion);
-                        if( $opcion !='' ){
-                            $query->where('opcion','like','%'.$opcion.'%');
-                        }   
-                    }
-                    if( $r->has("estado") ){
-                        $estado=trim($r->estado);
-                        if( $estado !='' ){
-                            $query->where('estado','=',''.$estado.'');
-                        }
-                    }
-                }
-            );
-        $result = $sql->orderBy('opcion','asc')->paginate(10);
-        return $result;
-    }*/
     
     public static function ListOpcion($r)
-    {  
-        $sql=Opcion::select('id','opcion','class_icono','estado')
+    {
+        $sql=Opcion::select('id','opcion','estado')
             ->where('estado','=','1');
         $result = $sql->orderBy('opcion','asc')->get();
         return $result;
     }
+    
+
 }

@@ -42,20 +42,24 @@
                 <div class="data-table-list">
                     <form id="MyselfForm">
                         <div class="box-body">
-                            <div class="form-group">
-                                <label>Contraseña Nueva:</label>
-                                <input type="password" class="form-control" id="txt_password" name="txt_password" placeholder="Contraseña Nueva">
-                            </div>
-                            <div class="form-group">
-                                <label>Confirmar Contraseña Nueva:</label>
-                                <input type="password" class="form-control" id="txt_password_confirm" name="txt_password_confirm" placeholder="Confirmar Contraseña Nueva">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa fa-asterisk"></i> Su contraseña Actual:</label>
-                                <input type="password" class="form-control" id="txt_password_actual" name="txt_password_actual" placeholder="Su contraseña Actual">
-                            </div>
-                            <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="EditarAjax()" >
-                                <i class="fa fa-edit fa-lg"></i>&nbsp;Guardar</a>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Contraseña Nueva:</label>
+                                    <input type="password" class="form-control" id="txt_password" name="txt_password" placeholder="Contraseña Nueva">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirmar Contraseña Nueva:</label>
+                                    <input type="password" class="form-control" id="txt_password_confirm" name="txt_password_confirm" placeholder="Confirmar Contraseña Nueva">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fa fa-asterisk"></i> Su contraseña Actual:</label>
+                                    <input type="password" class="form-control" id="txt_password_actual" name="txt_password_actual" placeholder="Su contraseña Actual">
+                                </div>
+                                <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="EditarAjax()" >
+                                    <i class="fa fa-edit fa-lg"></i>&nbsp;Guardar</a>
+                                </div>
+                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
