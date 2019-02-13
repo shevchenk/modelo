@@ -109,6 +109,7 @@
                                                 <tfoot>
                                                     <tr class="cabecera">
                                                         <th>Privilegio</th>
+                                                        <th>Opción</th>
                                                         <th>Estado</th>
                                                         <th>[-]</th>
                                                     </tr>
@@ -174,8 +175,9 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr class="cabecera">
-                                                        <th>Nivel 1</th>
-                                                        <th>Nivel 2</th>
+                                                        <th>Menu</th>
+                                                        <th>Opción</th>
+                                                        <th>Ruta</th>
                                                         <th>Estado</th>
                                                         <th>[-]</th>
                                                     </tr>
