@@ -1,18 +1,18 @@
-<div class="modal" id="ModalModalidad" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false" data-keyboard="false">
+<div class="modal" id="ModalCiclo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modalidad de Estudio</h4>
+                <h4 class="modal-title">Ciclo</h4>
             </div>
             <div class="modal-body">
-                <form id="ModalModalidadForm">
+                <form id="ModalCicloForm">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Modalidad de Estudio</label>
-                                <input type="text" class="form-control" id="txt_modalidad" name="txt_modalidad" maxlength="100" placeholder="Modalidad de Estudio">
+                                <label>Ciclo</label>
+                                <input type="text" onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_ciclo" name="txt_ciclo" maxlength="100" placeholder="Ciclo de Estudio">
                             </div>
                         </div> 
                         <div class="col-md-12">
