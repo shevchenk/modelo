@@ -102,9 +102,36 @@ class Carrera extends Model
     
     public static function ListCarrera($r)
     {
-        $sql=Carrera::select('id','carrera','estado')
-            ->where('estado','=','1');
-        $result = $sql->orderBy('carrera','asc')->get();
+        $sql=DB::table('cm_carreras as c')
+            ->join('cm_facultades AS f',function($join){
+                $join->on('f.id','=','c.facultad_id')
+                ->where('f.estado','=','1');
+            })
+            ->select(
+                'c.id',
+                'c.carrera',
+                'f.facultad',
+                'c.facultad_id',
+                'c.estado'
+            )
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('c.carrera','like','%'.$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('f.facultad','like',$dphrase[1].'%');
+                            }
+                        }
+                    }
+                }
+            )
+            ->where('c.estado','=','1');
+        $result = $sql->orderBy('c.carrera','asc')->get();
         return $result;
     }
     
