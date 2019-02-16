@@ -26,6 +26,7 @@ class Carrera extends Model
         $persona_id=Auth::user()->id;
         $carrera = new Carrera;
         $carrera->carrera = trim( $r->carrera );
+        $carrera->codigo = trim( $r->codigo );
         $carrera->facultad_id = trim( $r->facultad_id );
         $carrera->grado_academico = trim( $r->grado_academico );
         $carrera->titulo_profesional = trim( $r->titulo_profesional );
@@ -39,6 +40,7 @@ class Carrera extends Model
         $persona_id=Auth::user()->id;
         $carrera = Carrera::find($r->id);
         $carrera->carrera = trim( $r->carrera );
+        $carrera->codigo = trim( $r->codigo );
         $carrera->facultad_id = trim( $r->facultad_id );
         $carrera->grado_academico = trim( $r->grado_academico );
         $carrera->titulo_profesional = trim( $r->titulo_profesional );
@@ -56,6 +58,7 @@ class Carrera extends Model
             ->select(
                 'c.id',
                 'c.carrera',
+                'c.codigo',
                 'c.grado_academico',
                 'c.titulo_profesional',
                 'c.estado',
@@ -74,6 +77,12 @@ class Carrera extends Model
                         $carrera=trim($r->carrera);
                         if( $carrera !='' ){
                             $query->where('c.carrera','like','%'.$carrera.'%');
+                        }
+                    }
+                    if( $r->has("codigo") ){
+                        $codigo=trim($r->codigo);
+                        if( $codigo !='' ){
+                            $query->where('c.codigo','like','%'.$codigo.'%');
                         }
                     }
                     if( $r->has("grado_academico") ){

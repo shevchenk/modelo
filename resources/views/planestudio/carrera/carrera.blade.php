@@ -77,6 +77,15 @@
                                                                 </div>
                                                             </div>
                                                         </th>
+                                                        <th class="col-xs-1">
+                                                            <div class="form-group col-xs-12">
+                                                                <label><h4>Código:</h4></label><br>
+                                                                <div class="input-group col-xs-12">
+                                                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                                    <input type="text" class="form-control" name="txt_codigo" id="txt_codigo" placeholder="Código" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                </div>
+                                                            </div>
+                                                        </th>
                                                         <th class="col-xs-2">
                                                             <div class="form-group col-xs-12">
                                                                 <label><h4>Carrera:</h4></label><br>

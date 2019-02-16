@@ -10,9 +10,17 @@
                 <div class="row">
                     <form id="ModalCarreraForm">
                         <div class="col-sm-12">
+                            <div class="form-group">
                             <label>Facultad:</label>
                             <input type="hidden" class="mant" id="txt_facultad_id" name="txt_facultad_id">
                             <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_facultad_id',this.value);" id="txt_facultad" placeholder="Facultad">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Código:</label>
+                                <input type="text" class="form-control" id="txt_codigo" name="txt_codigo" placeholder="Código" maxlength="20">
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">

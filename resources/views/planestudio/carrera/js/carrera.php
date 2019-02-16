@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEditCarrera=0; //0: Editar | 1: Agregar
-var CarreraG={id:0,carrera:"",facultad:"",facultad_id:"",grado_academico:"",titulo_profesional:"",estado:1}; // Datos Globales
+var CarreraG={id:0,carrera:"",codigo:"",facultad:"",facultad_id:"",grado_academico:"",titulo_profesional:"",estado:1}; // Datos Globales
 var FacultadOpciones = {
     placeholder: 'Facultad',
     url: "AjaxDinamic/PlanEstudio.FacultadPE@ListFacultad",
@@ -38,6 +38,7 @@ $(document).ready(function() {
     
     $('#ModalCarrera').on('shown.bs.modal', function (event) {
         $('#ModalCarreraForm #txt_carrera').val( CarreraG.carrera );
+        $('#ModalCarreraForm #txt_codigo').val( CarreraG.codigo );
         $('#ModalCarreraForm #txt_facultad').val( CarreraG.facultad );
         $('#ModalCarreraForm #txt_facultad_id').val( CarreraG.facultad_id );
         $('#ModalCarreraForm #txt_grado_academico').val( CarreraG.grado_academico );
@@ -78,6 +79,7 @@ AgregarEditarCarrera=function(val,id){
     AddEditCarrera=val;
     CarreraG.id='';
     CarreraG.carrera='';
+    CarreraG.codigo='';
     CarreraG.facultad='';
     CarreraG.facultad_id='';
     CarreraG.grado_academico='';
@@ -87,6 +89,7 @@ AgregarEditarCarrera=function(val,id){
     if( val==0 ){
         CarreraG.id=id;
         CarreraG.carrera=$("#TableCarrera #trid_"+id+" .carrera").text();
+        CarreraG.codigo=$("#TableCarrera #trid_"+id+" .codigo").text();
         CarreraG.grado_academico=$("#TableCarrera #trid_"+id+" .grado_academico").text();
         CarreraG.titulo_profesional=$("#TableCarrera #trid_"+id+" .titulo_profesional").text();
         CarreraG.facultad=$("#TableCarrera #trid_"+id+" .facultad").text();
@@ -136,6 +139,7 @@ HTMLCargarCarrera=function(result){
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='facultad'>"+r.facultad+"</td>"+
+            "<td class='codigo'>"+r.codigo+"</td>"+
             "<td class='carrera'>"+r.carrera+"</td>"+
             "<td class='grado_academico'>"+r.grado_academico+"</td>"+
             "<td class='titulo_profesional'>"+r.titulo_profesional+"</td>"+
