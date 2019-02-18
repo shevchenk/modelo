@@ -118,7 +118,7 @@ class Carrera extends Model
             })
             ->select(
                 'c.id',
-                'c.carrera',
+                'c.carrera','c.codigo',
                 'f.facultad',
                 'c.facultad_id',
                 'c.estado'

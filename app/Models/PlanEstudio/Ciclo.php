@@ -80,7 +80,7 @@ class Ciclo extends Model
                 }
             )
             ->where('estado','=','1');
-        $result = $sql->orderBy('ciclo','asc')->get();
+        $result = $sql->orderBy('id','asc')->get();
         return $result;
     }
     

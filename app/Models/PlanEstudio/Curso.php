@@ -82,6 +82,10 @@ class Curso extends Model
                             $dphrase= explode("|",$phrase);
                             $dphrase[0]=trim($dphrase[0]);
                             $query->where('curso','like','%'.$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('codigo','like','%'.$dphrase[1].'%');
+                            }
                         }
                     }
                 }

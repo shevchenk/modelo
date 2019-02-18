@@ -31,6 +31,12 @@ class PlanEstudio extends Model
         $planEstudio->plan_estudio = trim( $r->plan_estudio );
         $planEstudio->perfil_profesional = trim( $r->perfil_profesional );
         $planEstudio->resolucion = trim( $r->resolucion );
+        $planEstudio->regimen_estudio = trim( $r->regimen_estudio );
+        $planEstudio->regimen_otro = trim( $r->regimen_otro );
+        $planEstudio->periodo_academico = trim( $r->periodo_academico );
+        $planEstudio->duracion = trim( $r->duracion );
+        $planEstudio->credito_teoria = trim( $r->credito_teoria );
+        $planEstudio->credito_practica = trim( $r->credito_practica );
         
         if( trim( $r->fecha_resolucion )!='' ){
             $planEstudio->fecha_resolucion = trim( $r->fecha_resolucion );
@@ -51,6 +57,12 @@ class PlanEstudio extends Model
         $planEstudio->plan_estudio = trim( $r->plan_estudio );
         $planEstudio->perfil_profesional = trim( $r->perfil_profesional );
         $planEstudio->resolucion = trim( $r->resolucion );
+        $planEstudio->regimen_estudio = trim( $r->regimen_estudio );
+        $planEstudio->regimen_otro = trim( $r->regimen_otro );
+        $planEstudio->periodo_academico = trim( $r->periodo_academico );
+        $planEstudio->duracion = trim( $r->duracion );
+        $planEstudio->credito_teoria = trim( $r->credito_teoria );
+        $planEstudio->credito_practica = trim( $r->credito_practica );
 
         $planEstudio->fecha_resolucion = null;
         if( trim( $r->fecha_resolucion )!='' ){
@@ -75,18 +87,14 @@ class PlanEstudio extends Model
                 $join->on('f.id','=','pe.facultad_id');
             })
             ->select(
-                'pe.id',
-                'pe.modalidad_id',
-                'pe.carrera_id',
-                'pe.facultad_id',
-                'pe.plan_estudio',
-                'pe.perfil_profesional',
-                'pe.resolucion',
-                'pe.fecha_resolucion',
+                'pe.id','pe.modalidad_id','pe.carrera_id','pe.facultad_id',
+                'pe.plan_estudio','pe.perfil_profesional','pe.resolucion',
+                'pe.fecha_resolucion','pe.regimen_estudio','pe.regimen_otro',
+                'pe.periodo_academico','pe.duracion','pe.credito_teoria',
+                'pe.credito_practica','pe.estado',
                 'm.modalidad',
                 'f.facultad',
-                'c.carrera',
-                'pe.estado'
+                'c.carrera','c.codigo'
             )
             ->where( 
                 function($query) use ($r){
