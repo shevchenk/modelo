@@ -179,7 +179,11 @@ AgregarEditarPlanEstudio=function(val,id){
 }
 
 CambiarEstadoPlanEstudio=function(estado,id){
-    AjaxPlanEstudio.CambiarEstado(HTMLCambiarEstadoPlanEstudio,estado,id);
+    var texto='Acticar';
+    if( estado==0 ){
+        texto='Inactivar';
+    }
+    sweetalertG.confirm('Plan de Estudio','Desea '+texto+' el plan: '+$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text(), function(){ AjaxPlanEstudio.CambiarEstado(HTMLCambiarEstadoPlanEstudio,estado,id); });
 }
 
 HTMLCambiarEstadoPlanEstudio=function(result){
@@ -205,15 +209,28 @@ HTMLAgregarEditarPlanEstudio=function(result){
     }
 }
 
+ReplicarPlanEstudio=function(id){
+    sweetalertG.confirm('Plan de Estudio','Esta seguro de replicar el plan: '+$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text(), function(){ AjaxPlanEstudio.Replicar(ReplicarPlanEstudioHTML,id); });
+}
+
+ReplicarPlanEstudioHTML=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxPlanEstudio.Cargar(HTMLCargarPlanEstudio);
+    }else{
+        msjG.mensaje('warning',result.msj,1000);
+    }
+}
+
 HTMLCargarPlanEstudio=function(result){
 
     var html="";
     $('#TablePlanEstudio').DataTable().destroy();
     
     $.each(result.data.data,function(index,r){
-        estadohtml='<span id="'+r.id+'" onClick="CambiarEstadoPlanEstudio(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
+        estadohtml='<span onClick="CambiarEstadoPlanEstudio(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
         if(r.estado==1){
-            estadohtml='<span id="'+r.id+'" onClick="CambiarEstadoPlanEstudio(0,'+r.id+')" class="btn btn-success">Activo</span>';
+            estadohtml='<span onClick="CambiarEstadoPlanEstudio(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
@@ -237,7 +254,15 @@ HTMLCargarPlanEstudio=function(result){
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             '&nbsp;&nbsp;&nbsp;'+
             '<a class="btn btn-primary btn-sm" onClick="AgregarEditarPlanEstudio(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>'+"</td>"+
-            '<td><a class="btn btn-info btn-sm" onClick="VerPlanDetalle('+r.id+')"><i class="fa fa-list-ol fa-2x"></i> </a></td>';
+            '<td>';
+            if( r.estado==1 ){
+        html+='<div class="input-group input-group-addon"><a class="btn btn-info btn-sm" onClick="VerPlanDetalle('+r.id+')"><i class="fa fa-list-ol fa-2x"></i> </a>'+
+            '&nbsp;&nbsp;&nbsp;'+
+            '<button type="button" class="btn btn-warning btn-sm" onclick="ReplicarPlanEstudio('+r.id+');">'+
+                '<i class="fa fa-copy fa-2x"></i>'+
+            '</button></div>';
+            }
+        html+='</td>';
         html+="</tr>";
     });
     $("#TablePlanEstudio tbody").html(html); 

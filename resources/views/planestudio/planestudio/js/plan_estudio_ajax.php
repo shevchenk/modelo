@@ -25,5 +25,13 @@ var AjaxPlanEstudio={
         url='AjaxDinamic/PlanEstudio.PlanEstudioPE@EditStatus';
         masterG.postAjax(url,data,evento);
     },
+    Replicar:function(evento,id){
+        $("#ModalPlanEstudioForm").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#ModalPlanEstudioForm").append("<input type='hidden' value='"+$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text()+"' name='plan_estudio'>");
+        data=$("#ModalPlanEstudioForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#ModalPlanEstudioForm input[type='hidden']").not('.mant').remove();
+        url='AjaxDinamic/PlanEstudio.PlanEstudioPE@Replicar';
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

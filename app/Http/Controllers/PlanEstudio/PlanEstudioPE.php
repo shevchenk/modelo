@@ -106,4 +106,15 @@ class PlanEstudioPE extends Controller
         }
     }
 
+    public function Replicar (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = PlanEstudio::runReplicar($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Plan: ".$r->plan_estudio." replicado";
+            return response()->json($return);
+        }
+    }
+
 }

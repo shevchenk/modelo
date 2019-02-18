@@ -160,5 +160,62 @@ class PlanEstudio extends Model
         return $result;
     }
     
+    public static function runReplicar($r)
+    {
+        DB::beginTransaction();
+        $persona_id=Auth::user()->id;
+        $planEstudioAux = PlanEstudio::find($r->id);
+
+        $planEstudio = new PlanEstudio;
+        $planEstudio->modalidad_id = $planEstudioAux->modalidad_id;
+        $planEstudio->carrera_id = $planEstudioAux->carrera_id;
+        $planEstudio->facultad_id = $planEstudioAux->facultad_id;
+        $planEstudio->plan_estudio = $planEstudioAux->plan_estudio." - Replicado";
+        $planEstudio->perfil_profesional = $planEstudioAux->perfil_profesional;
+        $planEstudio->resolucion = $planEstudioAux->resolucion." - Replicado";
+        $planEstudio->regimen_estudio = $planEstudioAux->regimen_estudio;
+        $planEstudio->regimen_otro = $planEstudioAux->regimen_otro;
+        $planEstudio->periodo_academico = $planEstudioAux->periodo_academico;
+        $planEstudio->duracion = $planEstudioAux->duracion;
+        $planEstudio->credito_teoria = $planEstudioAux->credito_teoria;
+        $planEstudio->credito_practica = $planEstudioAux->credito_practica;
+        $planEstudio->fecha_resolucion = $planEstudioAux->fecha_resolucion;
+        $planEstudio->estado = 1;
+        $planEstudio->persona_id_created_at=$persona_id;
+        $planEstudio->save();
+
+        $planEstudioDetalleAux= DB::table('cp_plan_estudios_detalles')
+                                ->where('estado','1')
+                                ->where('plan_estudio_id',$planEstudioAux->id)
+                                ->get();
+
+        foreach ($planEstudioDetalleAux as $key => $value) {
+            $planEstudioDetalle = new PlanEstudioDetalle;
+            $planEstudioDetalle->plan_estudio_id = $planEstudio->id;
+            $planEstudioDetalle->ciclo_id = $value->ciclo_id;
+            $planEstudioDetalle->curso_id = $value->curso_id;
+            $planEstudioDetalle->requisitos = $value->requisitos;
+            $planEstudioDetalle->tipo_estudio = $value->tipo_estudio;
+            $planEstudioDetalle->tipo_curso = $value->tipo_curso;
+            $planEstudioDetalle->hora_teoria_presencial = $value->hora_teoria_presencial;
+            $planEstudioDetalle->hora_teoria_virtual = $value->hora_teoria_virtual;
+            $planEstudioDetalle->hora_teoria_total = $value->hora_teoria_total;
+            $planEstudioDetalle->hora_practica_presencial = $value->hora_practica_presencial;
+            $planEstudioDetalle->hora_practica_virtual = $value->hora_practica_virtual;
+            $planEstudioDetalle->hora_practica_total = $value->hora_practica_total;
+            $planEstudioDetalle->hora_total = $value->hora_total;
+            $planEstudioDetalle->credito_teoria_presencial = $value->credito_teoria_presencial;
+            $planEstudioDetalle->credito_teoria_virtual = $value->credito_teoria_virtual;
+            $planEstudioDetalle->credito_teoria_total = $value->credito_teoria_total;
+            $planEstudioDetalle->credito_practica_presencial = $value->credito_practica_presencial;
+            $planEstudioDetalle->credito_practica_virtual = $value->credito_practica_virtual;
+            $planEstudioDetalle->credito_practica_total = $value->credito_practica_total;
+            $planEstudioDetalle->credito_total = $value->credito_total;
+            $planEstudioDetalle->estado = 1;
+            $planEstudioDetalle->persona_id_created_at=$persona_id;
+            $planEstudioDetalle->save();
+        }
+        DB::commit();
+    }
 
 }
