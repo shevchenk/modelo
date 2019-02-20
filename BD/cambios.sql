@@ -58,3 +58,7 @@ MODIFY COLUMN `credito_practica_presencial`  decimal(10,2) NOT NULL DEFAULT 0.00
 MODIFY COLUMN `credito_practica_virtual`  decimal(10,2) NOT NULL DEFAULT 0.00 AFTER `credito_practica_presencial`,
 MODIFY COLUMN `credito_practica_total`  decimal(10,2) NOT NULL DEFAULT 0.00 AFTER `credito_practica_virtual`,
 MODIFY COLUMN `credito_total`  decimal(10,2) NOT NULL DEFAULT 0.00 AFTER `credito_practica_total`;
+
+--2019-02-20 14:29
+ALTER TABLE `dm_semestres`
+MODIFY COLUMN `semestre`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `id`;
