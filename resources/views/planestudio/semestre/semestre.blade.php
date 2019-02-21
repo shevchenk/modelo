@@ -58,7 +58,7 @@
                     <div class="widget-tabs-list tab-pt-mg">
                         <ul class="nav nav-tabs tab-nav-center">
                             <li class="active"><a data-toggle="tab" href="#MPSemestre">Periodo Académico</a></li>
-                            <li><a data-toggle="tab" href="#MPSemestreProgramacion">Programación de Fechas por Periodo</a></li>
+                            <li><a data-toggle="tab" href="#MPSemestreProgramacion">Programación de Fechas de pago por Periodo</a></li>
                         </ul>
                         <div class="tab-content tab-custom-st">
                             <div id="MPSemestre" class="tab-pane active animated zoomInLeft">

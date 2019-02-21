@@ -62,3 +62,7 @@ MODIFY COLUMN `credito_total`  decimal(10,2) NOT NULL DEFAULT 0.00 AFTER `credit
 --2019-02-20 14:29
 ALTER TABLE `dm_semestres`
 MODIFY COLUMN `semestre`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `id`;
+
+--2019-02-20 20:18
+ALTER TABLE `cp_plan_estudios`
+ADD COLUMN `nro_plan_estudio`  int NULL DEFAULT 1 AFTER `carrera_id`;

@@ -24,10 +24,17 @@ class PlanEstudio extends Model
     public static function runNew($r)
     {
         $persona_id=Auth::user()->id;
+
+        $posicion= DB::table('cp_plan_estudios')
+                    ->where('modalidad_id',$r->modalidad_id)
+                    ->where('carrera_id',$r->carrera_id)
+                    ->max('nro_plan_estudio');
+
         $planEstudio = new PlanEstudio;
         $planEstudio->modalidad_id = trim( $r->modalidad_id );
         $planEstudio->carrera_id = trim( $r->carrera_id );
         $planEstudio->facultad_id = trim( $r->facultad_id );
+        $planEstudio->nro_plan_estudio = trim( ($posicion+1) );
         $planEstudio->plan_estudio = trim( $r->plan_estudio );
         $planEstudio->perfil_profesional = trim( $r->perfil_profesional );
         $planEstudio->resolucion = trim( $r->resolucion );
@@ -91,8 +98,8 @@ class PlanEstudio extends Model
                 'pe.plan_estudio','pe.perfil_profesional','pe.resolucion',
                 'pe.fecha_resolucion','pe.regimen_estudio','pe.regimen_otro',
                 'pe.periodo_academico','pe.duracion','pe.credito_teoria',
-                'pe.credito_practica','pe.estado',
-                'm.modalidad',
+                'pe.credito_practica','pe.estado','pe.nro_plan_estudio',
+                'm.modalidad','pe.created_at',
                 'f.facultad',
                 'c.carrera','c.codigo'
             )
@@ -148,7 +155,11 @@ class PlanEstudio extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('pe.plan_estudio','asc')->paginate(10);
+        $result = $sql->orderBy('f.facultad','asc')
+                    ->orderBy('c.carrera','asc')
+                    ->orderBy('m.modalidad','asc')
+                    ->orderBy('pe.nro_plan_estudio','desc')
+                    ->paginate(10);
         return $result;
     }
     
@@ -166,13 +177,19 @@ class PlanEstudio extends Model
         $persona_id=Auth::user()->id;
         $planEstudioAux = PlanEstudio::find($r->id);
 
+        $posicion= DB::table('cp_plan_estudios')
+                    ->where('modalidad_id',$planEstudioAux->modalidad_id)
+                    ->where('carrera_id',$planEstudioAux->carrera_id)
+                    ->max('nro_plan_estudio');
+
         $planEstudio = new PlanEstudio;
         $planEstudio->modalidad_id = $planEstudioAux->modalidad_id;
         $planEstudio->carrera_id = $planEstudioAux->carrera_id;
         $planEstudio->facultad_id = $planEstudioAux->facultad_id;
+        $planEstudio->nro_plan_estudio = trim( ($posicion+1) );
         $planEstudio->plan_estudio = $planEstudioAux->plan_estudio." - Replicado";
         $planEstudio->perfil_profesional = $planEstudioAux->perfil_profesional;
-        $planEstudio->resolucion = $planEstudioAux->resolucion." - Replicado";
+        $planEstudio->resolucion = $planEstudioAux->resolucion;
         $planEstudio->regimen_estudio = $planEstudioAux->regimen_estudio;
         $planEstudio->regimen_otro = $planEstudioAux->regimen_otro;
         $planEstudio->periodo_academico = $planEstudioAux->periodo_academico;

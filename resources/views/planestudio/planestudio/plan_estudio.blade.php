@@ -70,19 +70,10 @@
                                                     <tr class="cabecera">
                                                         <th class="col-xs-2">
                                                             <div class="form-group col-xs-12">
-                                                                <label><h4>Modalidad:</h4></label><br>
-                                                                <div class="input-group col-xs-12">
-                                                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" name="txt_modalidad" id="txt_modalidad" placeholder="Modalidad" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <th class="col-xs-2">
-                                                            <div class="form-group col-xs-12">
                                                                 <label><h4>Facultad:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" name="txt_facultad" id="txt_facultad" placeholder="Facultad" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" name="txt_facultad" id="txt_facultad" placeholder="Facultad" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
                                                             </div>
                                                         </th>
@@ -91,8 +82,22 @@
                                                                 <label><h4>Carrera:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Carrera" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" name="txt_carrera" id="txt_carrera" placeholder="Carrera" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
+                                                            </div>
+                                                        </th>
+                                                        <th class="col-xs-2">
+                                                            <div class="form-group col-xs-12">
+                                                                <label><h4>Modalidad:</h4></label><br>
+                                                                <div class="input-group col-xs-12">
+                                                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                                    <input type="text" class="form-control" style="width:100px !important;" name="txt_modalidad" id="txt_modalidad" placeholder="Modalidad" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                        <th class="col-xs-2">
+                                                            <div class="form-group col-xs-12">
+                                                                <label><h4>N° Plan de Estudio:</h4></label>
                                                             </div>
                                                         </th>
                                                         <th class="col-xs-2">
@@ -100,7 +105,7 @@
                                                                 <label><h4>Plan de Estudio:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" maxlength="100" name="txt_plan_estudio" id="txt_plan_estudio" placeholder="Plan de Estudio" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" maxlength="100" name="txt_plan_estudio" id="txt_plan_estudio" placeholder="Plan de Estudio" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
                                                             </div>
                                                         </th>
@@ -109,7 +114,7 @@
                                                                 <label><h4>Perfil Profesional:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" maxlength="150" name="txt_perfil_profesional" id="txt_perfil_profesional" placeholder="Perfil Profesional" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" maxlength="150" name="txt_perfil_profesional" id="txt_perfil_profesional" placeholder="Perfil Profesional" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
                                                             </div>
                                                         </th>
@@ -118,7 +123,7 @@
                                                                 <label><h4>Resolución:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" maxlength="150" name="txt_resolucion" id="txt_resolucion" placeholder="Resolución" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" maxlength="150" name="txt_resolucion" id="txt_resolucion" placeholder="Resolución" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
                                                             </div>
                                                         </th>
@@ -127,8 +132,13 @@
                                                                 <label><h4>Fecha Resolución:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
                                                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                                    <input type="text" class="form-control" maxlength="150" name="txt_fecha_resolucion" id="txt_fecha_resolucion" placeholder="Fecha Resolución" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                                    <input type="text" class="form-control" style="width:100px !important;" maxlength="150" name="txt_fecha_resolucion" id="txt_fecha_resolucion" placeholder="Fecha Resolución" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                                 </div>
+                                                            </div>
+                                                        </th>
+                                                        <th class="col-xs-2">
+                                                            <div class="form-group col-xs-12">
+                                                                <label><h4>Fecha Creación:</h4></label>
                                                             </div>
                                                         </th>
                                                         <th class="col-xs-1">
@@ -150,13 +160,15 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr class="cabecera">
-                                                        <th>Modalidad</th>
                                                         <th>Facultad</th>
                                                         <th>Carrera</th>
+                                                        <th>Modalidad</th>
+                                                        <th>N° Plan de Estudio</th>
                                                         <th>Plan de Estudio</th>
                                                         <th>Perfil Profesional</th>
                                                         <th>Resolución</th>
                                                         <th>Fecha Resolución</th>
+                                                        <th>Fecha Creación</th>
                                                         <th>Estado</th>
                                                         <th>[-]</th>
                                                     </tr>

@@ -210,7 +210,7 @@ HTMLAgregarEditarPlanEstudio=function(result){
 }
 
 ReplicarPlanEstudio=function(id){
-    sweetalertG.confirm('Plan de Estudio','Esta seguro de replicar el plan: '+$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text(), function(){ AjaxPlanEstudio.Replicar(ReplicarPlanEstudioHTML,id); });
+    sweetalertG.confirm('Plan de Estudio','Esta seguro de replicar el N°: '+$("#TablePlanEstudio #trid_"+id+" .nro_plan_estudio").text()+' del plan: '+$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text(), function(){ AjaxPlanEstudio.Replicar(ReplicarPlanEstudioHTML,id); });
 }
 
 ReplicarPlanEstudioHTML=function(result){
@@ -234,13 +234,15 @@ HTMLCargarPlanEstudio=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='modalidad'>"+r.modalidad+"</td>"+
             "<td class='facultad'>"+r.facultad+"</td>"+
             "<td class='carrera'>"+r.codigo+'|'+r.carrera+"</td>"+
+            "<td class='modalidad'>"+r.modalidad+"</td>"+
+            "<td class='nro_plan_estudio centrar'>"+$.trim(r.nro_plan_estudio)+"</td>"+
             "<td class='plan_estudio'>"+$.trim(r.plan_estudio)+"</td>"+
             "<td class='perfil_profesional'>"+$.trim(r.perfil_profesional)+"</td>"+
             "<td class='resolucion'>"+$.trim(r.resolucion)+"</td>"+
             "<td class='fecha_resolucion'>"+$.trim(r.fecha_resolucion)+"</td>"+
+            "<td class='fecha_creacion'>"+$.trim(r.created_at)+"</td>"+
             "<td>"+
             "<input type='hidden' class='regimen_estudio' value='"+r.regimen_estudio+"'>"+
             "<input type='hidden' class='regimen_otro' value='"+r.regimen_otro+"'>"+
