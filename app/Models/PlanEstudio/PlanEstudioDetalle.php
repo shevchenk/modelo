@@ -14,17 +14,57 @@ class PlanEstudioDetalle extends Model
 
     public static function runEliminar($r)
     {
+        DB::beginTransaction();
         $persona_id=Auth::user()->id;
         $planEstudioDetalle = PlanEstudioDetalle::find($r->id);
         $planEstudioDetalle->estado = 0;
         $planEstudioDetalle->persona_id_updated_at=$persona_id;
         $planEstudioDetalle->save();
+
+        $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
+        $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        $planEstudioDetalleHistorico->plan_estudio_id = $planEstudioDetalle->plan_estudio_id;
+        $planEstudioDetalleHistorico->ciclo_id = $planEstudioDetalle->ciclo_id;
+        $planEstudioDetalleHistorico->curso_id = $planEstudioDetalle->curso_id;
+        $planEstudioDetalleHistorico->tipo_estudio = $planEstudioDetalle->tipo_estudio;
+        $planEstudioDetalleHistorico->tipo_curso = $planEstudioDetalle->tipo_curso;
+        $planEstudioDetalleHistorico->hora_teoria_presencial = $planEstudioDetalle->hora_teoria_presencial;
+        $planEstudioDetalleHistorico->hora_teoria_virtual = $planEstudioDetalle->hora_teoria_virtual;
+        $planEstudioDetalleHistorico->hora_teoria_total = $planEstudioDetalle->hora_teoria_total;
+        $planEstudioDetalleHistorico->hora_practica_presencial = $planEstudioDetalle->hora_practica_presencial;
+        $planEstudioDetalleHistorico->hora_practica_virtual = $planEstudioDetalle->hora_practica_virtual;
+        $planEstudioDetalleHistorico->hora_practica_total = $planEstudioDetalle->hora_practica_total;
+        $planEstudioDetalleHistorico->hora_total = $planEstudioDetalle->hora_total;
+        $planEstudioDetalleHistorico->credito_teoria_presencial = $planEstudioDetalle->credito_teoria_presencial;
+        $planEstudioDetalleHistorico->credito_teoria_virtual = $planEstudioDetalle->credito_teoria_virtual;
+        $planEstudioDetalleHistorico->credito_teoria_total = $planEstudioDetalle->credito_teoria_total;
+        $planEstudioDetalleHistorico->credito_practica_presencial = $planEstudioDetalle->credito_practica_presencial;
+        $planEstudioDetalleHistorico->credito_practica_virtual = $planEstudioDetalle->credito_practica_virtual;
+        $planEstudioDetalleHistorico->credito_practica_total = $planEstudioDetalle->credito_practica_total;
+        $planEstudioDetalleHistorico->credito_total = $planEstudioDetalle->credito_total;
+
+        $planEstudioDetalleHistorico->estado = 0;
+        $planEstudioDetalleHistorico->persona_id_created_at=$persona_id;
+        $planEstudioDetalleHistorico->save();
+        DB::commit();
     }
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $persona_id=Auth::user()->id;
-        $planEstudioDetalle = new PlanEstudioDetalle;
+
+        $planEstudioDetalle = PlanEstudioDetalle::where('plan_estudio_id',$r->plan_estudio_id)
+                                        ->where('curso_id',$r->curso_id)
+                                        ->first();
+        if( !isset($planEstudioDetalle->id) ){
+            $planEstudioDetalle = new PlanEstudioDetalle;
+            $planEstudioDetalle->persona_id_created_at=Auth::user()->id;
+        }
+        else{
+            $planEstudioDetalle->persona_id_updated_at=Auth::user()->id;
+        }
+
         $planEstudioDetalle->plan_estudio_id = trim( $r->plan_estudio_id );
         $planEstudioDetalle->ciclo_id = trim( $r->ciclo_id );
         $planEstudioDetalle->curso_id = trim( $r->curso_id );
@@ -48,10 +88,38 @@ class PlanEstudioDetalle extends Model
         $planEstudioDetalle->estado = 1;
         $planEstudioDetalle->persona_id_created_at=$persona_id;
         $planEstudioDetalle->save();
+
+        $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
+        $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        $planEstudioDetalleHistorico->plan_estudio_id = $planEstudioDetalle->plan_estudio_id;
+        $planEstudioDetalleHistorico->ciclo_id = $planEstudioDetalle->ciclo_id;
+        $planEstudioDetalleHistorico->curso_id = $planEstudioDetalle->curso_id;
+        $planEstudioDetalleHistorico->tipo_estudio = $planEstudioDetalle->tipo_estudio;
+        $planEstudioDetalleHistorico->tipo_curso = $planEstudioDetalle->tipo_curso;
+        $planEstudioDetalleHistorico->hora_teoria_presencial = $planEstudioDetalle->hora_teoria_presencial;
+        $planEstudioDetalleHistorico->hora_teoria_virtual = $planEstudioDetalle->hora_teoria_virtual;
+        $planEstudioDetalleHistorico->hora_teoria_total = $planEstudioDetalle->hora_teoria_total;
+        $planEstudioDetalleHistorico->hora_practica_presencial = $planEstudioDetalle->hora_practica_presencial;
+        $planEstudioDetalleHistorico->hora_practica_virtual = $planEstudioDetalle->hora_practica_virtual;
+        $planEstudioDetalleHistorico->hora_practica_total = $planEstudioDetalle->hora_practica_total;
+        $planEstudioDetalleHistorico->hora_total = $planEstudioDetalle->hora_total;
+        $planEstudioDetalleHistorico->credito_teoria_presencial = $planEstudioDetalle->credito_teoria_presencial;
+        $planEstudioDetalleHistorico->credito_teoria_virtual = $planEstudioDetalle->credito_teoria_virtual;
+        $planEstudioDetalleHistorico->credito_teoria_total = $planEstudioDetalle->credito_teoria_total;
+        $planEstudioDetalleHistorico->credito_practica_presencial = $planEstudioDetalle->credito_practica_presencial;
+        $planEstudioDetalleHistorico->credito_practica_virtual = $planEstudioDetalle->credito_practica_virtual;
+        $planEstudioDetalleHistorico->credito_practica_total = $planEstudioDetalle->credito_practica_total;
+        $planEstudioDetalleHistorico->credito_total = $planEstudioDetalle->credito_total;
+
+        $planEstudioDetalleHistorico->estado = 1;
+        $planEstudioDetalleHistorico->persona_id_created_at=$persona_id;
+        $planEstudioDetalleHistorico->save();
+        DB::commit();
     }
 
     public static function runEdit($r)
     {
+        DB::beginTransaction();
         $persona_id=Auth::user()->id;
         $planEstudioDetalle = PlanEstudioDetalle::find($r->id);
         $planEstudioDetalle->plan_estudio_id = trim( $r->plan_estudio_id );
@@ -76,6 +144,88 @@ class PlanEstudioDetalle extends Model
         $planEstudioDetalle->estado = 1;
         $planEstudioDetalle->persona_id_updated_at=$persona_id;
         $planEstudioDetalle->save();
+
+        $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
+        $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        $planEstudioDetalleHistorico->plan_estudio_id = $planEstudioDetalle->plan_estudio_id;
+        $planEstudioDetalleHistorico->ciclo_id = $planEstudioDetalle->ciclo_id;
+        $planEstudioDetalleHistorico->curso_id = $planEstudioDetalle->curso_id;
+        $planEstudioDetalleHistorico->tipo_estudio = $planEstudioDetalle->tipo_estudio;
+        $planEstudioDetalleHistorico->tipo_curso = $planEstudioDetalle->tipo_curso;
+        $planEstudioDetalleHistorico->hora_teoria_presencial = $planEstudioDetalle->hora_teoria_presencial;
+        $planEstudioDetalleHistorico->hora_teoria_virtual = $planEstudioDetalle->hora_teoria_virtual;
+        $planEstudioDetalleHistorico->hora_teoria_total = $planEstudioDetalle->hora_teoria_total;
+        $planEstudioDetalleHistorico->hora_practica_presencial = $planEstudioDetalle->hora_practica_presencial;
+        $planEstudioDetalleHistorico->hora_practica_virtual = $planEstudioDetalle->hora_practica_virtual;
+        $planEstudioDetalleHistorico->hora_practica_total = $planEstudioDetalle->hora_practica_total;
+        $planEstudioDetalleHistorico->hora_total = $planEstudioDetalle->hora_total;
+        $planEstudioDetalleHistorico->credito_teoria_presencial = $planEstudioDetalle->credito_teoria_presencial;
+        $planEstudioDetalleHistorico->credito_teoria_virtual = $planEstudioDetalle->credito_teoria_virtual;
+        $planEstudioDetalleHistorico->credito_teoria_total = $planEstudioDetalle->credito_teoria_total;
+        $planEstudioDetalleHistorico->credito_practica_presencial = $planEstudioDetalle->credito_practica_presencial;
+        $planEstudioDetalleHistorico->credito_practica_virtual = $planEstudioDetalle->credito_practica_virtual;
+        $planEstudioDetalleHistorico->credito_practica_total = $planEstudioDetalle->credito_practica_total;
+        $planEstudioDetalleHistorico->credito_total = $planEstudioDetalle->credito_total;
+
+        $planEstudioDetalleHistorico->estado = 1;
+        $planEstudioDetalleHistorico->persona_id_created_at=$persona_id;
+        $planEstudioDetalleHistorico->save();
+        DB::commit();
+    }
+
+    public static function runEditVir($r)
+    {
+        DB::beginTransaction();
+        $persona_id=Auth::user()->id;
+        $planEstudioDetalle = PlanEstudioDetalle::find($r->id);
+        $planEstudioDetalle->ciclo_id = trim( $r['ciclo_id'.$r->id] );
+        $planEstudioDetalle->hora_teoria_presencial = trim( $r['hora_teoria_presencial'.$r->id] );
+        $planEstudioDetalle->hora_teoria_virtual = trim( $r['hora_teoria_virtual'.$r->id] );
+        
+        $planEstudioDetalle->hora_practica_presencial = trim( $r['hora_practica_presencial'.$r->id] );
+        $planEstudioDetalle->hora_practica_virtual = trim( $r['hora_practica_virtual'.$r->id] );
+
+        $planEstudioDetalle->credito_teoria_presencial = trim( $r['credito_teoria_presencial'.$r->id] );
+        $planEstudioDetalle->credito_teoria_virtual = trim( $r['credito_teoria_virtual'.$r->id] );
+        
+        $planEstudioDetalle->credito_practica_presencial = trim( $r['credito_practica_presencial'.$r->id] );
+        $planEstudioDetalle->credito_practica_virtual = trim( $r['credito_practica_virtual'.$r->id] );
+        
+        $planEstudioDetalle->estado = 1;
+        $planEstudioDetalle->persona_id_updated_at=$persona_id;
+
+        if( ($planEstudioDetalle->hora_teoria_total== ( trim( $r['hora_teoria_presencial'.$r->id] ) + trim( $r['hora_teoria_virtual'.$r->id] ) )) AND 
+            ($planEstudioDetalle->hora_practica_total== ( trim( $r['hora_practica_presencial'.$r->id] ) + trim( $r['hora_practica_virtual'.$r->id] ) ))
+        ){
+            $planEstudioDetalle->save();
+        }
+
+        $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
+        $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        $planEstudioDetalleHistorico->plan_estudio_id = $planEstudioDetalle->plan_estudio_id;
+        $planEstudioDetalleHistorico->ciclo_id = $planEstudioDetalle->ciclo_id;
+        $planEstudioDetalleHistorico->curso_id = $planEstudioDetalle->curso_id;
+        $planEstudioDetalleHistorico->tipo_estudio = $planEstudioDetalle->tipo_estudio;
+        $planEstudioDetalleHistorico->tipo_curso = $planEstudioDetalle->tipo_curso;
+        $planEstudioDetalleHistorico->hora_teoria_presencial = $planEstudioDetalle->hora_teoria_presencial;
+        $planEstudioDetalleHistorico->hora_teoria_virtual = $planEstudioDetalle->hora_teoria_virtual;
+        $planEstudioDetalleHistorico->hora_teoria_total = $planEstudioDetalle->hora_teoria_total;
+        $planEstudioDetalleHistorico->hora_practica_presencial = $planEstudioDetalle->hora_practica_presencial;
+        $planEstudioDetalleHistorico->hora_practica_virtual = $planEstudioDetalle->hora_practica_virtual;
+        $planEstudioDetalleHistorico->hora_practica_total = $planEstudioDetalle->hora_practica_total;
+        $planEstudioDetalleHistorico->hora_total = $planEstudioDetalle->hora_total;
+        $planEstudioDetalleHistorico->credito_teoria_presencial = $planEstudioDetalle->credito_teoria_presencial;
+        $planEstudioDetalleHistorico->credito_teoria_virtual = $planEstudioDetalle->credito_teoria_virtual;
+        $planEstudioDetalleHistorico->credito_teoria_total = $planEstudioDetalle->credito_teoria_total;
+        $planEstudioDetalleHistorico->credito_practica_presencial = $planEstudioDetalle->credito_practica_presencial;
+        $planEstudioDetalleHistorico->credito_practica_virtual = $planEstudioDetalle->credito_practica_virtual;
+        $planEstudioDetalleHistorico->credito_practica_total = $planEstudioDetalle->credito_practica_total;
+        $planEstudioDetalleHistorico->credito_total = $planEstudioDetalle->credito_total;
+
+        $planEstudioDetalleHistorico->estado = 1;
+        $planEstudioDetalleHistorico->persona_id_created_at=$persona_id;
+        $planEstudioDetalleHistorico->save();
+        DB::commit();
     }
 
     public static function runLoad($r)

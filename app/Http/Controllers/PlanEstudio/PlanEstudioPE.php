@@ -84,9 +84,48 @@ class PlanEstudioPE extends Controller
         }
     }
 
+    public function EditVir(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $mensaje= array(
+                'required'    => ':attribute es requerido',
+                'unique'        => ':attribute solo debe ser único',
+            );
+
+            $rules = array(
+                'id' => ['required'],
+            );
+
+            $validator=Validator::make($r->all(), $rules,$mensaje);
+
+            if ( !$validator->fails() ) {
+                PlanEstudio::runEditVir($r);
+                $return['rst'] = 1;
+                $return['msj'] = 'Registro actualizado';
+            }
+            else{
+                $return['rst'] = 2;
+                $return['msj'] = $validator->errors()->all()[0];
+            }
+            return response()->json($return);
+        }
+    }
+
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
+            $renturnModel = PlanEstudio::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);   
+        }
+    }
+
+    public function LoadVir(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['modalidad_virtual'] = 1;
             $renturnModel = PlanEstudio::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

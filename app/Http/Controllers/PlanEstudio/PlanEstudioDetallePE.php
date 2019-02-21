@@ -75,6 +75,34 @@ class PlanEstudioDetallePE extends Controller
         }
     }
 
+    public function EditVir(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $mensaje= array(
+                'required'    => ':attribute es requerido',
+                'unique'        => ':attribute solo debe ser único',
+            );
+
+            $rules = array(
+                'plan_estudio_id' => ['required'],
+            );
+
+            $validator=Validator::make($r->all(), $rules,$mensaje);
+
+            if ( !$validator->fails() ) {
+                PlanEstudioDetalle::runEditVir($r);
+                $return['rst'] = 1;
+                $return['id'] = $r->id;
+                $return['msj'] = 'Registro actualizado';
+            }
+            else{
+                $return['rst'] = 2;
+                $return['msj'] = $validator->errors()->all()[0];
+            }
+            return response()->json($return);
+        }
+    }
+
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
