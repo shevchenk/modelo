@@ -58,6 +58,17 @@ class PlanEstudio extends Model
     {
         $persona_id=Auth::user()->id;
         $planEstudio = PlanEstudio::find($r->id);
+
+        if( ($planEstudio->modalidad_id != $r->modalidad_id) OR 
+            ($planEstudio->carrera_id != $r->carrera_id)
+         ){
+            $posicion= DB::table('cp_plan_estudios')
+                    ->where('modalidad_id',$r->modalidad_id)
+                    ->where('carrera_id',$r->carrera_id)
+                    ->max('nro_plan_estudio');
+            $planEstudio->nro_plan_estudio = trim( ($posicion+1) );
+        }
+
         $planEstudio->modalidad_id = trim( $r->modalidad_id );
         $planEstudio->carrera_id = trim( $r->carrera_id );
         $planEstudio->facultad_id = trim( $r->facultad_id );
