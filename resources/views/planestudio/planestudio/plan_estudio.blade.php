@@ -2,9 +2,9 @@
 
 @section('include')
 @parent
-{{ Html::style('lib/datatables/dataTables.bootstrap.css') }}
-{{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
-{{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
+{{ Html::style('lib/datatables/DataTables-1.10.18/css/dataTables.bootstrap.css') }}
+{{ Html::script('lib/datatables/DataTables-1.10.18/js/jquery.dataTables.min.js') }}
+{{ Html::script('lib/datatables/DataTables-1.10.18/js/dataTables.bootstrap.min.js') }}
 
 {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
 {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
@@ -16,6 +16,17 @@
 {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
+
+<!--
+{{ Html::style('lib/datatables/FixedHeader-3.1.4/css/fixedHeader.dataTables.min.css') }}
+{{ Html::style('lib/datatables/FixedHeader-3.1.4/css/fixedHeader.bootstrap.min.css') }}
+{{ Html::script('lib/datatables/FixedHeader-3.1.4/js/dataTables.fixedHeader.js') }}
+{{ Html::script('lib/datatables/FixedHeader-3.1.4/js/fixedHeader.bootstrap.min.js') }}
+
+{{ Html::style('lib/datatables/Responsive-2.2.2/css/responsive.bootstrap.min.css') }}
+{{ Html::script('lib/datatables/Responsive-2.2.2/js/dataTables.responsive.min.js') }}
+{{ Html::script('lib/datatables/Responsive-2.2.2/js/responsive.bootstrap.min.js') }}
+-->
 
 @include( 'planestudio.planestudio.js.plan_estudio_detalle_ajax' )
 @include( 'planestudio.planestudio.js.plan_estudio_detalle' )
@@ -64,7 +75,7 @@
                             <div id="MPPlanEstudio" class="tab-pane active animated zoomInLeft">
                                 <form id="PlanEstudioForm" name="PlanEstudioForm">
                                     <div class="tab-ctn">
-                                        <div class="box-body table-responsive no-padding">
+                                        <div class="box-body no-padding table-responsive">
                                             <table id="TablePlanEstudio" class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr class="cabecera">

@@ -4,6 +4,7 @@
     @parent
     {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
     {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+    {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
 
     @include( 'mantenimiento.entidad.js.entidad_ajax' )
     @include( 'mantenimiento.entidad.js.entidad' )

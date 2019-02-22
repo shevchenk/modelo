@@ -268,7 +268,7 @@ HTMLCargarPlanEstudio=function(result){
         html+="</tr>";
     });
     $("#TablePlanEstudio tbody").html(html); 
-    $("#TablePlanEstudio").DataTable({
+    var table=$("#TablePlanEstudio").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -276,6 +276,10 @@ HTMLCargarPlanEstudio=function(result){
         "info": true,
         "autoWidth": false,
         "lengthPlanEstudio": [10],
+        /*"fixedHeader":{
+            "header":true
+        },
+        "responive":true,*/
         "language": {
             "info": "Mostrando página "+result.data.current_page+" / "+result.data.last_page+" de "+result.data.total,
             "infoEmpty": "No éxite registro(s) aún",
