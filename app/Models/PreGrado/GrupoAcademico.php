@@ -221,6 +221,7 @@ class GrupoAcademico extends Model
                     elseif($r->has('grupo_academico')){
                         $query->where('ga.local_id',0);
                     }
+                    
                     if( $r->has("plan_estudio_id") ){
                         $plan_estudio_id=trim($r->plan_estudio_id);
                         if( $plan_estudio_id !='' ){
@@ -230,6 +231,10 @@ class GrupoAcademico extends Model
                             $query->where('ga.plan_estudio_id',0);
                         }
                     }
+                    elseif($r->has('grupo_academico')){
+                        $query->where('ga.plan_estudio_id',0);
+                    }
+
                     if( $r->has("semestre_id") ){
                         $semestre_id=trim($r->semestre_id);
                         if( $semestre_id !='' ){
@@ -239,6 +244,10 @@ class GrupoAcademico extends Model
                             $query->where('ga.semestre_id',0);
                         }
                     }
+                    elseif($r->has('plan_estudio_id')){
+                        $query->where('ga.semestre_id',0);
+                    }
+
                     if( $r->has("ciclo_id") ){
                         $ciclo_id=trim($r->ciclo_id);
                         if( $ciclo_id !='' ){
@@ -248,6 +257,10 @@ class GrupoAcademico extends Model
                             $query->where('ga.ciclo_id',0);
                         }
                     }
+                    elseif($r->has('plan_estudio_id')){
+                        $query->where('ga.ciclo_id',0);
+                    }
+
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
