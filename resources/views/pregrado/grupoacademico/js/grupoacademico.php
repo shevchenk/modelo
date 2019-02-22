@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEditGrupoAcademico=0; //0: Editar | 1: Agregar
-var GrupoAcademicoG={id:0,modalidad:"",modalidad_id:"",carrera:"",carrera_id:"",facultad:"",facultad_id:"",plan_estudio:"",perfil_profesional:"",resolucion:"",fecha_resolucion:"",regimen_estudio:"",regimen_otro:"",periodo_academico:"",duracion:"",credito_teoria:"",credito_practica:"",estado:1}; // Datos Globales
+var GrupoAcademicoG={id:0,estado:1}; // Datos Globales
 
 var CarreraOpciones = {
     placeholder: 'Carrera',
@@ -20,6 +20,7 @@ var CarreraOpciones = {
             $("#GrupoAcademicoFiltroForm #txt_plan_estudio_id").val(plan_estudio_id).trigger("change");
             $("#GrupoAcademicoFiltroForm #txt_plan_estudio").val(plan_estudio).trigger("change");
             $("#GrupoAcademicoFiltroForm #txt_nro_plan_estudio").text(nro_plan_estudio).trigger("change");
+            AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
         }
     },
     template: {
@@ -33,28 +34,61 @@ var CarreraOpciones = {
 $(document).ready(function() {
 
     $("#GrupoAcademicoFiltroForm .fecha").datetimepicker({
-        format: "yyyy-mm-dd h:i",
+        format: "yyyy-mm-dd hh:ii",
         language: 'es',
         showMeridian: false,
         time:false,
         minView:0,
         autoclose: true,
         todayBtn: false
-    })
+    });
 
-    //AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
+    $("#GrupoAcademicoFiltroForm .fecha2").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: false,
+        time:false,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+
+    $("#TableGrupoAcademico").DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "lengthGrupoAcademico": [100],
+        "language": {
+            "decimal":        "",
+            "emptyTable":     "No hay registros",
+            "info":           "Mostrando _START_ de _END_ del _TOTAL_ total",
+            "infoEmpty":      "Mostrando 0 de 0 del 0 total",
+            "loadingRecords": "Cargando...",
+            "processing":     "Procesando...",
+            "zeroRecords":    "No éxiste registro aún",
+            "paginate": {
+                "first":      "Primero",
+                "last":       "Último",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            },
+        },
+    });
+
     AjaxGrupoAcademico.CargarLocal(SlctCargarLocal);
     AjaxGrupoAcademico.CargarCiclo(SlctCargarCiclo);
     AjaxGrupoAcademico.CargarSemestre(SlctCargarSemestre);
     $("#GrupoAcademicoFiltroForm #txt_carrera").easyAutocomplete(CarreraOpciones);
 
-    $('#GrupoAcademicoFiltroForm #slct_local_id,#GrupoAcademicoFiltroForm #slct_ciclo_id,#GrupoAcademicoFiltroForm #slct_semestre_id').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-        msjG.mensaje('warning','holas'+clickedIndex+'|'+isSelected+'|'+previousValue,15000);
+    $('#GrupoAcademicoFiltroForm #slct_ciclo_id,#GrupoAcademicoFiltroForm #slct_semestre_id').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
     });
-    
-    //$("#GrupoAcademicoForm #TableGrupoAcademico select").change(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });
-    //$("#GrupoAcademicoForm #TableGrupoAcademico input").blur(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });
-    
+    $('#GrupoAcademicoFiltroForm #slct_local_id').on('hidden.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
+    });
 });
 
 SlctCargarLocal=function(result){
@@ -84,67 +118,109 @@ SlctCargarSemestre=function(result){
     $("#GrupoAcademicoFiltroForm #slct_semestre_id").selectpicker('refresh');
 }
 
-ValidaFormGrupoAcademico=function(){
+ValidaFormGrupoAcademicoMasivo=function(){
     var r=true;
-    if( $.trim( $("#ModalGrupoAcademicoForm #txt_modalidad").val() )=='' ){
+    if( $.trim($("#GrupoAcademicoFiltroForm #slct_local_id").val())=='' ){
         r=false;
-        msjG.mensaje('warning','Busque y Seleccione Modalidad',4000);
+        msjG.mensaje('warning','Seleccione Local',4000);
     }
-    else if( $.trim( $("#ModalGrupoAcademicoForm #txt_facultad").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Busque y Seleccione Facultad',4000);
-    }
-    else if( $.trim( $("#ModalGrupoAcademicoForm #txt_carrera").val() )=='' ){
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_carrera").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Carrera',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #slct_semestre_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Periodo Académico',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #slct_ciclo_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Ciclo de Estudio',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_meta_minima").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Meta Mínima',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_meta_maxima").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Meta Máxima',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_fecha_inicio").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha y Hora Inicio',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_fecha_final").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha y Hora Final',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #slct_frecuencia").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione la(s) Frecuencia(s)',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_fecha_inicio_mat").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha Inicio Matrícula',4000);
+    }
+    else if( $.trim( $("#GrupoAcademicoFiltroForm #txt_fecha_final_mat").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha Final Matrícula',4000);
     }
     return r;
 }
 
-AgregarEditarGrupoAcademico=function(val,id){
-    AddEditGrupoAcademico=val;
-    GrupoAcademicoG.id='';
-    GrupoAcademicoG.modalidad='';
-    GrupoAcademicoG.modalidad_id='';
-    GrupoAcademicoG.carrera='';
-    GrupoAcademicoG.codigo='';
-    GrupoAcademicoG.carrera_id='';
-    GrupoAcademicoG.facultad='';
-    GrupoAcademicoG.facultad_id='';
-    GrupoAcademicoG.plan_estudio='';
-    GrupoAcademicoG.perfil_profesional='';
-    GrupoAcademicoG.resolucion='';
-    GrupoAcademicoG.fecha_resolucion='';
-    GrupoAcademicoG.regimen_estudio='';
-    GrupoAcademicoG.regimen_otro='';
-    GrupoAcademicoG.periodo_academico='';
-    GrupoAcademicoG.duracion='';
-    GrupoAcademicoG.credito_teoria='';
-    GrupoAcademicoG.credito_practica='';
-    GrupoAcademicoG.estado='1';
-    
-    if( val==0 ){
-        GrupoAcademicoG.id=id;
-        GrupoAcademicoG.modalidad=$("#TableGrupoAcademico #trid_"+id+" .modalidad").text();
-        GrupoAcademicoG.modalidad_id=$("#TableGrupoAcademico #trid_"+id+" .modalidad_id").val();
-        GrupoAcademicoG.codigo=$("#TableGrupoAcademico #trid_"+id+" .carrera").text().split("|")[0];
-        GrupoAcademicoG.carrera=$("#TableGrupoAcademico #trid_"+id+" .carrera").text().split("|")[1];
-        GrupoAcademicoG.carrera_id=$("#TableGrupoAcademico #trid_"+id+" .carrera_id").val();
-        GrupoAcademicoG.facultad=$("#TableGrupoAcademico #trid_"+id+" .facultad").text();
-        GrupoAcademicoG.facultad_id=$("#TableGrupoAcademico #trid_"+id+" .facultad_id").val();
-        GrupoAcademicoG.plan_estudio=$("#TableGrupoAcademico #trid_"+id+" .plan_estudio").text();
-        GrupoAcademicoG.perfil_profesional=$("#TableGrupoAcademico #trid_"+id+" .perfil_profesional").text();
-        GrupoAcademicoG.resolucion=$("#TableGrupoAcademico #trid_"+id+" .resolucion").text();
-        GrupoAcademicoG.fecha_resolucion=$("#TableGrupoAcademico #trid_"+id+" .fecha_resolucion").text();
-        GrupoAcademicoG.regimen_estudio=$("#TableGrupoAcademico #trid_"+id+" .regimen_estudio").val();
-        GrupoAcademicoG.regimen_otro=$("#TableGrupoAcademico #trid_"+id+" .regimen_otro").val();
-        GrupoAcademicoG.periodo_academico=$("#TableGrupoAcademico #trid_"+id+" .periodo_academico").val();
-        GrupoAcademicoG.duracion=$("#TableGrupoAcademico #trid_"+id+" .duracion").val();
-        GrupoAcademicoG.credito_teoria=$("#TableGrupoAcademico #trid_"+id+" .credito_teoria").val();
-        GrupoAcademicoG.credito_practica=$("#TableGrupoAcademico #trid_"+id+" .credito_practica").val();
-        GrupoAcademicoG.estado=$("#TableGrupoAcademico #trid_"+id+" .estado").val();
+EditarGrupoAcademicoMasivo=function(){
+    if( ValidaFormGrupoAcademicoMasivo() ){
+        var ids=''; var cantidad=0;
+        $("#TableGrupoAcademico input:checkbox:checked").each(function() {
+            ids=ids+','+$(this).val();
+            cantidad++;
+        });
+
+        if( ids!='' ){
+            sweetalertG.confirm('Grupo Académico','Esta a punto de modificar '+cantidad+' registro(s)', function(){ AjaxGrupoAcademico.Editar(HTMLEditarGrupoAcademicoMasivo,ids); });
+        }
+        else{
+            msjG.mensaje('warning','Seleccione almenos 1 grupo académico',4000);
+        }
     }
-    $('#ModalGrupoAcademico').modal('show');
+}
+
+HTMLEditarGrupoAcademicoMasivo=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
+    }else{
+        msjG.mensaje('warning',result.msj,1000);
+    }
+}
+
+AgregarEditarGrupoAcademicoMasivo=function(){
+    if( ValidaFormGrupoAcademicoMasivo() ){
+        sweetalertG.confirm('Grupo Académico','Se modificarán todos los registros y creará nuevos registros en caso no exista según los filtros seleccionados', function(){ AjaxGrupoAcademico.AgregarEditar(HTMLAgregarEditarGrupoAcademicoMasivo); });
+    }
+}
+
+HTMLAgregarEditarGrupoAcademicoMasivo=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
+    }else{
+        msjG.mensaje('warning',result.msj,1000);
+    }
+}
+
+AgregarGrupoAcademicoMasivo=function(){
+    if( ValidaFormGrupoAcademicoMasivo() ){
+        sweetalertG.confirm('Grupo Académico','Solo creará nuevos registros en caso no exista según los filtros seleccionados', function(){ AjaxGrupoAcademico.Agregar(HTMLAgregarGrupoAcademicoMasivo); });
+    }
+}
+
+HTMLAgregarGrupoAcademicoMasivo=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
+    }else{
+        msjG.mensaje('warning',result.msj,1000);
+    }
 }
 
 CambiarEstadoGrupoAcademico=function(estado,id){
@@ -152,7 +228,7 @@ CambiarEstadoGrupoAcademico=function(estado,id){
     if( estado==0 ){
         texto='Inactivar';
     }
-    sweetalertG.confirm('Plan de Estudio','Desea '+texto+' el plan: '+$("#TableGrupoAcademico #trid_"+id+" .plan_estudio").text(), function(){ AjaxGrupoAcademico.CambiarEstado(HTMLCambiarEstadoGrupoAcademico,estado,id); });
+    sweetalertG.confirm('Grupo Académico','Desea '+texto+' el grupo académico de la posición: '+$("#TableGrupoAcademico #trid_"+id+" .posicion").text(), function(){ AjaxGrupoAcademico.CambiarEstado(HTMLCambiarEstadoGrupoAcademico,estado,id); });
 }
 
 HTMLCambiarEstadoGrupoAcademico=function(result){
@@ -162,45 +238,39 @@ HTMLCambiarEstadoGrupoAcademico=function(result){
     }
 }
 
-AgregarEditarAjaxGrupoAcademico=function(){
-    if( ValidaFormGrupoAcademico() ){
-        AjaxGrupoAcademico.AgregarEditar(HTMLAgregarEditarGrupoAcademico);
-    }
-}
-
-HTMLAgregarEditarGrupoAcademico=function(result){
-    if( result.rst==1 ){
-        msjG.mensaje('success',result.msj,4000);
-        $('#ModalGrupoAcademico').modal('hide');
-        AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
-    }else{
-        msjG.mensaje('warning',result.msj,1000);
-    }
-}
-
 HTMLCargarGrupoAcademico=function(result){
 
     var html="";
     $('#TableGrupoAcademico').DataTable().destroy();
     
-    $.each(result.data.data,function(index,r){
+    $.each(result.data,function(index,r){
         estadohtml='<span onClick="CambiarEstadoGrupoAcademico(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
         if(r.estado==1){
             estadohtml='<span onClick="CambiarEstadoGrupoAcademico(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='facultad'>"+r.id+"</td>"+
+            "<td class='local'>"+r.local+"</td>"+
+            "<td class='plan_estudio'>"+r.plan_estudio+"</td>"+
+            "<td class='carrera'>"+r.carrera+"</td>"+
+            "<td class='semestre'>"+r.semestre+"</td>"+
+            "<td class='ciclo'>"+r.ciclo+"</td>"+
+            "<td class='fecha'>"+r.fecha_inicio+' / '+r.fecha_final+"</td>"+
+            "<td class='frecuencia'>"+r.frecuencia+" de "+r.hora_inicio+" a "+r.hora_final+"</td>"+
+            "<td class='meta'>"+r.meta_minima_matricula+" / "+r.meta_maxima_matricula+"</td>"+
+            "<td class='fechamat'>"+r.fecha_inicio_mat+" / "+r.fecha_final_mat+"</td>"+
             "<td>"+
-            "<input type='hidden' class='facultad_id' value='"+r.id+"'>";
+            "<input type='hidden' class='id' value='"+r.id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
-            '&nbsp;&nbsp;&nbsp;'+
-            '<a class="btn btn-primary btn-sm" onClick="AgregarEditarGrupoAcademico(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>'+"</td>"+
-            '<td>';
+            '</td><td>'+
+            '<label class="posicion"><input type="checkbox" class="i-checks" value="'+r.id+'">Posición '+(index*1+1)+'</label>';
         html+='</td>';
         html+="</tr>";
     });
     $("#TableGrupoAcademico tbody").html(html); 
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green'
+    });
     $("#TableGrupoAcademico").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -208,7 +278,22 @@ HTMLCargarGrupoAcademico=function(result){
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "lengthGrupoAcademico": [100]
+        "lengthGrupoAcademico": [100],
+        "language": {
+            "decimal":        "",
+            "emptyTable":     "No hay registros",
+            "info":           "Mostrando _START_ de _END_ del _TOTAL_ total",
+            "infoEmpty":      "Mostrando 0 de 0 del 0 total",
+            "loadingRecords": "Cargando...",
+            "processing":     "Procesando...",
+            "zeroRecords":    "No éxiste registro aún",
+            "paginate": {
+                "first":      "Primero",
+                "last":       "Último",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            },
+        },
     });
 
 };

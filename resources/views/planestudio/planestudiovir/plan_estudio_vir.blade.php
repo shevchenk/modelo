@@ -37,8 +37,8 @@
                                     <i class="fa fa-cogs"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Plan de Estudios</h2>
-                                    <p>Gestionar los Planes de Estudios</p>
+                                    <h2>Plan de Estudios Virtual</h2>
+                                    <p>Gestionar los Planes de Estudios Virtual</p>
                                 </div>
                             </div>
                         </div>

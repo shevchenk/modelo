@@ -66,3 +66,13 @@ MODIFY COLUMN `semestre`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci
 --2019-02-20 20:18
 ALTER TABLE `cp_plan_estudios`
 ADD COLUMN `nro_plan_estudio`  int NULL DEFAULT 1 AFTER `carrera_id`;
+
+
+--2019-02-22 16:28
+ALTER TABLE `ep_grupo_academico`
+ADD COLUMN `fecha_inicio_mat`  date NULL AFTER `meta_maxima_matricula`,
+ADD COLUMN `fecha_final_mat`  date NULL AFTER `fecha_inicio_mat`;
+
+ALTER TABLE `dp_grupo_academico_admision`
+ADD COLUMN `fecha_inicio_mat`  date NULL AFTER `meta_maxima_matricula`,
+ADD COLUMN `fecha_final_mat`  date NULL AFTER `fecha_inicio_mat`;
