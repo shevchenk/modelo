@@ -9,19 +9,19 @@ var CarreraOpciones = {
     getValue: "carrera",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
     preparePostData: function(data) {
-        data.phrase = $("#ModalGrupoAcademicoForm #txt_carrera").val();
+        data.phrase = $("#GrupoAcademicoFiltroForm #txt_carrera").val();
         return data;
     },
     list: {
         onClickEvent: function() {
-            var value = $("#ModalGrupoAcademicoForm #txt_carrera").getSelectedItemData().id;
-            var value2 = $("#ModalGrupoAcademicoForm #txt_carrera").getSelectedItemData().facultad;
-            var value3 = $("#ModalGrupoAcademicoForm #txt_carrera").getSelectedItemData().facultad_id;
-            var value4 = $("#ModalGrupoAcademicoForm #txt_carrera").getSelectedItemData().codigo;
-            $("#ModalGrupoAcademicoForm #txt_carrera_id").val(value).trigger("change");
-            $("#ModalGrupoAcademicoForm #txt_facultad").val(value2).trigger("change");
-            $("#ModalGrupoAcademicoForm #txt_facultad_id").val(value3).trigger("change");
-            $("#ModalGrupoAcademicoForm #txt_codigo").val(value4).trigger("change");
+            var value = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().id;
+            var value2 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio;
+            var value3 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio_id;
+            var value4 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().nro_plan_estudio;
+            $("#GrupoAcademicoFiltroForm #txt_plan_estudio_id").val(value).trigger("change");
+            $("#GrupoAcademicoFiltroForm #txt_plan_estudio").val(value2).trigger("change");
+            $("#GrupoAcademicoFiltroForm #txt_nro_plan_estudio").val(value3).trigger("change");
+            $("#GrupoAcademicoFiltroForm #txt_codigo").val(value4).trigger("change");
         }
     },
     template: {

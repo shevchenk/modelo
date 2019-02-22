@@ -62,7 +62,7 @@
                             <div class="col-md-4">
                                 <label>Carrera - Plan Estudios:</label>
                                 <input type="hidden" class="mant" id="txt_plan_estudio_id" name="txt_plan_estudio_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_plan_estudio_id,#txt_nro_plan_estudio,#txt_plan_estudio',this.value);" id="txt_persona" placeholder="Carrera - Plan Estudios">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_plan_estudio_id,#txt_nro_plan_estudio,#txt_plan_estudio',this.value);" id="txt_carrera" placeholder="Carrera - Plan Estudios">
                             </div>
                             <div class="col-md-4">
                                 <label>N° - Plan de Estudios:</label>

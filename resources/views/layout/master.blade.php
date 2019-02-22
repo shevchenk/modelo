@@ -12,7 +12,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="img/entidad/logo_1.ico">
 
         @section('description')
-        <meta name="description" content="Software Modelo">
+        <meta name="description" content="Software Gestión Académico">
         @show
         <title>
             @section('title')
