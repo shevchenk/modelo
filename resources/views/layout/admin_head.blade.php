@@ -277,7 +277,11 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div style="text-align: center; margin: 20px 20px;">
-                {{ Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre }}
+                {{ Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre }}<br>
+                <a class="btn nk-black" href="salir">
+                    <i class="glyphicon glyphicon-log-in"></i>
+                    <span>Cesar Sesión</span>
+                </a>
             </div>
         </div>
     </div>
