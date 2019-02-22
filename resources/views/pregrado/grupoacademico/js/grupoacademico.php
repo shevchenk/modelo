@@ -1,24 +1,7 @@
 <script type="text/javascript">
 var AddEditGrupoAcademico=0; //0: Editar | 1: Agregar
 var GrupoAcademicoG={id:0,modalidad:"",modalidad_id:"",carrera:"",carrera_id:"",facultad:"",facultad_id:"",plan_estudio:"",perfil_profesional:"",resolucion:"",fecha_resolucion:"",regimen_estudio:"",regimen_otro:"",periodo_academico:"",duracion:"",credito_teoria:"",credito_practica:"",estado:1}; // Datos Globales
-var ModalidadOpciones = {
-    placeholder: 'Modalidad',
-    url: "AjaxDinamic/GrupoAcademico.ModalidadPE@ListModalidad",
-    listLocation: "data",
-    getValue: "modalidad",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
-    preparePostData: function(data) {
-        data.phrase = $("#ModalGrupoAcademicoForm #txt_modalidad").val();
-        return data;
-    },
-    list: {
-        onClickEvent: function() {
-            var value = $("#ModalGrupoAcademicoForm #txt_modalidad").getSelectedItemData().id;
-            $("#ModalGrupoAcademicoForm #txt_modalidad_id").val(value).trigger("change");
-        }
-    },
-    adjustWidth:false,
-};
+
 var CarreraOpciones = {
     placeholder: 'Carrera',
     url: "AjaxDinamic/GrupoAcademico.CarreraPE@ListCarrera",
@@ -51,34 +34,53 @@ var CarreraOpciones = {
 };
 $(document).ready(function() {
 
-    //$(".nav.nav-tabs [href='#MPGrupoAcademicoDetalle']").toggle();
-    $("#TableGrupoAcademico").DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false
-    });
-
-    $("#ModalGrupoAcademicoForm .fecha").datetimepicker({
-        format: "yyyy-mm-dd",
+    $("#GrupoAcademicoFiltroForm .fecha").datetimepicker({
+        format: "yyyy-mm-dd h:i",
         language: 'es',
         showMeridian: false,
         time:false,
-        minView:2,
+        minView:0,
         autoclose: true,
         todayBtn: false
     })
 
     //AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico);
-    $("#ModalGrupoAcademicoForm #txt_modalidad").easyAutocomplete(ModalidadOpciones);
-    $("#ModalGrupoAcademicoForm #txt_carrera").easyAutocomplete(CarreraOpciones);
+    AjaxGrupoAcademico.CargarLocal(SlctCargarLocal);
+    AjaxGrupoAcademico.CargarCiclo(SlctCargarCiclo);
+    AjaxGrupoAcademico.CargarSemestre(SlctCargarSemestre);
+    //$("#ModalGrupoAcademicoForm #txt_modalidad").easyAutocomplete(ModalidadOpciones);
     
     //$("#GrupoAcademicoForm #TableGrupoAcademico select").change(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });
     //$("#GrupoAcademicoForm #TableGrupoAcademico input").blur(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });
     
 });
+
+SlctCargarLocal=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option data-subtext='"+r.codigo+"' value="+r.id+">"+r.local+"</option>";
+    });
+    $("#GrupoAcademicoFiltroForm #slct_local_id").html(html);
+    $("#GrupoAcademicoFiltroForm #slct_local_id").selectpicker('refresh');
+}
+
+SlctCargarCiclo=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.ciclo+"</option>";
+    });
+    $("#GrupoAcademicoFiltroForm #slct_ciclo_id").html(html);
+    $("#GrupoAcademicoFiltroForm #slct_ciclo_id").selectpicker('refresh');
+}
+
+SlctCargarSemestre=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.semestre+"</option>";
+    });
+    $("#GrupoAcademicoFiltroForm #slct_semestre_id").html(html);
+    $("#GrupoAcademicoFiltroForm #slct_semestre_id").selectpicker('refresh');
+}
 
 ValidaFormGrupoAcademico=function(){
     var r=true;

@@ -109,7 +109,7 @@ class Semestre extends Model
                 }
             )
             ->where('s.estado','=','1');
-        $result = $sql->orderBy('s.semestre','asc')->get();
+        $result = $sql->orderBy('s.semestre','desc')->get();
         return $result;
     }
     

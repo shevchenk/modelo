@@ -25,5 +25,20 @@ var AjaxGrupoAcademico={
         url='AjaxDinamic/PreGrado.GrupoAcademicoPG@EditStatus';
         masterG.postAjax(url,data,evento);
     },
+    CargarLocal:function(evento){
+        url='AjaxDinamic/Mantenimiento.LocalMA@ListLocal';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarCiclo:function(evento){
+        url='AjaxDinamic/PlanEstudio.CicloPE@ListCiclo';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarSemestre:function(evento){
+        url='AjaxDinamic/PlanEstudio.SemestrePE@ListSemestre';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>
