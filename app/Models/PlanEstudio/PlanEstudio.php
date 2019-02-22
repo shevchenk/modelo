@@ -141,7 +141,7 @@ class PlanEstudio extends Model
                     if( $r->has("modalidad") ){
                         $modalidad=trim($r->modalidad);
                         if( $modalidad !='' ){
-                            $query->where('m.modalidad','like','%'.$modalidad.'%');
+                            $query->where('m.modalidad','like',$modalidad.'%');
                         }
                     }
                     if( $r->has("plan_estudio") ){

@@ -4,7 +4,7 @@ var GrupoAcademicoG={id:0,modalidad:"",modalidad_id:"",carrera:"",carrera_id:"",
 
 var CarreraOpciones = {
     placeholder: 'Carrera',
-    url: "AjaxDinamic/GrupoAcademico.CarreraPE@ListCarrera",
+    url: "AjaxDinamic/PlanEstudio.CarreraPE@ListCarreraPlanEstudio",
     listLocation: "data",
     getValue: "carrera",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
@@ -14,20 +14,18 @@ var CarreraOpciones = {
     },
     list: {
         onClickEvent: function() {
-            var value = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().id;
-            var value2 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio;
-            var value3 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio_id;
-            var value4 = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().nro_plan_estudio;
-            $("#GrupoAcademicoFiltroForm #txt_plan_estudio_id").val(value).trigger("change");
-            $("#GrupoAcademicoFiltroForm #txt_plan_estudio").val(value2).trigger("change");
-            $("#GrupoAcademicoFiltroForm #txt_nro_plan_estudio").val(value3).trigger("change");
-            $("#GrupoAcademicoFiltroForm #txt_codigo").val(value4).trigger("change");
+            var plan_estudio_id = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio_id;
+            var plan_estudio = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().plan_estudio;
+            var nro_plan_estudio = $("#GrupoAcademicoFiltroForm #txt_carrera").getSelectedItemData().nro_plan_estudio;
+            $("#GrupoAcademicoFiltroForm #txt_plan_estudio_id").val(plan_estudio_id).trigger("change");
+            $("#GrupoAcademicoFiltroForm #txt_plan_estudio").val(plan_estudio).trigger("change");
+            $("#GrupoAcademicoFiltroForm #txt_nro_plan_estudio").text(nro_plan_estudio).trigger("change");
         }
     },
     template: {
         type: "description",
         fields: {
-            description: "facultad"
+            description: "plan_estudio_text"
         }
     },
     adjustWidth:false,
@@ -48,7 +46,11 @@ $(document).ready(function() {
     AjaxGrupoAcademico.CargarLocal(SlctCargarLocal);
     AjaxGrupoAcademico.CargarCiclo(SlctCargarCiclo);
     AjaxGrupoAcademico.CargarSemestre(SlctCargarSemestre);
-    //$("#ModalGrupoAcademicoForm #txt_modalidad").easyAutocomplete(ModalidadOpciones);
+    $("#GrupoAcademicoFiltroForm #txt_carrera").easyAutocomplete(CarreraOpciones);
+
+    $('#GrupoAcademicoFiltroForm #slct_local_id,#GrupoAcademicoFiltroForm #slct_ciclo_id,#GrupoAcademicoFiltroForm #slct_semestre_id').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        msjG.mensaje('warning','holas'+clickedIndex+'|'+isSelected+'|'+previousValue,15000);
+    });
     
     //$("#GrupoAcademicoForm #TableGrupoAcademico select").change(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });
     //$("#GrupoAcademicoForm #TableGrupoAcademico input").blur(function(){ AjaxGrupoAcademico.Cargar(HTMLCargarGrupoAcademico); });

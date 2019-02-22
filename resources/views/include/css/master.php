@@ -93,6 +93,14 @@ table>tbody .easy-autocomplete-container{
     width: 100% !important;
 }
 
+.easy-autocomplete-container{
+    z-index: 1000 !important;
+}
+
+ .growl-animated{
+    z-index: 5000 !important;
+}
+
 /*
 .table-hover > tbody > tr:hover {
   background-color: #E0E6F3 !important;

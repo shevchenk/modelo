@@ -143,6 +143,44 @@ class Carrera extends Model
         $result = $sql->orderBy('c.carrera','asc')->get();
         return $result;
     }
+
+    public static function ListCarreraPlanEstudio($r)
+    {
+        $sql=DB::table('cp_plan_estudios AS pe')
+            ->join('cm_carreras AS c',function($join){
+                $join->on('c.id','=','pe.carrera_id')
+                ->where('c.estado','=','1');
+            })
+            ->select(
+                'pe.nro_plan_estudio',
+                'pe.plan_estudio','pe.id AS plan_estudio_id',
+                'c.carrera','c.id AS carrera_id',
+                DB::raw('CONCAT("( ",pe.nro_plan_estudio," )",pe.plan_estudio) AS plan_estudio_text')
+            )
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('c.carrera','like','%'.$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('pe.plan_estudio','like','%'.$dphrase[1].'%');
+                            }
+                        }
+                    }
+                    if( $r->has('modalidad_id') ){
+                        $modalidad_id= $r->modalidad_id;
+                        $query->whereIn('pe.modalidad_id',$modalidad_id);
+                    }
+                }
+            )
+            ->where('pe.estado','=','1');
+        $result = $sql->orderBy('c.carrera','asc')->get();
+        return $result;
+    }
     
 
 }
