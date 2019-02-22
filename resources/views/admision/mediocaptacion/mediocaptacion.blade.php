@@ -10,8 +10,8 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'planestudio.curso.js.curso_ajax' )
-    @include( 'planestudio.curso.js.curso' )
+    @include( 'admision.mediocaptacion.js.mediocaptacion_ajax' )
+    @include( 'admision.mediocaptacion.js.mediocaptacion' )
 
 @stop
 
@@ -28,8 +28,8 @@
                                     <i class="fa fa-cogs"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Curso</h2>
-                                    <p>Gestionar los cursos</p>
+                                    <h2>Medio de Captación</h2>
+                                    <p>Gestionar los medios de captación</p>
                                 </div>
                             </div>
                         </div>
@@ -46,26 +46,30 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="data-table-list">
-                <form id="CursoForm">
+                <form id="MedioCaptacionForm">
                     <div class="box-body table-responsive no-padding">
-                        <table id="TableCurso" class="table table-bordered table-hover">
+                        <table id="TableMedioCaptacion" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
                                     <th class="col-xs-5">
                                         <div class="form-group col-xs-12">
-                                            <label><h4>Curso:</h4></label><br>
+                                            <label><h4>Tipo Medio:</h4></label><br>
                                             <div class="input-group col-xs-12">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <select class="form-control selectpicker show-menu-arrow" name="slct_tipo_medio" id="slct_tipo_medio">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='0'>Medios Masivos</option>
+                                                    <option value='1'>Comisionan</option>
+                                                    <option value='2'>No Comisionan</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-5">
                                         <div class="form-group col-xs-12">
-                                            <label><h4>Código:</h4></label><br>
+                                            <label><h4>Medio de Captación:</h4></label><br>
                                             <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_codigo" id="txt_codigo" placeholder="Código" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_medio_captacion" id="txt_medio_captacion" placeholder="Medio de Captación" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -88,8 +92,8 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Curso</th>
-                                  <th>Código</th>
+                                  <th>Medio de Captación</th>
+                                  <th>Tipo de Medio</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
@@ -108,5 +112,5 @@
 @stop
 
 @section('form')
-     @include( 'planestudio.curso.form.curso' )
+     @include( 'admision.mediocaptacion.form.mediocaptacion' )
 @stop
