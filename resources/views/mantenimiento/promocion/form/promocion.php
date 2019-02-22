@@ -44,7 +44,7 @@
                             <label>Fecha Inicio Promoción</label>
                             <div class="input-group">
                                 <div class="input-group-addon btn btn-warning" onclick="masterG.Limpiar('#txt_fecha_inicio_pro','');"><i class="fa fa-eraser"></i></div>
-                                <input type="text" class="form-control fechas" id="txt_fecha_inicio_pro" name="txt_fecha_inicio_pto" placeholder="0000-00-00" readonly="">
+                                <input type="text" class="form-control fechas" id="txt_fecha_inicio_pro" name="txt_fecha_inicio_pro" placeholder="0000-00-00" readonly="">
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             <label>Fecha Final Promoción</label>
                             <div class="input-group">
                                 <div class="input-group-addon btn btn-warning" onclick="masterG.Limpiar('#txt_fecha_final_pto','');"><i class="fa fa-eraser"></i></div>
-                                <input type="text" class="form-control fechas" id="txt_fecha_final_pro" name="txt_fecha_final_pto" placeholder="0000-00-00" readonly="">
+                                <input type="text" class="form-control fechas" id="txt_fecha_final_pro" name="txt_fecha_final_pro" placeholder="0000-00-00" readonly="">
                             </div>
                         </div>
                     </div>
