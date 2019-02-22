@@ -92,6 +92,16 @@ class PlanEstudio extends Model
         $planEstudio->save();
     }
 
+    public static function runEditVir($r)
+    {
+        $persona_id=Auth::user()->id;
+        $planEstudio = PlanEstudio::find($r->id);
+        $planEstudio->plan_estudio = trim( $r->plan_estudio );
+        $planEstudio->estado = trim( $r->estado );
+        $planEstudio->persona_id_updated_at=$persona_id;
+        $planEstudio->save();
+    }
+
     public static function runLoad($r)
     {
         $sql=DB::table('cp_plan_estudios as pe')
@@ -162,6 +172,12 @@ class PlanEstudio extends Model
                         $estado=trim($r->estado);
                         if( $estado !='' ){
                             $query->where('pe.estado','=',''.$estado.'');
+                        }
+                    }
+                    if( $r->has("modalidad_virtual") ){
+                        $modalidad_virtual=trim($r->modalidad_virtual);
+                        if( $modalidad_virtual == 1 ){
+                            $query->where('m.id','<>',$modalidad_virtual);
                         }
                     }
                 }

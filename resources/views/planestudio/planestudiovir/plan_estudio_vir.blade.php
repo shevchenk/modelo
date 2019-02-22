@@ -17,10 +17,10 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'planestudio.planestudio.js.plan_estudio_detalle_ajax' )
-@include( 'planestudio.planestudio.js.plan_estudio_detalle' )
-@include( 'planestudio.planestudio.js.plan_estudio_ajax' )
-@include( 'planestudio.planestudio.js.plan_estudio' )
+@include( 'planestudio.planestudiovir.js.plan_estudio_vir_detalle_ajax' )
+@include( 'planestudio.planestudiovir.js.plan_estudio_vir_detalle' )
+@include( 'planestudio.planestudiovir.js.plan_estudio_vir_ajax' )
+@include( 'planestudio.planestudiovir.js.plan_estudio_vir' )
 
 @stop
 
@@ -174,9 +174,6 @@
                                                     </tr>
                                                 </tfoot>
                                             </table>
-                                            <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="AgregarEditarPlanEstudio(1)" >
-                                                <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                                            </div>
                                         </div> 
                                     </div>
                                 </form>
@@ -656,15 +653,6 @@
                                                         <tbody>
                                                         </tbody>
                                                     </table>
-                                                    <button type="button" class="btn btn-primary btnplandetalle" onclick="AgregarPlantillaCurricular();">
-                                                        <i class="fa fa-plus fa-lg"></i>&nbsp;Agregar
-                                                    </button>
-                                                    <button type="button" class="btn btn-warning btnplandetalle2" onclick="CancelarPlantillaCurricular();" disabled>
-                                                        <i class="fa fa-window-close-o fa-lg"></i>&nbsp;Cancelar
-                                                    </button>
-                                                    <button type="button" class="btn btn-success btnplandetalle2" onclick="GuardarPlantillaCurricular();" disabled>
-                                                        <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                                    </button>
                                                 </div>
                                             </fieldset>
                                         </div> 
@@ -682,5 +670,5 @@
 @stop
 
 @section('form')
-@include( 'planestudio.planestudio.form.plan_estudio' )
+@include( 'planestudio.planestudiovir.form.plan_estudio_vir' )
 @stop
