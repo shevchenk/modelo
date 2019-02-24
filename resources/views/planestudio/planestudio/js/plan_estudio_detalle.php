@@ -35,6 +35,7 @@ $(document).ready(function() {
 VerPlanDetalle=function(id){
     PlanEstudioDetalleG.plan_estudio_id=id;
     PlanEstudioDetalleG.modalidad=$("#TablePlanEstudio #trid_"+id+" .modalidad").text();
+    PlanEstudioDetalleG.modalidad_id=$("#TablePlanEstudio #trid_"+id+" .modalidad_id").val();
     PlanEstudioDetalleG.nro_plan_estudio=$("#TablePlanEstudio #trid_"+id+" .nro_plan_estudio").text();
     PlanEstudioDetalleG.plan_estudio=$("#TablePlanEstudio #trid_"+id+" .plan_estudio").text();
     PlanEstudioDetalleG.codigo=$("#TablePlanEstudio #trid_"+id+" .carrera").text().split("|")[0];
@@ -51,6 +52,7 @@ VerPlanDetalle=function(id){
 
     $("#PlanEstudioDetalleForm #txt_plan_estudio_id").val(PlanEstudioDetalleG.plan_estudio_id);
     $("#PlanEstudioDetalleForm #txt_modalidad").val(PlanEstudioDetalleG.modalidad);
+    $("#PlanEstudioDetalleForm #txt_modalidad_id").val(PlanEstudioDetalleG.modalidad_id);
     $("#PlanEstudioDetalleForm #txt_nro_plan_estudio").text(PlanEstudioDetalleG.nro_plan_estudio);
     $("#PlanEstudioDetalleForm #txt_plan_estudio").val(PlanEstudioDetalleG.plan_estudio);
     $("#PlanEstudioDetalleForm #txt_codigo").val(PlanEstudioDetalleG.codigo);
@@ -85,6 +87,14 @@ AgregarPlantillaCurricular=function(){
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle tbody").append(html);
     $("#PlanEstudioDetalleForm #txt_curso").easyAutocomplete(CursoOpciones);
 
+    
+    $("#PlanEstudioDetalleForm #txt_hora_teoria_virtual").removeAttr('readonly').removeClass('form-control');
+    $("#PlanEstudioDetalleForm #txt_hora_practica_virtual").removeAttr('readonly').removeClass('form-control');
+    if( PlanEstudioDetalleG.modalidad_id==1 ){
+        $("#PlanEstudioDetalleForm #txt_hora_teoria_virtual").attr('readonly','true').addClass("form-control");
+        $("#PlanEstudioDetalleForm #txt_hora_practica_virtual").attr('readonly','true').addClass("form-control");
+    }
+
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle input[type='number']").keyup(CalcularCreditos);
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle input[type='number']").change(CalcularCreditos);
 }
@@ -95,6 +105,14 @@ AgregarPlantillaCurricularId=function(id){
     $("#PlanEstudioDetalleForm .btnplandetalle2,#PlanEstudioDetalleForm .btnplandetalle").hide();
 
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle tbody #trid_"+id+" select,#PlanEstudioDetalleForm #TablePlanEstudioDetalle tbody #trid_"+id+" input").removeAttr('disabled');
+
+    $("#PlanEstudioDetalleForm #txt_hora_teoria_virtual"+id).removeAttr('readonly').removeClass('form-control');
+    $("#PlanEstudioDetalleForm #txt_hora_practica_virtual"+id).removeAttr('readonly').removeClass('form-control');
+    if( PlanEstudioDetalleG.modalidad_id==1 ){
+        $("#PlanEstudioDetalleForm #txt_hora_teoria_virtual"+id).attr('readonly','true').addClass("form-control");
+        $("#PlanEstudioDetalleForm #txt_hora_practica_virtual"+id).attr('readonly','true').addClass("form-control");
+    }
+
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle tbody #trid_"+id+" input[type='number']").keyup( function(){ CalcularCreditosId(id); });
     $("#PlanEstudioDetalleForm #TablePlanEstudioDetalle tbody #trid_"+id+" input[type='number']").change( function(){ CalcularCreditosId(id); });
 }
@@ -134,6 +152,10 @@ CalcularCreditos=function(){
 }
 
 CalcularCreditosId=function(id){
+    if( PlanEstudioDetalleG.modalidad_id==1 ){
+        $("#PlanEstudioDetalleForm #txt_hora_teoria_virtual"+id).val(0);
+        $("#PlanEstudioDetalleForm #txt_hora_practica_virtual"+id).val(0);
+    }
     PlanEstudioDetalleG.hora_teoria_presencial=$("#PlanEstudioDetalleForm #txt_hora_teoria_presencial"+id).val();
     PlanEstudioDetalleG.hora_teoria_virtual=$("#PlanEstudioDetalleForm #txt_hora_teoria_virtual"+id).val();
     PlanEstudioDetalleG.hora_teoria_total=PlanEstudioDetalleG.hora_teoria_presencial*1 + PlanEstudioDetalleG.hora_teoria_virtual*1;

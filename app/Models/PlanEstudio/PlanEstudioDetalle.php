@@ -87,10 +87,19 @@ class PlanEstudioDetalle extends Model
 
         $planEstudioDetalle->estado = 1;
         $planEstudioDetalle->persona_id_created_at=$persona_id;
-        $planEstudioDetalle->save();
 
         $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
-        $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        if( trim( $r->modalidad_id )>1 OR 
+            (   
+                trim( $r->modalidad_id )==1 AND 
+                trim( $r['hora_teoria_virtual'.$r->id] )==0 AND 
+                trim( $r['hora_practica_virtual'.$r->id] )==0 
+            )
+        ){
+            $planEstudioDetalle->save();
+            $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;
+        }
+
         $planEstudioDetalleHistorico->plan_estudio_id = $planEstudioDetalle->plan_estudio_id;
         $planEstudioDetalleHistorico->ciclo_id = $planEstudioDetalle->ciclo_id;
         $planEstudioDetalleHistorico->curso_id = $planEstudioDetalle->curso_id;
@@ -143,7 +152,16 @@ class PlanEstudioDetalle extends Model
         
         $planEstudioDetalle->estado = 1;
         $planEstudioDetalle->persona_id_updated_at=$persona_id;
-        $planEstudioDetalle->save();
+
+        if( trim( $r->modalidad_id )>1 OR 
+            (   
+                trim( $r->modalidad_id )==1 AND 
+                trim( $r['hora_teoria_virtual'.$r->id] )==0 AND 
+                trim( $r['hora_practica_virtual'.$r->id] )==0 
+            )
+        ){
+            $planEstudioDetalle->save();
+        }
 
         $planEstudioDetalleHistorico = new PlanEstudioDetalleHistorico;
         $planEstudioDetalleHistorico->plan_estudio_detalle_id = $planEstudioDetalle->id;

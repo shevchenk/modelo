@@ -217,6 +217,7 @@
 
                                                     <div class="col-md-4">
                                                         <label>Modalidad de Estudios:</label>
+                                                        <input type="hidden" class="mant" id="txt_modalidad_id" name="txt_modalidad_id">
                                                         <input type="text" class="form-control" id="txt_modalidad" placeholder="Modalidad" disabled>
                                                     </div>
                                                     <div class="col-md-4">
