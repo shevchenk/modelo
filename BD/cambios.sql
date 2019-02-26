@@ -76,3 +76,7 @@ ADD COLUMN `fecha_final_mat`  date NULL AFTER `fecha_inicio_mat`;
 ALTER TABLE `dp_grupo_academico_admision`
 ADD COLUMN `fecha_inicio_mat`  date NULL AFTER `meta_maxima_matricula`,
 ADD COLUMN `fecha_final_mat`  date NULL AFTER `fecha_inicio_mat`;
+
+--2019-02-24 12:42
+ALTER TABLE `bm_ps_nivel3`
+MODIFY COLUMN `tipo`  int(11) NULL DEFAULT 1 COMMENT '1: Servicio | 2: Producto' AFTER `descripcion`;

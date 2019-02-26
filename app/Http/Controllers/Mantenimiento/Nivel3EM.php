@@ -90,9 +90,22 @@ class Nivel3EM extends Controller
         }
     }
 
-    public function Load(Request $r )
+    public function LoadServicio(Request $r )
     {
         if ( $r->ajax() ) {
+            $r['tipo']=1;
+            $renturnModel = Nivel3::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
+        }
+    }
+
+    public function LoadProducto(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['tipo']=2;
             $renturnModel = Nivel3::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

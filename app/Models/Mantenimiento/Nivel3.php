@@ -91,6 +91,12 @@ class Nivel3 extends Model
                            $query->where('bm_ps_nivel3.item','like','%'.$item.'%');
                         }
                     }
+                    if( $r->has("tipo") ){
+                        $tipo=trim($r->tipo);
+                        if( $tipo !='' ){
+                            $query->where('bm_ps_nivel3.tipo','=',''.$tipo.'');
+                        }
+                    }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
