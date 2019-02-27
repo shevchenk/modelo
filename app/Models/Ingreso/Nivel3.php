@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Mantenimiento;
+namespace App\Models\Ingreso;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mantenimiento\Entidad;
@@ -21,22 +21,31 @@ class Nivel3 extends Model
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $nivel3 = new Nivel3;
         $nivel3->ps_nivel2_id = trim( $r->ps_nivel2_id );
         $nivel3->item = trim( $r->item );
+        $nivel3->tipo = trim( $r->tipo );
         $nivel3->nivel3=trim( $r->nivel3 );
         $nivel3->descripcion=trim( $r->descripcion );
-        if(trim($r->imagen_nombre)!=''){
-        $nivel3->foto=$r->imagen_nombre;
-            $entidad = new Entidad;
-            $url = "img/product/".$r->imagen_nombre; 
-            $entidad->fileToFile($r->imagen_archivo, $url);}
-        else {
-        $nivel3->foto=null;    
-        }
         $nivel3->estado = trim( $r->estado );
         $nivel3->persona_id_created_at=Auth::user()->id;
         $nivel3->save();
+
+        $nivel3->foto='';
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/product/Foto_".$nivel3->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $nivel3->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
+        }
+        
+        $nivel3->save();
+        DB::commit();
     }
 
     public static function runEdit($r)
@@ -46,16 +55,18 @@ class Nivel3 extends Model
         $nivel3->item = trim( $r->item );
         $nivel3->nivel3=trim( $r->nivel3 );
         $nivel3->descripcion=trim( $r->descripcion );
-        if(trim($r->imagen_nombre)!=''){
-            $nivel3->foto=$r->imagen_nombre;
-        }else {
-            $nivel3->foto=null;    
+
+        $extension='';
+        if( trim($r->imagen_nombre)!='' ){
+            $type=explode(".",$r->imagen_nombre);
+            $extension=".".$type[1];
         }
-        if(trim($r->imagen_archivo)!=''){
-            $entidad = new Entidad;
-            $url = "img/product/".$r->imagen_nombre; 
-            $entidad->fileToFile($r->imagen_archivo, $url);
+        $url = "img/product/Foto_".$nivel3->id.$extension; 
+        if( trim($r->imagen_archivo)!='' ){
+            $nivel3->foto=$url;
+            Entidad::fileToFile($r->imagen_archivo, $url);
         }
+
         $nivel3->estado = trim( $r->estado );
         $nivel3->persona_id_updated_at=Auth::user()->id;
         $nivel3->save();

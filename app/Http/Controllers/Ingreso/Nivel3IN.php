@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\Mantenimiento;
+namespace App\Http\Controllers\Ingreso;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Nivel3;
+use App\Models\Ingreso\Nivel3;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class Nivel3EM extends Controller
+class Nivel3IN extends Controller
 {
     public function __construct()
     {
@@ -35,17 +35,45 @@ class Nivel3EM extends Controller
 
             $rules = array(
                 'ps_nivel2_id' => 
-                       ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
-//                                $query->where('pregunta_id',$r->pregunta_id );
-                    //   }),
-                        ],
+                       ['required'],
             );
 
             
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
+                $r['tipo']=1;
+                Nivel3::runNew($r);
+                $return['rst'] = 1;
+                $return['msj'] = 'Registro creado';
+            }
+            else{
+                $return['rst'] = 2;
+                $return['msj'] = $validator->errors()->all()[0];
+            }
+            return response()->json($return);
+        }
+    }
+
+    public function NewProducto(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $mensaje= array(
+                'required'    => ':attribute es requerido',
+                'unique'      => ':attribute solo debe ser único',
+            );
+
+            $rules = array(
+                'ps_nivel2_id' => 
+                       ['required'],
+            );
+
+            
+            $validator=Validator::make($r->all(), $rules,$mensaje);
+
+            if ( !$validator->fails() ) {
+                $r['tipo']=2;
                 Nivel3::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';

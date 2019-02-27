@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\Mantenimiento;
+namespace App\Http\Controllers\Ingreso;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Nivel1;
+use App\Models\Ingreso\Nivel1;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class Nivel1EM extends Controller
+class Nivel1IN extends Controller
 {
     public function __construct()
     {

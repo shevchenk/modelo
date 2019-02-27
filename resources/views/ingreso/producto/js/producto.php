@@ -1,66 +1,30 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var ProductoG={id:0,local_id:0,local:"",local_codigo:"",ps_nivel3_id:0,nivel3_id:"",precio_venta:"",precio_compra:"",moneda:0,stock:"",
-               stock_minimo:"",dias_alerta:"",fecha_vencimiento:"",dias_vencimiento:"",estado:1}; // Datos Globales
-
-var Nivel3Opciones = {
-    placeholder: 'Nivel 3',
-    url: "AjaxDinamic/Mantenimiento.Nivel3EM@ListNivel3",
+var Nivel3G={id:0,ps_nivel2_id:"",item:"",nivel2:"",nivel3:"",descripcion:"",imagen_archivo:"",
+               imagen_nombre:"",estado:1}; // Datos Globales
+var Nivel2Opciones = {
+    placeholder: 'Sub Grupo',
+    url: "AjaxDinamic/Ingreso.Nivel2IN@ListNivel2",
     listLocation: "data",
-    getValue: "nivel3",
+    getValue: "nivel2",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
     preparePostData: function(data) {
-        data.phrase = $("#ModalProductoForm #txt_nivel3").val();
+        data.phrase = $("#ModalNivel3Form #txt_nivel2").val();
         return data;
     },
     list: {
         onSelectItemEvent: function() {
-            var value = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().id;
-            $("#ModalProductoForm #txt_ps_nivel3_id").val(value).trigger("change");
-        }
-    },
-    template: {
-        type: "description",
-        fields: {
-            description: "nivel3"
-        }
-        /*type: "custom",
-        method: function(value, item) {
-            return value+' - '+'<b>Distrito:</b>'+item.distrito;
-        }*/
-    },
-    adjustWidth:false,
-};
-var LocalOpciones = {
-    placeholder: 'Local',
-    url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocal",
-    listLocation: "data",
-    getValue: "local",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
-    preparePostData: function(data) {
-        data.phrase = $("#txt_local").val();
-        return data;
-    },
-    list: {
-        onClickEvent: function() {
-            var value = $("#ModalProductoForm #txt_local").getSelectedItemData().id;
-            var value2 = $("#ModalProductoForm #txt_local").getSelectedItemData().codigo;
-            $("#ModalProductoForm #txt_local_id").val(value).trigger("change");
-            $("#ModalProductoForm #txt_codigo_local").val(value2).trigger("change");
-        }
-    },
-    template: {
-        type: "description",
-        fields: {
-            description: "codigo"
+            var value = $("#ModalNivel3Form #txt_nivel2").getSelectedItemData().id;
+            $("#ModalNivel3Form #txt_ps_nivel2_id").val(value).trigger("change");
         }
     },
     adjustWidth:false,
 };
+
 $(document).ready(function() {
-    $("#ModalProductoForm #txt_nivel3").easyAutocomplete(Nivel3Opciones);
-    $("#ModalProductoForm #txt_local").easyAutocomplete(LocalOpciones);
-    $("#TableProducto").DataTable({
+    $("#ModalNivel3Form #txt_nivel2").easyAutocomplete(Nivel2Opciones);
+    
+    $("#TableNivel3").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -79,155 +43,118 @@ $(document).ready(function() {
         todayBtn: false
     });
 
-    AjaxProducto.Cargar(HTMLCargarProducto);
+    AjaxNivel.Cargar(HTMLCargarNivel);
     
-    $("#ProductoForm #TableProducto select").change(function(){ AjaxProducto.Cargar(HTMLCargarProducto); });
-    $("#ProductoForm #TableProducto input").blur(function(){ AjaxProducto.Cargar(HTMLCargarProducto); });
+    $("#Nivel3Form #TableNivel3 select").change(function(){ AjaxNivel.Cargar(HTMLCargarNivel); });
+    $("#Nivel3Form #TableNivel3 input").blur(function(){ AjaxNivel.Cargar(HTMLCargarNivel); });
     
-    $('#ModalProducto').on('shown.bs.modal', function (event) {
+    $('#ModalNivel3').on('shown.bs.modal', function (event) {
+        $('#ModalNivel3Form #txt_nivel2').val( Nivel3G.nivel2 );
+        $('#ModalNivel3Form #txt_ps_nivel2_id').val( Nivel3G.ps_nivel2_id );
+        $('#ModalNivel3Form #txt_item').val( Nivel3G.item );
+        $('#ModalNivel3Form #txt_nivel3').val( Nivel3G.nivel3 );
+        $('#ModalNivel3Form #txt_descripcion').val( Nivel3G.descripcion );
+        $('#ModalNivel3Form #slct_estado').val( Nivel3G.estado );
+        $('#ModalNivel3Form #txt_imagen_nombre').val(Nivel3G.imagen_nombre);
+        $('#ModalNivel3Form #txt_imagen_archivo').val('');
+        $('#ModalNivel3Form .img-circle').attr('src',Nivel3G.imagen_archivo);
+        $("#ModalNivel3 select").selectpicker('refresh');
 
-        if( AddEdit==1 ){        
+        if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $('#ModalNivel3Form #txt_nivel2').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalProductoForm").append("<input type='hidden' value='"+ProductoG.id+"' name='id'>");
+            $("#ModalNivel3Form").append("<input type='hidden' value='"+Nivel3G.id+"' name='id'>");
         }
-        $('#ModalProductoForm #txt_nivel3').val( ProductoG.nivel3 );
-        $('#ModalProductoForm #txt_ps_nivel3_id').val( ProductoG.ps_nivel3_id );
-        $('#ModalProductoForm #txt_local_id').val( ProductoG.local_id );
-        $('#ModalProductoForm #txt_local').val( ProductoG.local );
-        $('#ModalProductoForm #txt_codigo_local').val( ProductoG.local_codigo );
-        $('#ModalProductoForm #txt_precio_venta').val( ProductoG.precio_venta );
-        $('#ModalProductoForm #txt_precio_compra').val( ProductoG.precio_compra );
-        $('#ModalProductoForm #slct_moneda').val( ProductoG.moneda );
-        $('#ModalProductoForm #txt_stock').val( ProductoG.stock );
-        $('#ModalProductoForm #txt_stock_minimo').val( ProductoG.stock_minimo );
-        $('#ModalProductoForm #txt_dias_alerta').val( ProductoG.dias_alerta );
-        $('#ModalProductoForm #txt_fecha_vencimiento').val( ProductoG.fecha_vencimiento );
-        $('#ModalProductoForm #txt_dias_vencimiento').val( ProductoG.dias_vencimiento );
-        $('#ModalProductoForm #slct_estado').val( ProductoG.estado );
-        $("#ModalProducto select").selectpicker('refresh');
-        $('#ModalProductoForm #txt_producto').focus();
     });
 
-    $('#ModalProducto').on('hidden.bs.modal', function (event) {
-        $("#ModalProductoForm input[type='hidden']").not('.mant').remove();
+    $('#ModalNivel3').on('hidden.bs.modal', function (event) {
+        $("#ModalNivel3Form input[type='hidden']").not('.mant').remove();
     });
     
 });
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProductoForm #txt_ps_nivel3_id").val() )=='' ){
+    if( $.trim( $("#ModalNivel3Form #txt_ps_nivel2_id").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Nivel 3',4000);
+        msjG.mensaje('warning','Busque y Seleccione Sub Grupo',4000);
     }
-    else if( $.trim( $("#ModalProductoForm #txt_local_id").val() )=='' ){
+    else if( $.trim( $("#ModalNivel3Form #txt_item").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Local',4000);
+        msjG.mensaje('warning','Ingrese Item',4000);
     }
-    else if( $.trim( $("#ModalProductoForm #txt_precio_venta").val() )=='' ){
+    else if( $.trim( $("#ModalNivel3Form #txt_nivel3").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Precio de Venta',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #txt_precio_compra").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Ingrese Precio de Compra',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #slct_moneda").val() )=='0' ){
-        r=false;
-        msjG.mensaje('warning','Seleccione Moneda',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #txt_stock").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Ingrese Stock',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #txt_stock_minimo").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Ingrese Stock Mínimo',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #txt_dias_alerta").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Ingrese días de alerta',4000);
-    }
-    else if( $.trim( $("#ModalProductoForm #txt_fecha_vencimiento").val() )=='' && 
-            $.trim( $("#ModalProductoForm #txt_dias_vencimiento").val() )==''){
-        r=false;
-        msjG.mensaje('warning','Ingrese Fecha o días de vencimiento',4000);
+        msjG.mensaje('warning','Ingrese Servicio',4000);
     }
     return r;
 }
 
 AgregarEditar=function(val,id){
     AddEdit=val;
-    ProductoG.id='';
-    ProductoG.ps_nivel3_id='';
-    ProductoG.nivel3='';
-    ProductoG.local_id='';
-    ProductoG.local='';
-    ProductoG.local_codigo='';
-    ProductoG.moneda='';
-    ProductoG.stock='';
-    ProductoG.stock_minimo='';
-    ProductoG.dias_alerta='';
-    ProductoG.fecha_vencimiento='';
-    ProductoG.dias_vencimiento='';
-    ProductoG.precio_venta='';
-    ProductoG.precio_compra='';  
-    ProductoG.estado='1';
+    Nivel3G.id='';
+    Nivel3G.ps_nivel2_id='';
+    Nivel3G.item='';
+    Nivel3G.nivel2='';
+    Nivel3G.nivel3='';
+    Nivel3G.descripcion='';
+    Nivel3G.imagen_archivo='';
+    Nivel3G.imagen_nombre='';
+    Nivel3G.estado='1';
     
     if( val==0 ){
-        ProductoG.id=id;
-        ProductoG.ps_nivel3_id=$("#TableProducto #trid_"+id+" .ps_nivel3_id").val();
-        ProductoG.nivel3=$("#TableProducto #trid_"+id+" .nivel3").text();
-        ProductoG.local_id=$("#TableProducto #trid_"+id+" .local_id").val();
-        ProductoG.local=$("#TableProducto #trid_"+id+" .local").text();
-        ProductoG.local_codigo=$("#TableProducto #trid_"+id+" .local_codigo").val();
-        ProductoG.moneda=$("#TableProducto #trid_"+id+" .moneda").val();
-        ProductoG.stock=$("#TableProducto #trid_"+id+" .stock").text();
-        ProductoG.stock_minimo=$("#TableProducto #trid_"+id+" .stock_minimo").val();
-        ProductoG.dias_alerta=$("#TableProducto #trid_"+id+" .dias_alerta").val();
-        ProductoG.fecha_vencimiento=$("#TableProducto #trid_"+id+" .fecha_vencimiento").val();
-        ProductoG.dias_vencimiento=$("#TableProducto #trid_"+id+" .dias_vencimiento").val();
-        ProductoG.precio_venta=$("#TableProducto #trid_"+id+" .precio_venta").val();
-        ProductoG.precio_compra=$("#TableProducto #trid_"+id+" .precio_compra").val();   
-        ProductoG.estado=$("#TableProducto #trid_"+id+" .estado").val();
+        Nivel3G.id=id;
+        Nivel3G.ps_nivel2_id=$("#TableNivel3 #trid_"+id+" .ps_nivel2_id").val();
+        Nivel3G.item=$("#TableNivel3 #trid_"+id+" .item").text();
+        Nivel3G.nivel2=$("#TableNivel3 #trid_"+id+" .nivel2").text();
+        Nivel3G.nivel3=$("#TableNivel3 #trid_"+id+" .nivel3").text();
+        Nivel3G.descripcion=$("#TableNivel3 #trid_"+id+" .descripcion").val(); 
+        Nivel3G.foto=$("#TableNivel3 #trid_"+id+" .foto").val();
+        Nivel3G.imagen_archivo=Nivel3G.foto; 
+        Nivel3G.imagen_nombre=Nivel3G.foto; 
+        Nivel3G.estado=$("#TableNivel3 #trid_"+id+" .estado").val();
     }
-    $('#ModalProducto').modal('show');
+    $('#ModalNivel3').modal('show');
 }
 
 CambiarEstado=function(estado,id){
-    AjaxProducto.CambiarEstado(HTMLCambiarEstado,estado,id);
+    var texto='Acticar';
+    if( estado==0 ){
+        texto='Inactivar';
+    }
+    sweetalertG.confirm('Servicios','Desea '+texto+' el servicio: '+$("#TableNivel3 #trid_"+id+" .nivel3").text(), function(){ AjaxNivel.CambiarEstado(HTMLCambiarEstado,estado,id); });
 }
 
 HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        AjaxProducto.Cargar(HTMLCargarProducto);
+        AjaxNivel.Cargar(HTMLCargarNivel);
     }
 }
 
 AgregarEditarAjax=function(){
     if( ValidaForm() ){
-        AjaxProducto.AgregarEditar(HTMLAgregarEditar);
+        AjaxNivel.AgregarEditar(HTMLAgregarEditar);
     }
 }
 
 HTMLAgregarEditar=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        $('#ModalProducto').modal('hide');
-        AjaxProducto.Cargar(HTMLCargarProducto);
+        $('#ModalNivel3').modal('hide');
+        AjaxNivel.Cargar(HTMLCargarNivel);
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }
 }
 
-HTMLCargarProducto=function(result){
+HTMLCargarNivel=function(result){
 
     var html="";
-    $('#TableProducto').DataTable().destroy();
+    $('#TableNivel3').DataTable().destroy();
     
     $.each(result.data.data,function(index,r){
         estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
@@ -236,29 +163,23 @@ HTMLCargarProducto=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td><a  target='_blank' href='"+r.foto+"'><img src='"+r.foto+"' style='height: 40px;width: 40px;'></a></td>"+
+            "<td class='item'>"+r.item+"</td>"+
             "<td class='nivel3'>"+r.nivel3+"</td>"+
-            "<td class='local'>"+r.local+"</td>"+
-            "<td class='stock'>"+r.stock+"</td>"+
+            "<td class='nivel2'>"+r.nivel2+"</td>"+
             "<td>";
-        html+="<input type='hidden' class='ps_nivel3_id' value='"+r.ps_nivel3_id+"'>"+
+        html+="<input type='hidden' class='ps_nivel2_id' value='"+r.ps_nivel2_id+"'>"+
+              "<input type='hidden' class='item' value='"+r.item+"'>"+
               "<input type='hidden' class='nivel3' value='"+r.nivel3+"'>"+
-              "<input type='hidden' class='local_id' value='"+r.local_id+"'>"+
-              "<input type='hidden' class='local' value='"+r.local+"'>"+
-              "<input type='hidden' class='local_codigo' value='"+r.local_codigo+"'>"+
-              "<input type='hidden' class='precio_compra' value='"+r.precio_compra+"'>"+
-              "<input type='hidden' class='moneda' value='"+r.moneda+"'>"+
-              "<input type='hidden' class='stock' value='"+r.stock+"'>"+
-              "<input type='hidden' class='stock_minimo' value='"+r.stock_minimo+"'>"+
-              "<input type='hidden' class='dias_alerta' value='"+r.dias_alerta+"'>"+
-              "<input type='hidden' class='fecha_vencimiento' value='"+r.fecha_vencimiento+"'>"+
-              "<input type='hidden' class='dias_vencimiento' value='"+r.dias_vencimiento+"'>"+
-              "<input type='hidden' class='precio_venta' value='"+r.precio_venta+"'>"+
-              "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
+              "<input type='hidden' class='nivel2' value='"+r.nivel2+"'>"+
+              "<input type='hidden' class='descripcion' value='"+r.descripcion+"'>";
+            html+="<input type='hidden' class='foto' value='"+r.foto+"'>";
+        html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
     });
-    $("#TableProducto tbody").html(html); 
-    $("#TableProducto").DataTable({
+    $("#TableNivel3 tbody").html(html); 
+    $("#TableNivel3").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -271,13 +192,28 @@ HTMLCargarProducto=function(result){
             "infoEmpty": "No éxite registro(s) aún",
         },
         "initComplete": function () {
-            $('#TableProducto_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarProducto','AjaxProducto',result.data,'#TableProducto_paginate');
+            $('#TableNivel3_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarNivel','AjaxNivel',result.data,'#TableNivel3_paginate');
         }
     });
 
 };
-LimpiarProductoModal=function(limpiar){
+LimpiarNivelModal=function(limpiar){
     $("#"+limpiar).val('');
 };
+onImagen = function (event) {
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $('#ModalNivel3Form #txt_imagen_archivo').val(e.target.result);
+            $('#ModalNivel3Form .img-circle').attr('src',e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $('#ModalNivel3Form #txt_imagen_nombre').val(files[0].name);
+        console.log(files[0].name);
+    };
+
 </script>

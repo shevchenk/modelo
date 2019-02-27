@@ -72,7 +72,8 @@
                                             <table id="TableNivel3" class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr class="cabecera">
-                                                        <th class="col-xs-3">
+                                                        <th class="col-xs-1">Foto:</th>
+                                                        <th class="col-xs-2">
                                                             <div class="form-group col-xs-12">
                                                                 <label><h4>Item:</h4></label><br>
                                                                 <div class="input-group col-xs-12">
@@ -99,7 +100,7 @@
                                                                 </div>
                                                             </div>
                                                         </th>
-                                                        <th class="col-xs-2">
+                                                        <th class="col-xs-1">
                                                             <div class="form-group">
                                                                 <label><h4>Estado:</h4></label><br>
                                                                 <div class="input-group">
@@ -118,6 +119,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr class="cabecera">
+                                                        <th>Foto</th>
                                                         <th>Item</th>
                                                         <th>Servicio</th>
                                                         <th>Sub Grupo</th>

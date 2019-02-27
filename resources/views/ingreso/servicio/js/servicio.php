@@ -4,7 +4,7 @@ var Nivel3G={id:0,ps_nivel2_id:"",item:"",nivel2:"",nivel3:"",descripcion:"",ima
                imagen_nombre:"",estado:1}; // Datos Globales
 var Nivel2Opciones = {
     placeholder: 'Sub Grupo',
-    url: "AjaxDinamic/Mantenimiento.Nivel2EM@ListNivel2",
+    url: "AjaxDinamic/Ingreso.Nivel2IN@ListNivel2",
     listLocation: "data",
     getValue: "nivel2",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
@@ -113,20 +113,19 @@ AgregarEditar=function(val,id){
         Nivel3G.nivel3=$("#TableNivel3 #trid_"+id+" .nivel3").text();
         Nivel3G.descripcion=$("#TableNivel3 #trid_"+id+" .descripcion").val(); 
         Nivel3G.foto=$("#TableNivel3 #trid_"+id+" .foto").val();
-        if(Nivel3G.foto!='undefined'){
-            Nivel3G.imagen_archivo='img/product/'+Nivel3G.foto;
-            Nivel3G.imagen_nombre=Nivel3G.foto;
-        }else {
-            Nivel3G.imagen_archivo='';
-            Nivel3G.imagen_nombre='';
-        }  
+        Nivel3G.imagen_archivo=Nivel3G.foto; 
+        Nivel3G.imagen_nombre=Nivel3G.foto; 
         Nivel3G.estado=$("#TableNivel3 #trid_"+id+" .estado").val();
     }
     $('#ModalNivel3').modal('show');
 }
 
 CambiarEstado=function(estado,id){
-    AjaxNivel.CambiarEstado(HTMLCambiarEstado,estado,id);
+    var texto='Acticar';
+    if( estado==0 ){
+        texto='Inactivar';
+    }
+    sweetalertG.confirm('Servicios','Desea '+texto+' el servicio: '+$("#TableNivel3 #trid_"+id+" .nivel3").text(), function(){ AjaxNivel.CambiarEstado(HTMLCambiarEstado,estado,id); });
 }
 
 HTMLCambiarEstado=function(result){
@@ -164,6 +163,7 @@ HTMLCargarNivel=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td><a  target='_blank' href='"+r.foto+"'><img src='"+r.foto+"' style='height: 40px;width: 40px;'></a></td>"+
             "<td class='item'>"+r.item+"</td>"+
             "<td class='nivel3'>"+r.nivel3+"</td>"+
             "<td class='nivel2'>"+r.nivel2+"</td>"+
@@ -173,8 +173,7 @@ HTMLCargarNivel=function(result){
               "<input type='hidden' class='nivel3' value='"+r.nivel3+"'>"+
               "<input type='hidden' class='nivel2' value='"+r.nivel2+"'>"+
               "<input type='hidden' class='descripcion' value='"+r.descripcion+"'>";
-        if(r.foto!=null){
-            html+="<input type='hidden' class='foto' value='"+r.foto+"'>";}
+            html+="<input type='hidden' class='foto' value='"+r.foto+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";

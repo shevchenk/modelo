@@ -2,9 +2,9 @@
 var AjaxNivel={
     AgregarEditar:function(evento){
         var data=$("#ModalNivel3Form").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Mantenimiento.Nivel3EM@New';
+        url='AjaxDinamic/Ingreso.Nivel3IN@New';
         if(AddEdit==0){
-            url='AjaxDinamic/Mantenimiento.Nivel3EM@Edit';
+            url='AjaxDinamic/Ingreso.Nivel3IN@Edit';
         }
         masterG.postAjax(url,data,evento);
     },
@@ -14,7 +14,7 @@ var AjaxNivel={
         }
         data=$("#Nivel3Form").serialize().split("txt_").join("").split("slct_").join("");
         $("#Nivel3Form input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.Nivel3EM@LoadServicio';
+        url='AjaxDinamic/Ingreso.Nivel3IN@LoadServicio';
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,AI,id){
@@ -22,7 +22,7 @@ var AjaxNivel={
         $("#ModalNivel3Form").append("<input type='hidden' value='"+id+"' name='id'>");
         var data=$("#ModalNivel3Form").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalNivel3Form input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.Nivel3EM@EditStatus';
+        url='AjaxDinamic/Ingreso.Nivel3IN@EditStatus';
         masterG.postAjax(url,data,evento);
     },
 };
