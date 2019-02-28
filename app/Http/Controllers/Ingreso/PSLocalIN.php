@@ -95,4 +95,16 @@ class PSLocalIN extends Controller
             return response()->json($return);   
         }
     }
+
+    public function LoadUser(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['user']=1;
+            $renturnModel = PSLocal::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
+        }
+    }
 }

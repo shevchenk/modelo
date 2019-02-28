@@ -4,6 +4,7 @@ namespace App\Models\Ingreso;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Mantenimiento\PersonaPrivilegio;
 use DB;
 
 class PSLocal extends Model
@@ -181,6 +182,18 @@ class PSLocal extends Model
                         $tipo=trim($r->tipo);
                         if( $tipo !='' ){
                             $query->where('bpn.tipo','=',$tipo);
+                        }
+                    }
+                    if( $r->has("user") ){
+                        $user=trim($r->user);
+                        if( $user !='' ){
+                            $locales=   PersonaPrivilegio::where('persona_id',Auth::user()->id)
+                                        ->select('local_ids')
+                                        ->first();
+                            if( trim($locales->local_ids)!='' ){
+                                $users= explode(",",$locales->local_ids);
+                                $query->whereIn('al.id',$users);
+                            }
                         }
                     }
                     if( $r->has("estado") ){

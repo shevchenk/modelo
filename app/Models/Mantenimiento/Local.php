@@ -165,6 +165,18 @@ class Local extends Model
                             }
                         }
                     }
+                    if( $r->has("user") ){
+                        $user=trim($r->user);
+                        if( $user !='' ){
+                            $locales=   PersonaPrivilegio::where('persona_id',Auth::user()->id)
+                                        ->select('local_ids')
+                                        ->first();
+                            if( trim($locales->local_ids)!='' ){
+                                $users= explode(",",$locales->local_ids);
+                                $query->whereIn('id',$users);
+                            }
+                        }
+                    }
                 }
             )
             ->where('estado','=','1');

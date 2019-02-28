@@ -109,6 +109,18 @@ class LocalMA extends Controller
         }
     }
 
+    public function ListLocalUser (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['user']=1;
+            $renturnModel = Local::ListLocal($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     // Export
     public function ExportLocal(Request $r )
     {
