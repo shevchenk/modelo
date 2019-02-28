@@ -122,17 +122,23 @@ class Nivel3 extends Model
     
     public static function ListNivel3($r)
     {
-        $sql=Nivel3::select('bm_ps_nivel3.id','bm_ps_nivel3.nivel3')
-//            ->join('aa_distritos AS di',function($join){
-//                $join->on('co.distrito_id','=','di.id')
-//                ->where('di.estado','=',1);
-//            })
+        $sql=Nivel3::select('bm_ps_nivel3.id','bm_ps_nivel3.nivel3',
+            'bm_ps_nivel3.foto','bpn.nivel2')
+            ->join('bm_ps_nivel2 AS bpn',function($join){
+                $join->on('bpn.id','=','bm_ps_nivel3.ps_nivel2_id');
+            })
             ->where(
                 function($query) use ($r){
                     if( $r->has("phrase") ){
                         $nivel3=trim($r->phrase);
                         if( $nivel3 !='' ){
                             $query->where('bm_ps_nivel3.nivel3','like','%'.$nivel3.'%');
+                        }
+                    }
+                    if( $r->has("tipo") ){
+                        $tipo=trim($r->tipo);
+                        if( $tipo !='' ){
+                            $query->where('bm_ps_nivel3.tipo','=',$tipo);
                         }
                     }
                 }

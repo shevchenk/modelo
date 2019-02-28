@@ -17,8 +17,8 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
     
-    @include( 'mantenimiento.producto.js.producto_ajax' )
-    @include( 'mantenimiento.producto.js.producto' )
+    @include( 'ingreso.pslocal.js.pslocal_ajax' )
+    @include( 'ingreso.pslocal.js.pslocal' )
 
 @stop
 
@@ -60,19 +60,29 @@
                                 <tr class="cabecera">
                                     <th class="col-xs-3">
                                         <div class="form-group col-xs-12">
-                                            <label><h4>Nivel 3:</h4></label><br>
+                                            <label><h4>Local:</h4></label><br>
                                             <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_nivel3" id="txt_nivel3" placeholder="Nivel 3" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_local" id="txt_local" placeholder="Local" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-3">
                                         <div class="form-group col-xs-12">
-                                            <label><h4>Local:</h4></label><br>
+                                            <label><h4>Tipo:</h4></label>
+                                            <select class="form-control selectpicker show-menu-arrow" name="slct_tipo" id="slct_tipo">
+                                                <option value="">.::Todo::.</option>
+                                                <option value="2">Producto</option>
+                                                <option value="1">Servicio</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-3">
+                                        <div class="form-group col-xs-12">
+                                            <label><h4>Producto / Servicio:</h4></label><br>
                                             <div class="input-group col-xs-12">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_local" id="txt_local" placeholder="Local" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_nivel3" id="txt_nivel3" placeholder="Producto / Servicio" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -86,28 +96,22 @@
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Estado:</h4></label><br>
-                                            <div class="input-group">
-                                                <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
-                                                    <option value='' selected>.::Todo::.</option>
-                                                    <option value='0'>Inactivo</option>
-                                                    <option value='1'>Activo</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <label><h4>Eliminar:</h4></label>
                                     </th>
-                                    <th class="col-xs-1">[-]</th>
+                                    <th class="col-xs-1">
+                                        <label><h4>Editar:</h4></label>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Nivel 3</th>
                                   <th>Local</th>
+                                  <th>Tipo</th>
+                                  <th>Producto / Servicio</th>
                                   <th>Stock</th>
-                                  <th>Estado</th>
+                                  <th>Eliminar</th>
                                   <th>[-]</th>
                                 </tr>
                             </tfoot>
@@ -125,5 +129,5 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.producto.form.producto' )
+     @include( 'ingreso.pslocal.form.pslocal' )
 @stop

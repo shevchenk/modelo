@@ -1,33 +1,33 @@
 <script type="text/javascript">
+var hoyG='<?php echo date("Y-m-d"); ?>';
 var AddEdit=0; //0: Editar | 1: Agregar
 var ProductoG={id:0,local_id:0,local:"",local_codigo:"",ps_nivel3_id:0,nivel3_id:"",precio_venta:"",precio_compra:"",moneda:0,stock:"",
                stock_minimo:"",dias_alerta:"",fecha_vencimiento:"",dias_vencimiento:"",estado:1}; // Datos Globales
 
 var Nivel3Opciones = {
-    placeholder: 'Nivel 3',
-    url: "AjaxDinamic/Mantenimiento.Nivel3EM@ListNivel3",
+    placeholder: 'Producto / Servicio',
+    url: "AjaxDinamic/Ingreso.Nivel3IN@ListNivel3",
     listLocation: "data",
     getValue: "nivel3",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
     preparePostData: function(data) {
         data.phrase = $("#ModalProductoForm #txt_nivel3").val();
+        data.tipo = $("#ModalProductoForm #slct_tipo").val();
         return data;
     },
     list: {
         onSelectItemEvent: function() {
             var value = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().id;
+            var value2 = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().nivel2;
             $("#ModalProductoForm #txt_ps_nivel3_id").val(value).trigger("change");
+            $("#ModalProductoForm #txt_nivel2").val(value2).trigger("change");
         }
     },
     template: {
-        type: "description",
-        fields: {
-            description: "nivel3"
-        }
-        /*type: "custom",
+        type: "custom",
         method: function(value, item) {
-            return value+' - '+'<b>Distrito:</b>'+item.distrito;
-        }*/
+            return "<img src='" + item.foto + "' style='width:80px;height:80px;' /> " + value + " | " + item.nivel2;
+        }
     },
     adjustWidth:false,
 };
@@ -38,7 +38,7 @@ var LocalOpciones = {
     getValue: "local",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
     preparePostData: function(data) {
-        data.phrase = $("#txt_local").val();
+        data.phrase = $("#ModalProductoForm #txt_local").val();
         return data;
     },
     list: {
@@ -83,17 +83,11 @@ $(document).ready(function() {
     
     $("#ProductoForm #TableProducto select").change(function(){ AjaxProducto.Cargar(HTMLCargarProducto); });
     $("#ProductoForm #TableProducto input").blur(function(){ AjaxProducto.Cargar(HTMLCargarProducto); });
+    $("#ModalProductoForm #slct_tipo").change(function(){ ProductoG.tipo=$("#ModalProductoForm #slct_tipo").val(); ValidaTipo(); });
     
     $('#ModalProducto').on('shown.bs.modal', function (event) {
-
-        if( AddEdit==1 ){        
-            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
-        }
-        else{
-            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalProductoForm").append("<input type='hidden' value='"+ProductoG.id+"' name='id'>");
-        }
         $('#ModalProductoForm #txt_nivel3').val( ProductoG.nivel3 );
+        $('#ModalProductoForm #txt_nivel2').val( ProductoG.nivel2 );
         $('#ModalProductoForm #txt_ps_nivel3_id').val( ProductoG.ps_nivel3_id );
         $('#ModalProductoForm #txt_local_id').val( ProductoG.local_id );
         $('#ModalProductoForm #txt_local').val( ProductoG.local );
@@ -104,11 +98,23 @@ $(document).ready(function() {
         $('#ModalProductoForm #txt_stock').val( ProductoG.stock );
         $('#ModalProductoForm #txt_stock_minimo').val( ProductoG.stock_minimo );
         $('#ModalProductoForm #txt_dias_alerta').val( ProductoG.dias_alerta );
+        $('#ModalProductoForm #txt_fecha_ingreso').val( ProductoG.fecha_ingreso );
         $('#ModalProductoForm #txt_fecha_vencimiento').val( ProductoG.fecha_vencimiento );
         $('#ModalProductoForm #txt_dias_vencimiento').val( ProductoG.dias_vencimiento );
         $('#ModalProductoForm #slct_estado').val( ProductoG.estado );
+        $('#ModalProductoForm #slct_tipo').val( ProductoG.tipo );
         $("#ModalProducto select").selectpicker('refresh');
-        $('#ModalProductoForm #txt_producto').focus();
+
+        if( AddEdit==1 ){
+            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalProductoForm #txt_local,#ModalProductoForm #txt_nivel3,#ModalProductoForm #slct_tipo").removeAttr("disabled");
+            $('#ModalProductoForm #txt_local').focus();
+        }
+        else{
+            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalProductoForm").append("<input type='hidden' value='"+ProductoG.id+"' name='id'>");
+            $("#ModalProductoForm #txt_local,#ModalProductoForm #txt_nivel3,#ModalProductoForm #slct_tipo").attr("disabled",'true');
+        }
     });
 
     $('#ModalProducto').on('hidden.bs.modal', function (event) {
@@ -117,15 +123,40 @@ $(document).ready(function() {
     
 });
 
+ValidaTipo=function(){
+    var tipo=ProductoG.tipo;
+    $("#ModalProductoForm #txt_precio_compra").removeAttr('readonly');
+    $("#ModalProductoForm #txt_stock").removeAttr('readonly');
+    $("#ModalProductoForm #txt_stock_minimo").removeAttr('readonly');
+    $("#ModalProductoForm #txt_dias_alerta").removeAttr('readonly');
+    $("#ModalProductoForm #txt_dias_vencimiento").removeAttr('readonly');
+    $("#ModalProductoForm #txt_precio_compra,#ModalProductoForm #txt_stock_minimo,#ModalProductoForm #txt_dias_alerta,#ModalProductoForm #txt_dias_vencimiento").val('0');
+    $("#ModalProductoForm #txt_stock").val('');
+
+    if( tipo==1 ){
+        $("#ModalProductoForm #txt_precio_compra").attr('readonly','true');
+        $("#ModalProductoForm #txt_stock").attr('readonly','true');
+        $("#ModalProductoForm #txt_stock_minimo").attr('readonly','true');
+        $("#ModalProductoForm #txt_dias_alerta").attr('readonly','true');
+        $("#ModalProductoForm #txt_dias_vencimiento").attr('readonly','true');
+        $("#ModalProductoForm #txt_stock").val('-1');
+    }
+    $("#ModalProductoForm #txt_ttipo").val($("#ModalProductoForm #slct_tipo option:selected").text());
+}
+
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProductoForm #txt_ps_nivel3_id").val() )=='' ){
+    if( $.trim( $("#ModalProductoForm #txt_local_id").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Nivel 3',4000);
+        msjG.mensaje('warning','Busque y Seleccione Local',4000);
     }
-    else if( $.trim( $("#ModalProductoForm #txt_local_id").val() )=='' ){
+    else if( $.trim( $("#ModalProductoForm #slct_tipo").val() )=='0' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Local',4000);
+        msjG.mensaje('warning','Seleccione Tipo',4000);
+    }
+    else if( $.trim( $("#ModalProductoForm #txt_ps_nivel3_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Busque y Seleccione '+$("#ModalProductoForm #slct_tipo option:selected").text(),4000);
     }
     else if( $.trim( $("#ModalProductoForm #txt_precio_venta").val() )=='' ){
         r=false;
@@ -151,6 +182,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese días de alerta',4000);
     }
+    else if( $.trim( $("#ModalProductoForm #txt_fecha_ingreso").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese fecha ingreso',4000);
+    }
     else if( $.trim( $("#ModalProductoForm #txt_fecha_vencimiento").val() )=='' && 
             $.trim( $("#ModalProductoForm #txt_dias_vencimiento").val() )==''){
         r=false;
@@ -164,24 +199,29 @@ AgregarEditar=function(val,id){
     ProductoG.id='';
     ProductoG.ps_nivel3_id='';
     ProductoG.nivel3='';
+    ProductoG.nivel2='';
     ProductoG.local_id='';
     ProductoG.local='';
     ProductoG.local_codigo='';
-    ProductoG.moneda='';
+    ProductoG.moneda='1';
     ProductoG.stock='';
     ProductoG.stock_minimo='';
     ProductoG.dias_alerta='';
     ProductoG.fecha_vencimiento='';
+    ProductoG.fecha_ingreso=hoyG;
     ProductoG.dias_vencimiento='';
     ProductoG.precio_venta='';
     ProductoG.precio_compra='';  
     ProductoG.estado='1';
+    ProductoG.tipo='0';
     
     if( val==0 ){
         ProductoG.id=id;
         ProductoG.ps_nivel3_id=$("#TableProducto #trid_"+id+" .ps_nivel3_id").val();
         ProductoG.nivel3=$("#TableProducto #trid_"+id+" .nivel3").text();
+        ProductoG.nivel2=$("#TableProducto #trid_"+id+" .nivel2").val();
         ProductoG.local_id=$("#TableProducto #trid_"+id+" .local_id").val();
+        ProductoG.tipo=$("#TableProducto #trid_"+id+" .tipo").val();
         ProductoG.local=$("#TableProducto #trid_"+id+" .local").text();
         ProductoG.local_codigo=$("#TableProducto #trid_"+id+" .local_codigo").val();
         ProductoG.moneda=$("#TableProducto #trid_"+id+" .moneda").val();
@@ -189,16 +229,23 @@ AgregarEditar=function(val,id){
         ProductoG.stock_minimo=$("#TableProducto #trid_"+id+" .stock_minimo").val();
         ProductoG.dias_alerta=$("#TableProducto #trid_"+id+" .dias_alerta").val();
         ProductoG.fecha_vencimiento=$("#TableProducto #trid_"+id+" .fecha_vencimiento").val();
+        ProductoG.fecha_ingreso=$("#TableProducto #trid_"+id+" .fecha_ingreso").val();
         ProductoG.dias_vencimiento=$("#TableProducto #trid_"+id+" .dias_vencimiento").val();
         ProductoG.precio_venta=$("#TableProducto #trid_"+id+" .precio_venta").val();
         ProductoG.precio_compra=$("#TableProducto #trid_"+id+" .precio_compra").val();   
         ProductoG.estado=$("#TableProducto #trid_"+id+" .estado").val();
     }
+    ValidaTipo();
     $('#ModalProducto').modal('show');
 }
 
 CambiarEstado=function(estado,id){
-    AjaxProducto.CambiarEstado(HTMLCambiarEstado,estado,id);
+    var texto='Acticar';
+    if( estado==0 ){
+        texto='Eliminar';
+    }
+    sweetalertG.confirm('Local:'+$("#TableProducto #trid_"+id+" .local").text(),'Desea '+texto+' el '+$("#TableProducto #trid_"+id+" .ttipo").text()+': '+$("#TableProducto #trid_"+id+" .nivel3").text(), function(){ AjaxProducto.CambiarEstado(HTMLCambiarEstado,estado,id); });
+    
 }
 
 HTMLCambiarEstado=function(result){
@@ -220,7 +267,7 @@ HTMLAgregarEditar=function(result){
         $('#ModalProducto').modal('hide');
         AjaxProducto.Cargar(HTMLCargarProducto);
     }else{
-        msjG.mensaje('warning',result.msj,3000);
+        msjG.mensaje('warning',result.msj,8000);
     }
 }
 
@@ -232,16 +279,23 @@ HTMLCargarProducto=function(result){
     $.each(result.data.data,function(index,r){
         estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
         if(r.estado==1){
-            estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
+            estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn fa fa-trash fa-lg btn-danger"></span>';
+        }
+        tipo='Producto';
+        if(r.tipo==1){
+            tipo='Servicio';
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='nivel3'>"+r.nivel3+"</td>"+
             "<td class='local'>"+r.local+"</td>"+
+            "<td class='ttipo'>"+tipo+"</td>"+
+            "<td class='nivel3'>"+r.nivel3+"</td>"+
             "<td class='stock'>"+r.stock+"</td>"+
             "<td>";
         html+="<input type='hidden' class='ps_nivel3_id' value='"+r.ps_nivel3_id+"'>"+
               "<input type='hidden' class='nivel3' value='"+r.nivel3+"'>"+
+              "<input type='hidden' class='nivel2' value='"+r.nivel2+"'>"+
+              "<input type='hidden' class='tipo' value='"+r.tipo+"'>"+
               "<input type='hidden' class='local_id' value='"+r.local_id+"'>"+
               "<input type='hidden' class='local' value='"+r.local+"'>"+
               "<input type='hidden' class='local_codigo' value='"+r.local_codigo+"'>"+
@@ -250,7 +304,8 @@ HTMLCargarProducto=function(result){
               "<input type='hidden' class='stock' value='"+r.stock+"'>"+
               "<input type='hidden' class='stock_minimo' value='"+r.stock_minimo+"'>"+
               "<input type='hidden' class='dias_alerta' value='"+r.dias_alerta+"'>"+
-              "<input type='hidden' class='fecha_vencimiento' value='"+r.fecha_vencimiento+"'>"+
+              "<input type='hidden' class='fecha_vencimiento' value='"+$.trim(r.fecha_vencimiento)+"'>"+
+              "<input type='hidden' class='fecha_ingreso' value='"+$.trim(r.fecha_ingreso)+"'>"+
               "<input type='hidden' class='dias_vencimiento' value='"+r.dias_vencimiento+"'>"+
               "<input type='hidden' class='precio_venta' value='"+r.precio_venta+"'>"+
               "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

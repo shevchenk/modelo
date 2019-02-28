@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\Mantenimiento;
+namespace App\Http\Controllers\Ingreso;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Producto;
+use App\Models\Ingreso\PSLocal;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ProductoEM extends Controller
+class PSLocalIN extends Controller
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class ProductoEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Producto::runEditStatus($r);
+            PSLocal::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -30,23 +30,21 @@ class ProductoEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'      => ':attribute solo debe ser único',
+                'unique'      => 'El '.$r->ttipo.': '.$r->nivel3.' ya existe y debe ser único, en el local:'.$r->local,
             );
 
             $rules = array(
-                'ps_nivel3_id' => 
-                       ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
-//                                $query->where('pregunta_id',$r->pregunta_id );
-                    //   }),
-                        ],
+                'ps_nivel3_id' => ['required',
+                                Rule::unique('bm_ps_nivel3_local','ps_nivel3_id')
+                                ->where('local_id',$r->local_id)
+                                ->where('estado',1)],
             );
 
             
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Producto::runNew($r);
+                PSLocal::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -68,17 +66,13 @@ class ProductoEM extends Controller
 
             $rules = array(
                 'ps_nivel3_id' => 
-                       ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->ignore($r->id)->where(function ($query) use($r) {
-                              //  $query->where('pregunta_id',$r->pregunta_id );
-                       // }),
-                        ],
+                       ['required'],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Producto::runEdit($r);
+                PSLocal::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -93,7 +87,8 @@ class ProductoEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Producto::runLoad($r);
+            $r['estado']=1;
+            $renturnModel = PSLocal::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";    

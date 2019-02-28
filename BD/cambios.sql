@@ -80,3 +80,7 @@ ADD COLUMN `fecha_final_mat`  date NULL AFTER `fecha_inicio_mat`;
 --2019-02-24 12:42
 ALTER TABLE `bm_ps_nivel3`
 MODIFY COLUMN `tipo`  int(11) NULL DEFAULT 1 COMMENT '1: Servicio | 2: Producto' AFTER `descripcion`;
+
+--2019-02-27 20:05
+ALTER TABLE `bm_ps_nivel3_local`
+ADD COLUMN `fecha_ingreso`  date NULL AFTER `dias_alerta`;

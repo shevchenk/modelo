@@ -2,9 +2,9 @@
 var AjaxProducto={
     AgregarEditar:function(evento){
         var data=$("#ModalProductoForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Mantenimiento.ProductoEM@New';
+        url='AjaxDinamic/Ingreso.PSLocalIN@New';
         if(AddEdit==0){
-            url='AjaxDinamic/Mantenimiento.ProductoEM@Edit';
+            url='AjaxDinamic/Ingreso.PSLocalIN@Edit';
         }
         masterG.postAjax(url,data,evento);
     },
@@ -14,7 +14,7 @@ var AjaxProducto={
         }
         data=$("#ProductoForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ProductoForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.ProductoEM@Load';
+        url='AjaxDinamic/Ingreso.PSLocalIN@Load';
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,AI,id){
@@ -22,7 +22,7 @@ var AjaxProducto={
         $("#ModalProductoForm").append("<input type='hidden' value='"+id+"' name='id'>");
         var data=$("#ModalProductoForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalProductoForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.ProductoEM@EditStatus';
+        url='AjaxDinamic/Ingreso.PSLocalIN@EditStatus';
         masterG.postAjax(url,data,evento);
     },
 };
