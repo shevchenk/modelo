@@ -17,8 +17,8 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
     
-    @include( 'ingreso.promocion.js.promocion_servicio_ajax' )
-    @include( 'ingreso.promocion.js.promocion_servicio' )
+    @include( 'ingreso.promocionservicio.js.promocion_servicio_ajax' )
+    @include( 'ingreso.promocionservicio.js.promocion_servicio' )
 
 @stop
 
@@ -179,5 +179,5 @@
 @stop
 
 @section('form')
-     @include( 'ingreso.promocion.form.promocion_servicio' )
+     @include( 'ingreso.promocionservicio.form.promocion_servicio' )
 @stop
