@@ -12,7 +12,7 @@ var Nivel1Opciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalNivel2Form #txt_nivel1").getSelectedItemData().id;
             $("#ModalNivel2Form #txt_ps_nivel1_id").val(value).trigger("change");
         }

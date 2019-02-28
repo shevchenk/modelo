@@ -16,7 +16,7 @@ var Nivel3Opciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().id;
             var value2 = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().nivel2;
             $("#ModalProductoForm #txt_ps_nivel3_id").val(value).trigger("change");

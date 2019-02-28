@@ -76,11 +76,11 @@ class Nivel2 extends Model
     
     public static function ListNivel2($r)
     {
-        $sql=Nivel2::select('bm_ps_nivel2.id','bm_ps_nivel2.nivel2')
-//            ->join('aa_distritos AS di',function($join){
-//                $join->on('co.distrito_id','=','di.id')
-//                ->where('di.estado','=',1);
-//            })
+        $sql=Nivel2::select('bm_ps_nivel2.id','bm_ps_nivel2.nivel2','n1.nivel1','bm_ps_nivel2.ps_nivel1_id')
+            ->join('bm_ps_nivel1 AS n1',function($join){
+                $join->on('n1.id','=','bm_ps_nivel2.ps_nivel1_id')
+                ->where('n1.estado','=',1);
+            })
             ->where(
                 function($query) use ($r){
                     if( $r->has("phrase") ){

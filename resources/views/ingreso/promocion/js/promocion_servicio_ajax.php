@@ -2,10 +2,7 @@
 var AjaxPromocion={
     AgregarEditar:function(evento){
         var data=$("#ModalPromocionForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Mantenimiento.PromocionEM@New';
-        if(AddEdit==0){
-            url='AjaxDinamic/Mantenimiento.PromocionEM@Edit';
-        }
+        url='AjaxDinamic/Ingreso.PromocionIN@New';
         masterG.postAjax(url,data,evento);
     },
     Cargar:function(evento,pag){
@@ -14,7 +11,7 @@ var AjaxPromocion={
         }
         data=$("#PromocionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#PromocionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.PromocionEM@Load';
+        url='AjaxDinamic/Ingreso.PromocionIN@Load';
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,AI,id){
@@ -22,7 +19,7 @@ var AjaxPromocion={
         $("#ModalPromocionForm").append("<input type='hidden' value='"+id+"' name='id'>");
         var data=$("#ModalPromocionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalPromocionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.PromocionEM@EditStatus';
+        url='AjaxDinamic/Ingreso.PromocionIN@EditStatus';
         masterG.postAjax(url,data,evento);
     },
 };

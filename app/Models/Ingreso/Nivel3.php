@@ -123,9 +123,15 @@ class Nivel3 extends Model
     public static function ListNivel3($r)
     {
         $sql=Nivel3::select('bm_ps_nivel3.id','bm_ps_nivel3.nivel3',
-            'bm_ps_nivel3.foto','bpn.nivel2')
-            ->join('bm_ps_nivel2 AS bpn',function($join){
-                $join->on('bpn.id','=','bm_ps_nivel3.ps_nivel2_id');
+            'bm_ps_nivel3.foto','n2.nivel2','bm_ps_nivel3.ps_nivel2_id',
+            'n1.nivel1','n2.ps_nivel1_id')
+            ->join('bm_ps_nivel2 AS n2',function($join){
+                $join->on('n2.id','=','bm_ps_nivel3.ps_nivel2_id')
+                ->where('n2.estado',1);
+            })
+            ->join('bm_ps_nivel1 AS n1',function($join){
+                $join->on('n1.id','=','n2.ps_nivel1_id')
+                ->where('n1.estado',1);
             })
             ->where(
                 function($query) use ($r){

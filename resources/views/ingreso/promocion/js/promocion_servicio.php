@@ -3,9 +3,43 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var PromocionG={id:0,local_id:0,local:"",local_codigo:"",ps_nivel3_id:0,nivel3_id:"",precio_venta:"",precio_compra:"",moneda:0,stock:"",
                stock_minimo:"",dias_alerta:"",fecha_vencimiento:"",dias_vencimiento:"",estado:1}; // Datos Globales
 
+var Nivel3Opciones = {
+    placeholder: 'Servicio',
+    url: "AjaxDinamic/Ingreso.Nivel3IN@ListNivel3",
+    listLocation: "data",
+    getValue: "nivel3",
+    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    preparePostData: function(data) {
+        data.phrase = $("#ModalPromocionForm #txt_nivel3").val();
+        data.tipo = $("#ModalPromocionForm #txt_tipo").val();
+        return data;
+    },
+    list: {
+        onClickEvent: function() {
+            var value = $("#ModalPromocionForm #txt_nivel3").getSelectedItemData().id;
+            var ps_nivel2_id = $("#ModalPromocionForm #txt_nivel3").getSelectedItemData().ps_nivel2_id;
+            var nivel2 = $("#ModalPromocionForm #txt_nivel3").getSelectedItemData().nivel2;
+            var ps_nivel1_id = $("#ModalPromocionForm #txt_nivel3").getSelectedItemData().ps_nivel1_id;
+            var nivel1 = $("#ModalPromocionForm #txt_nivel3").getSelectedItemData().nivel1;
+            $("#ModalPromocionForm #txt_ps_nivel3_id").val(value).trigger("change");
+            $("#ModalPromocionForm #txt_ps_nivel2_id").val(ps_nivel2_id).trigger("change");
+            $("#ModalPromocionForm #txt_nivel2").val(nivel2).trigger("change");
+            $("#ModalPromocionForm #txt_ps_nivel1_id").val(ps_nivel1_id).trigger("change");
+            $("#ModalPromocionForm #txt_nivel1").val(nivel1).trigger("change");
+        }
+    },
+    template: {
+        type: "custom",
+        method: function(value, item) {
+            return "<img src='" + item.foto + "' style='width:80px;height:80px;' /> " + value + " | " + item.nivel2;
+        }
+    },
+    adjustWidth:false,
+};
+
 var Nivel2Opciones = {
-    placeholder: 'Nivel 2',
-    url: "AjaxDinamic/Mantenimiento.Nivel2EM@ListNivel2",
+    placeholder: 'Sub Grupo',
+    url: "AjaxDinamic/Ingreso.Nivel2IN@ListNivel2",
     listLocation: "data",
     getValue: "nivel2",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
@@ -14,26 +48,30 @@ var Nivel2Opciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPromocionForm #txt_nivel2").getSelectedItemData().id;
+            var nivel1 = $("#ModalPromocionForm #txt_nivel2").getSelectedItemData().nivel1;
+            var ps_nivel1_id = $("#ModalPromocionForm #txt_nivel2").getSelectedItemData().ps_nivel1_id;
             $("#ModalPromocionForm #txt_ps_nivel2_id").val(value).trigger("change");
+            $("#ModalPromocionForm #txt_ps_nivel1_id").val(ps_nivel1_id).trigger("change");
+            $("#ModalPromocionForm #txt_nivel1").val(nivel1).trigger("change");
+
+            $("#ModalPromocionForm #txt_ps_nivel3_id").val('').trigger("change");
+            $("#ModalPromocionForm #txt_nivel3").val('').trigger("change");
         }
     },
     template: {
         type: "description",
         fields: {
-            description: "nivel2"
+            description: "nivel1"
         }
-        /*type: "custom",
-        method: function(value, item) {
-            return value+' - '+'<b>Distrito:</b>'+item.distrito;
-        }*/
     },
     adjustWidth:false,
 };
+
 var Nivel1Opciones = {
-    placeholder: 'Nivel 1',
-    url: "AjaxDinamic/Mantenimiento.Nivel1EM@ListNivel1",
+    placeholder: 'Grupo',
+    url: "AjaxDinamic/Ingreso.Nivel1IN@ListNivel1",
     listLocation: "data",
     getValue: "nivel1",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
@@ -42,23 +80,19 @@ var Nivel1Opciones = {
         return data;
     },
     list: {
-        onSelectItemEvent: function() {
+        onClickEvent: function() {
             var value = $("#ModalPromocionForm #txt_nivel1").getSelectedItemData().id;
             $("#ModalPromocionForm #txt_ps_nivel1_id").val(value).trigger("change");
+
+            $("#ModalPromocionForm #txt_ps_nivel2_id").val('').trigger("change");
+            $("#ModalPromocionForm #txt_nivel2").val('').trigger("change");
+            $("#ModalPromocionForm #txt_ps_nivel3_id").val('').trigger("change");
+            $("#ModalPromocionForm #txt_nivel3").val('').trigger("change");
         }
-    },
-    template: {
-        type: "description",
-        fields: {
-            description: "nivel1"
-        }
-        /*type: "custom",
-        method: function(value, item) {
-            return value+' - '+'<b>Distrito:</b>'+item.distrito;
-        }*/
     },
     adjustWidth:false,
 };
+
 var LocalOpciones = {
     placeholder: 'Local',
     url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocal",
@@ -66,7 +100,7 @@ var LocalOpciones = {
     getValue: "local",
     ajaxSettings: { dataType: "json", method: "POST", data: {} },
     preparePostData: function(data) {
-        data.phrase = $("#txt_local").val();
+        data.phrase = $("#ModalPromocionForm #txt_local").val();
         return data;
     },
     list: {
@@ -85,9 +119,11 @@ var LocalOpciones = {
     },
     adjustWidth:false,
 };
+
 $(document).ready(function() {
     $("#ModalPromocionForm #txt_nivel1").easyAutocomplete(Nivel1Opciones);
     $("#ModalPromocionForm #txt_nivel2").easyAutocomplete(Nivel2Opciones);
+    $("#ModalPromocionForm #txt_nivel3").easyAutocomplete(Nivel3Opciones);
     $("#ModalPromocionForm #txt_local").easyAutocomplete(LocalOpciones);
     $("#TablePromocion").DataTable({
         "paging": true,
@@ -114,30 +150,31 @@ $(document).ready(function() {
     $("#PromocionForm #TablePromocion input").blur(function(){ AjaxPromocion.Cargar(HTMLCargarPromocion); });
     
     $('#ModalPromocion').on('shown.bs.modal', function (event) {
+        $('#ModalPromocionForm #txt_nivel3').val( PromocionG.nivel3 );
+        $('#ModalPromocionForm #txt_ps_nivel3_id').val( PromocionG.ps_nivel3_id );
+        $('#ModalPromocionForm #txt_nivel2').val( PromocionG.nivel2 );
+        $('#ModalPromocionForm #txt_ps_nivel2_id').val( PromocionG.ps_nivel2_id );
+        $('#ModalPromocionForm #txt_nivel1').val( PromocionG.nivel1 );
+        $('#ModalPromocionForm #txt_ps_nivel1_id').val( PromocionG.ps_nivel1_id );
+        $('#ModalPromocionForm #txt_local_id').val( PromocionG.local_id );
+        $('#ModalPromocionForm #txt_local').val( PromocionG.local );
+        $('#ModalPromocionForm #txt_codigo_local').val( PromocionG.local_codigo );
+        $('#ModalPromocionForm #txt_oferta').val( PromocionG.oferta );
+        $('#ModalPromocionForm #txt_fecha_inicio_pro').val( PromocionG.fecha_inicio_pro );
+        $('#ModalPromocionForm #txt_fecha_final_pro').val( PromocionG.fecha_final_pro );
+        $('#ModalPromocionForm #txt_cantidad_pro').val( PromocionG.cantidad_pro );
+        $('#ModalPromocionForm #txt_dscto_porcentaje').val( PromocionG.dscto_porcentaje );
+        $('#ModalPromocionForm #txt_dscto_monto').val( PromocionG.dscto_monto );
+        $('#ModalPromocionForm #txt_dscto_cantidad').val( PromocionG.dscto_cantidad );
 
-        if( AddEdit==1 ){        
+        if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $('#ModalPromocionForm #txt_nivel1').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalPromocionForm").append("<input type='hidden' value='"+PromocionG.id+"' name='id'>");
         }
-        $('#ModalPromocionForm #txt_nivel3').val( PromocionG.nivel3 );
-        $('#ModalPromocionForm #txt_ps_nivel3_id').val( PromocionG.ps_nivel3_id );
-        $('#ModalPromocionForm #txt_local_id').val( PromocionG.local_id );
-        $('#ModalPromocionForm #txt_local').val( PromocionG.local );
-        $('#ModalPromocionForm #txt_codigo_local').val( PromocionG.local_codigo );
-        $('#ModalPromocionForm #txt_precio_venta').val( PromocionG.precio_venta );
-        $('#ModalPromocionForm #txt_precio_compra').val( PromocionG.precio_compra );
-        $('#ModalPromocionForm #slct_moneda').val( PromocionG.moneda );
-        $('#ModalPromocionForm #txt_stock').val( PromocionG.stock );
-        $('#ModalPromocionForm #txt_stock_minimo').val( PromocionG.stock_minimo );
-        $('#ModalPromocionForm #txt_dias_alerta').val( PromocionG.dias_alerta );
-        $('#ModalPromocionForm #txt_fecha_vencimiento').val( PromocionG.fecha_vencimiento );
-        $('#ModalPromocionForm #txt_dias_vencimiento').val( PromocionG.dias_vencimiento );
-        $('#ModalPromocionForm #slct_estado').val( PromocionG.estado );
-        $("#ModalPromocion select").selectpicker('refresh');
-        $('#ModalPromocionForm #txt_producto').focus();
     });
 
     $('#ModalPromocion').on('hidden.bs.modal', function (event) {
@@ -148,17 +185,25 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalPromocionForm #txt_local_id").val() )=='' ){
+    if( $.trim( $("#ModalPromocionForm #txt_ps_nivel1_id").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Local',4000);
+        msjG.mensaje('warning','Busque y Seleccione Grupo',4000);
     }
-    else if( $.trim( $("#ModalPromocionForm #txt_ps_nivel1_id").val() )=='' ){
+    else if( $.trim( $("#ModalPromocionForm #txt_ps_nivel3_id").val() )!='' && $.trim( $("#ModalPromocionForm #txt_ps_nivel2_id").val() )==''){
         r=false;
-        msjG.mensaje('warning','Ingrese Nivel 1',4000);
+        msjG.mensaje('warning','Busque y Seleccione Sub Grupo',4000);
     }
-    else if( $.trim( $("#ModalPromocionForm #txt_ps_nivel2_id").val() )=='' ){
+    else if( $.trim( $("#ModalPromocionForm #txt_oferta").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Nivel 2',4000);
+        msjG.mensaje('warning','Ingrese Oferta',4000);
+    }
+    else if( $.trim( $("#ModalPromocionForm #txt_fecha_inicio_pro").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha Inicio de Promoción',4000);
+    }
+    else if( $.trim( $("#ModalPromocionForm #txt_fecha_final_pro").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Fecha Final de Promoción',4000);
     }
     else if( $.trim( $("#ModalPromocionForm #txt_oferta").val() )=='' ){
         r=false;
@@ -175,35 +220,19 @@ AgregarEditar=function(val,id){
     PromocionG.nivel1='';
     PromocionG.ps_nivel2_id='';
     PromocionG.nivel2='';
+    PromocionG.ps_nivel3_id='';
+    PromocionG.nivel3='';
     PromocionG.local_id='';
     PromocionG.local='';
     PromocionG.local_codigo='';
     PromocionG.oferta='';
     PromocionG.fecha_inicio_pro='';
     PromocionG.fecha_final_pro='';
-    PromocionG.cantidad_pro='';
-    PromocionG.dscto_porcentaje='';  
-    PromocionG.dscto_monto='';  
-    PromocionG.dscto_cantidad='';  
+    PromocionG.cantidad_pro='1';
+    PromocionG.dscto_porcentaje='0';  
+    PromocionG.dscto_monto='0';  
+    PromocionG.dscto_cantidad='0';  
     PromocionG.estado='1';
-    
-    if( val==0 ){
-        PromocionG.id=id;
-        PromocionG.ps_nivel3_id=$("#TablePromocion #trid_"+id+" .ps_nivel3_id").val();
-        PromocionG.nivel3=$("#TablePromocion #trid_"+id+" .nivel3").text();
-        PromocionG.local_id=$("#TablePromocion #trid_"+id+" .local_id").val();
-        PromocionG.local=$("#TablePromocion #trid_"+id+" .local").text();
-        PromocionG.local_codigo=$("#TablePromocion #trid_"+id+" .local_codigo").val();
-        PromocionG.moneda=$("#TablePromocion #trid_"+id+" .moneda").val();
-        PromocionG.stock=$("#TablePromocion #trid_"+id+" .stock").text();
-        PromocionG.stock_minimo=$("#TablePromocion #trid_"+id+" .stock_minimo").val();
-        PromocionG.dias_alerta=$("#TablePromocion #trid_"+id+" .dias_alerta").val();
-        PromocionG.fecha_vencimiento=$("#TablePromocion #trid_"+id+" .fecha_vencimiento").val();
-        PromocionG.dias_vencimiento=$("#TablePromocion #trid_"+id+" .dias_vencimiento").val();
-        PromocionG.precio_venta=$("#TablePromocion #trid_"+id+" .precio_venta").val();
-        PromocionG.precio_compra=$("#TablePromocion #trid_"+id+" .precio_compra").val();   
-        PromocionG.estado=$("#TablePromocion #trid_"+id+" .estado").val();
-    }
     $('#ModalPromocion').modal('show');
 }
 
@@ -240,18 +269,24 @@ HTMLCargarPromocion=function(result){
     $('#TablePromocion').DataTable().destroy();
     
     $.each(result.data.data,function(index,r){
-        estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
+        estadohtml='<span class="danger">Anulado</span>';
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='nivel3'>"+r.nivel1+"</td>"+
-            "<td class='local'>"+r.local+"</td>"+
-            "<td class='stock'>"+r.nivel2+"</td>"+
-            "<td class='stock'>"+r.oferta+"</td>"+
+            "<td class='nivel1'>"+ $.trim(r.nivel1) +"</td>"+
+            "<td class='nivel2'>"+ $.trim(r.nivel2) +"</td>"+
+            "<td class='nivel3'>"+ $.trim(r.nivel3) +"</td>"+
+            "<td class='local'>"+ $.trim(r.local) +"</td>"+
+            "<td class='oferta'>"+r.oferta+"</td>"+
+            "<td class='fecha_inicio_pro'>"+ $.trim(r.fecha_inicio_pro) +"</td>"+
+            "<td class='fecha_final_pro'>"+ $.trim(r.fecha_final_pro) +"</td>"+
+            "<td class='cantidad_pro'>"+ $.trim(r.cantidad_pro) +"</td>"+
+            "<td class='dscto_porcentaje'>"+ $.trim(r.dscto_porcentaje) +"</td>"+
+            "<td class='dscto_monto'>"+ $.trim(r.dscto_monto) +"</td>"+
+            "<td class='dscto_cantidad'>"+ $.trim(r.dscto_cantidad) +"</td>"+
             "<td>";
-        html+="<input type='hidden' class='ps_nivel3_id' value='"+r.nivel1+"'>"+
-              "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>";
+        html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>";
         html+="</tr>";
     });
     $("#TablePromocion tbody").html(html); 

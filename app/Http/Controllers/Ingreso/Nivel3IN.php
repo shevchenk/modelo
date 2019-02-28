@@ -142,7 +142,7 @@ class Nivel3IN extends Controller
         }
     }
     
-        public function ListNivel3 (Request $r )
+    public function ListNivel3 (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Nivel3::ListNivel3($r);

@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\Mantenimiento;
+namespace App\Http\Controllers\Ingreso;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Promocion;
+use App\Models\Ingreso\Promocion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PromocionEM extends Controller
+class PromocionIN extends Controller
 {
     public function __construct()
     {
@@ -34,7 +34,7 @@ class PromocionEM extends Controller
             );
 
             $rules = array(
-                'ps_nivel2_id' => 
+                'ps_nivel1_id' => 
                        ['required',
                      //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
 //                                $query->where('pregunta_id',$r->pregunta_id );
@@ -46,6 +46,7 @@ class PromocionEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
+                $r['tipo']=1;
                 Promocion::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
@@ -58,29 +59,32 @@ class PromocionEM extends Controller
         }
     }
 
-    public function Edit(Request $r )
+    public function NewProducto(Request $r )
     {
         if ( $r->ajax() ) {
+
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'ps_nivel3_id' => 
+                'ps_nivel1_id' => 
                        ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->ignore($r->id)->where(function ($query) use($r) {
-                              //  $query->where('pregunta_id',$r->pregunta_id );
-                       // }),
+                     //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
+//                                $query->where('pregunta_id',$r->pregunta_id );
+                    //   }),
                         ],
             );
 
+            
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Promocion::runEdit($r);
+                $r['tipo']=2;
+                Promocion::runNew($r);
                 $return['rst'] = 1;
-                $return['msj'] = 'Registro actualizado';
+                $return['msj'] = 'Registro creado';
             }
             else{
                 $return['rst'] = 2;
@@ -93,6 +97,19 @@ class PromocionEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
+            $r['tipo']=1;
+            $renturnModel = Promocion::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
+        }
+    }
+
+    public function LoadProducto(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['tipo']=2;
             $renturnModel = Promocion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
