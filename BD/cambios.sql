@@ -89,6 +89,10 @@ ADD COLUMN `fecha_ingreso`  date NULL AFTER `dias_alerta`;
 ALTER TABLE `bp_promociones`
 ADD COLUMN `tipo`  int NULL DEFAULT 1 COMMENT '1: Servicio | 2: Producto' AFTER `ps_nivel3_local_id`;
 
---2019-08-28 13:58
+--2019-02-28 13:58
 ALTER TABLE `bp_promociones`
 CHANGE COLUMN `ps_nivel3_local_id` `ps_nivel3_id`  int(11) NULL DEFAULT NULL AFTER `ps_nivel2_id`;
+
+--2019-03-01 08:13
+ALTER TABLE `da_modalidades_ingresos_requisitos`
+MODIFY COLUMN `requisito`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' AFTER `modalidad_ingreso_id`;

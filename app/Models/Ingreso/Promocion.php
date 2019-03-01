@@ -20,6 +20,7 @@ class Promocion extends Model
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $promocionAux = Promocion::where('ps_nivel1_id',$r->ps_nivel1_id)
                         ->where('oferta',$r->oferta)
                         ->where('estado','1')
@@ -67,6 +68,7 @@ class Promocion extends Model
         $promocion->estado = 1;
         $promocion->persona_id_created_at=Auth::user()->id;
         $promocion->save();
+        DB::commit();
     }
 
     public static function runLoad($r)
