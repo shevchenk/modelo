@@ -240,7 +240,7 @@ AgregarEditar=function(val,id){
 }
 
 CambiarEstado=function(estado,id){
-    var texto='Acticar';
+    var texto='Activar';
     if( estado==0 ){
         texto='Eliminar';
     }

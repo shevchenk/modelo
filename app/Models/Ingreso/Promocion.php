@@ -20,6 +20,27 @@ class Promocion extends Model
 
     public static function runNew($r)
     {
+        $promocionAux = Promocion::where('ps_nivel1_id',$r->ps_nivel1_id)
+                        ->where('oferta',$r->oferta)
+                        ->where('estado','1')
+                        ->where(function ($query) use($r) {
+                            if( trim($r->ps_nivel2_id)!='' ){
+                                $query->where( 'ps_nivel2_id',$r->ps_nivel2_id );
+                            }
+                            if( trim($r->ps_nivel3_id)!='' ){
+                                $query->where( 'ps_nivel3_id',$r->ps_nivel3_id );
+                            }
+                            if( trim($r->local_id)!='' ){
+                                $query->where( 'local_id',$r->local_id );
+                            }
+                        })
+                        ->first();
+        if( isset($promocionAux->id) ){
+            $promocionAux->estado=0;
+            $promocionAux->persona_id_updated_at=Auth::user()->id;
+            $promocionAux->save();
+        }
+
         $promocion = new Promocion;
         $promocion->ps_nivel1_id = trim( $r->ps_nivel1_id );
 
@@ -98,6 +119,12 @@ class Promocion extends Model
                         $oferta=trim($r->oferta);
                         if( $oferta !='' ){
                             $query->where('bp_promociones.oferta','like','%'.$oferta.'%');
+                        }
+                    }
+                    if( $r->has("local") ){
+                        $local=trim($r->local);
+                        if( $local !='' ){
+                            $query->where('al.local','like','%'.$local.'%');
                         }
                     }
                     if( $r->has("tipo") ){

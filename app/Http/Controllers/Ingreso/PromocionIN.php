@@ -34,12 +34,7 @@ class PromocionIN extends Controller
             );
 
             $rules = array(
-                'ps_nivel1_id' => 
-                       ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
-//                                $query->where('pregunta_id',$r->pregunta_id );
-                    //   }),
-                        ],
+                'ps_nivel1_id' => ['required'],
             );
 
             
@@ -69,12 +64,7 @@ class PromocionIN extends Controller
             );
 
             $rules = array(
-                'ps_nivel1_id' => 
-                       ['required',
-                     //   Rule::unique('bm_ps_nivel3_local','cargo')->where(function ($query) use($r) {
-//                                $query->where('pregunta_id',$r->pregunta_id );
-                    //   }),
-                        ],
+                'ps_nivel1_id' => ['required'],
             );
 
             

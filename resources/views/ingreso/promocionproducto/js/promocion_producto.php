@@ -237,7 +237,11 @@ AgregarEditar=function(val,id){
 }
 
 CambiarEstado=function(estado,id){
-    AjaxPromocion.CambiarEstado(HTMLCambiarEstado,estado,id);
+    var texto='Activar';
+    if( estado==0 ){
+        texto='Anular';
+    }
+    sweetalertG.confirm($("#TablePromocion #trid_"+id+" .nivel1").text(),'Promoción: Desea '+texto+' "'+$("#TablePromocion #trid_"+id+" .oferta").text()+'"', function(){ AjaxPromocion.CambiarEstado(HTMLCambiarEstado,estado,id); });
 }
 
 HTMLCambiarEstado=function(result){
@@ -269,7 +273,7 @@ HTMLCargarPromocion=function(result){
     $('#TablePromocion').DataTable().destroy();
     
     $.each(result.data.data,function(index,r){
-        estadohtml='<span class="danger">Anulado</span>';
+        estadohtml='<span class="btn btn-danger" disabled>Anulado</span>';
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }

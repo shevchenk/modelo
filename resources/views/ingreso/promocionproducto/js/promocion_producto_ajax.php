@@ -2,7 +2,7 @@
 var AjaxPromocion={
     AgregarEditar:function(evento){
         var data=$("#ModalPromocionForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Ingreso.PromocionIN@New';
+        url='AjaxDinamic/Ingreso.PromocionIN@NewProducto';
         masterG.postAjax(url,data,evento);
     },
     Cargar:function(evento,pag){
@@ -11,7 +11,7 @@ var AjaxPromocion={
         }
         data=$("#PromocionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#PromocionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Ingreso.PromocionIN@Load';
+        url='AjaxDinamic/Ingreso.PromocionIN@LoadProducto';
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,AI,id){
