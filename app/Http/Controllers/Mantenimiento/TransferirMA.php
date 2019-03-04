@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\Ingreso;
+namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ingreso\PSLocal;
+use App\Models\Mantenimiento\Transferir;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PSLocalIN extends Controller
+class TransferirMA extends Controller
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class PSLocalIN extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            PSLocal::runEditStatus($r);
+            Transferir::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -30,21 +30,21 @@ class PSLocalIN extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'      => 'El '.$r->ttipo.': '.$r->nivel3.' ya existe y debe ser único, en el local:'.$r->local,
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'ps_nivel3_id' => ['required',
-                                Rule::unique('bm_ps_nivel3_local','ps_nivel3_id')
-                                ->where('local_id',$r->local_id)
-                                ->where('estado',1)],
+                'local_id_destino' => 
+                       ['required',
+                      //  Rule::unique('am_privilegios','privilegio'),
+                        ],
             );
 
             
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                PSLocal::runNew($r);
+                Transferir::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -65,14 +65,16 @@ class PSLocalIN extends Controller
             );
 
             $rules = array(
-                'ps_nivel3_id' => 
-                       ['required'],
+                'privilegio' => 
+                       ['required',
+                        Rule::unique('am_privilegios','privilegio')->ignore($r->id),
+                        ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                PSLocal::runEdit($r);
+                Transferir::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -87,8 +89,7 @@ class PSLocalIN extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $r['estado']=1;
-            $renturnModel = PSLocal::runLoad($r);
+            $renturnModel = Transferir::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";    
@@ -96,26 +97,4 @@ class PSLocalIN extends Controller
         }
     }
 
-    public function LoadUser(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $r['user']=1;
-            $renturnModel = PSLocal::runLoad($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";    
-            return response()->json($return);   
-        }
-    }
-    
-        public function LoadLocalProducto(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = PSLocal::ListNivel3Local($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";    
-            return response()->json($return);   
-        }
-    }
 }

@@ -207,4 +207,36 @@ class PSLocal extends Model
         $result = $sql->orderBy('al.local','asc')->paginate(10);
         return $result;
     }
+    
+        public static function ListNivel3Local($r)
+    {
+        $locales=DB::table("am_personas_privilegios")
+                ->select("am_personas_privilegios.local_ids")
+                ->where("am_personas_privilegios.persona_id",Auth::user()->id)->get();
+        
+        $sql=PSLocal::select('bm_ps_nivel3_local.id','bpn.nivel3')
+            ->join('bm_ps_nivel3 AS bpn',function($join){
+                $join->on('bpn.id','=','bm_ps_nivel3_local.ps_nivel3_id')
+                ->where('bpn.estado','=',1);
+                
+            })
+            ->where(
+                function($query) use ($r,$locales){
+                    if( $r->has("phrase") ){
+                        $nivel3=trim($r->phrase);
+                        if( $nivel3 !='' ){
+                            $query->where('bpn.nivel3','like','%'.$nivel3.'%');
+                        }
+                    }
+                    if(trim($locales[0]->local_ids)!=''){
+                        $local= explode(",",$locales[0]->local_ids);
+                        $query->whereIn('bm_ps_nivel3_local.local_id',$local);
+                    }
+                }
+            )
+            ->where('bm_ps_nivel3_local.estado','=','1');
+            
+        $result = $sql->get();
+        return $result;
+    }
 }
