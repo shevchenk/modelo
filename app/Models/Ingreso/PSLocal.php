@@ -217,7 +217,8 @@ class PSLocal extends Model
         $sql=PSLocal::select('bm_ps_nivel3_local.id','bpn.nivel3')
             ->join('bm_ps_nivel3 AS bpn',function($join){
                 $join->on('bpn.id','=','bm_ps_nivel3_local.ps_nivel3_id')
-                ->where('bpn.estado','=',1);
+                ->where('bpn.estado','=',1)
+                ->where('bpn.tipo','=',2);
                 
             })
             ->where(
