@@ -66,7 +66,10 @@
                             <div class="col-md-4">
                                 <label>Carrera - Plan Estudios:</label>
                                 <input type="hidden" class="mant" id="txt_plan_estudio_id" name="txt_plan_estudio_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_plan_estudio_id,#txt_nro_plan_estudio,#txt_plan_estudio',this.value);" id="txt_carrera" placeholder="Carrera - Plan Estudios">
+                                <div id="txt_carrera_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" id="txt_carrera" onblur="masterG.Limpiar('#txt_plan_estudio_id,#txt_nro_plan_estudio,#txt_plan_estudio',this.value);" placeholder="Carrera - Plan Estudios">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label>N° - Plan de Estudios:</label>
@@ -90,13 +93,17 @@
                     <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <legend>DATOS A CREAR O MODIFICAR:</legend>
                         <div class="panel panel-body">
-                            <div class="col-md-2 col-xs-6">
-                                <label>Meta Mínima:</label>
-                                <input type="number" class="form-control" id="txt_meta_minima" name="txt_meta_minima" placeholder="Meta Mínima" onkeypress="return masterG.validaNumerosMax(event, this, 3);">
-                            </div>
-                            <div class="col-md-2 col-xs-6">
-                                <label>Meta Máxima:</label>
-                                <input type="number" class="form-control" id="txt_meta_maxima" name="txt_meta_maxima" placeholder="Meta Máxima" onkeypress="return masterG.validaNumerosMax(event, this, 3);">
+                            <div class="col-md-4">
+                                <label>Frecuencia(s):</label>
+                                <select  class="form-control selectpicker show-menu-arrow" data-actions-box="true" multiple id="slct_frecuencia" name="slct_frecuencia[]">
+                                    <option value="Lu">Lunes</option>
+                                    <option value="Ma">Martes</option>
+                                    <option value="Mi">Miercoles</option>
+                                    <option value="Ju">Jueves</option>
+                                    <option value="Vi">Viernes</option>
+                                    <option value="Sa">Sábado</option>
+                                    <option value="Do">Domingo</option>
+                                </select>
                             </div>
                             <div class="col-md-4 col-xs-6">
                                 <label>Fecha y Hora Inicio:</label>
@@ -112,17 +119,13 @@
                                     <input type="text" class="form-control fecha" id="txt_fecha_final" name="txt_fecha_final" placeholder="AAAA-MM-DD" readonly="">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <label>Frecuencia(s):</label>
-                                <select  class="form-control selectpicker show-menu-arrow" data-actions-box="true" multiple id="slct_frecuencia" name="slct_frecuencia[]">
-                                    <option value="Lu">Lunes</option>
-                                    <option value="Ma">Martes</option>
-                                    <option value="Mi">Miercoles</option>
-                                    <option value="Ju">Jueves</option>
-                                    <option value="Vi">Viernes</option>
-                                    <option value="Sa">Sábado</option>
-                                    <option value="Do">Domingo</option>
-                                </select>
+                            <div class="col-md-2 col-xs-6">
+                                <label>Meta Mínima:</label>
+                                <input type="number" class="form-control" id="txt_meta_minima" name="txt_meta_minima" placeholder="Meta Mínima" onkeypress="return masterG.validaNumerosMax(event, this, 3);">
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <label>Meta Máxima:</label>
+                                <input type="number" class="form-control" id="txt_meta_maxima" name="txt_meta_maxima" placeholder="Meta Máxima" onkeypress="return masterG.validaNumerosMax(event, this, 3);">
                             </div>
                             <div class="col-md-4 col-xs-6">
                                 <label>Fecha Inicio Matrícula:</label>

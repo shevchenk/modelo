@@ -40,6 +40,11 @@ class GrupoAcademico extends Model
                                 ->where('local_id',$local_id[$i])
                                 ->where('semestre_id',$r->semestre_id)
                                 ->where('ciclo_id',1)
+                                ->where('frecuencia',$frecuencia)
+                                ->where('hora_inicio',$hora_inicio)
+                                ->where('hora_final',$hora_final)
+                                ->where('fecha_inicio',$fecha_inicio)
+                                ->where('fecha_final',$fecha_final)
                                 ->first();
             if( !isset($grupoAcademico->id) ){
                 $nuevo++;
@@ -101,6 +106,11 @@ class GrupoAcademico extends Model
                                 ->where('local_id',$local_id[$i])
                                 ->where('semestre_id',$r->semestre_id)
                                 ->where('ciclo_id',1)
+                                ->where('frecuencia',$frecuencia)
+                                ->where('hora_inicio',$hora_inicio)
+                                ->where('hora_final',$hora_final)
+                                ->where('fecha_inicio',$fecha_inicio)
+                                ->where('fecha_final',$fecha_final)
                                 ->first();
             if( !isset($grupoAcademico->id) ){
                 $nuevo++;
@@ -149,24 +159,24 @@ class GrupoAcademico extends Model
         DB::beginTransaction();
         $persona_id=Auth::user()->id;
         $local_id = $r->local_id;
-        $fechayhoraini = explode(" ",$r->fecha_inicio);
+        /*$fechayhoraini = explode(" ",$r->fecha_inicio);
         $fecha_inicio = $fechayhoraini[0];
         $hora_inicio = $fechayhoraini[1];
         $fechayhorafin = explode(" ",$r->fecha_final);
         $fecha_final = $fechayhorafin[0];
         $hora_final = $fechayhorafin[1];
-        $frecuencia = implode(",",$r->frecuencia);
+        $frecuencia = implode(",",$r->frecuencia);*/
         $nuevo=0;
         $editado=0;
         $ids= explode(",",$r->ids);
         for ($i=1; $i < count($ids) ; $i++) { 
             $grupoAcademico = GrupoAcademico::find($ids[$i]);
             $editado++;
-            $grupoAcademico->fecha_inicio = trim( $fecha_inicio );
+            /*$grupoAcademico->fecha_inicio = trim( $fecha_inicio );
             $grupoAcademico->fecha_final = trim( $fecha_final );
             $grupoAcademico->hora_inicio = trim( $hora_inicio );
             $grupoAcademico->hora_final = trim( $hora_final );
-            $grupoAcademico->frecuencia = trim( $frecuencia );
+            $grupoAcademico->frecuencia = trim( $frecuencia );*/
             $grupoAcademico->meta_minima_matricula = trim( $r->meta_minima );
             $grupoAcademico->meta_maxima_matricula = trim( $r->meta_maxima );
             $grupoAcademico->fecha_inicio_mat = trim( $r->fecha_inicio_mat );

@@ -7,7 +7,13 @@ var Nivel2Opciones = {
     url: "AjaxDinamic/Ingreso.Nivel2IN@ListNivel2",
     listLocation: "data",
     getValue: "nivel2",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalNivel3Form #txt_nivel2").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalNivel3Form #txt_nivel2").val();
         return data;
@@ -16,7 +22,11 @@ var Nivel2Opciones = {
         onClickEvent: function() {
             var value = $("#ModalNivel3Form #txt_nivel2").getSelectedItemData().id;
             $("#ModalNivel3Form #txt_ps_nivel2_id").val(value).trigger("change");
-        }
+            $("#ModalNivel3Form #txt_nivel2_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalNivel3Form #txt_nivel2_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -62,11 +72,13 @@ $(document).ready(function() {
 
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalNivel3Form #txt_nivel2_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalNivel3Form #txt_nivel2').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalNivel3Form").append("<input type='hidden' value='"+Nivel3G.id+"' name='id'>");
+            $("#ModalNivel3Form #txt_nivel2_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
     });
 
@@ -78,7 +90,7 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalNivel3Form #txt_ps_nivel2_id").val() )=='' ){
+    if( $("#ModalNivel3Form #txt_nivel2_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Sub Grupo',4000);
     }

@@ -140,12 +140,18 @@
                                                     <div class="col-sm-4">
                                                         <label>Pais Nacimiento:</label>
                                                         <input type="hidden" class="mant" id="txt_pais_id" name="txt_pais_id">
-                                                        <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_pais_id');" id="txt_pais" placeholder="Pais">
+                                                        <div id="txt_pais_ico" class="has-error has-feedback">
+                                                            <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_pais_id');" id="txt_pais" placeholder="Pais">
+                                                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-8 paisafectado">
                                                         <label>Colegio:</label>
                                                         <input type="hidden" class="mant" id="txt_colegio_id" name="txt_colegio_id">
-                                                        <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_colegio_id');" id="txt_colegio" placeholder="Colegio">
+                                                        <div id="txt_colegio_ico" class="has-error has-feedback">
+                                                            <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_colegio_id');" id="txt_colegio" placeholder="Colegio">
+                                                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                                        </div>
                                                     </div>
                                                 </div> <!--FIN DE COL SM 12-->
                                                 <div class="col-sm-12">
@@ -154,7 +160,10 @@
                                                         <input type="hidden" class="mant" id="txt_distrito_id" name="txt_distrito_id">
                                                         <input type="hidden" class="mant" id="txt_provincia_id" name="txt_provincia_id">
                                                         <input type="hidden" class="mant" id="txt_region_id" name="txt_region_id">
-                                                        <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id,#txt_provincia_id,#txt_region_id,#txt_provincia,#txt_region');" id="txt_distrito" placeholder="Distrito Nacimiento">
+                                                        <div id="txt_distrito_ico" class="has-error has-feedback">
+                                                            <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id,#txt_provincia_id,#txt_region_id,#txt_provincia,#txt_region');" id="txt_distrito" placeholder="Distrito Nacimiento">
+                                                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-3 paisafectado2">
                                                         <label>Provincia:</label>
@@ -171,7 +180,10 @@
                                                         <input type="hidden" class="mant" id="txt_distrito_id_dir" name="txt_distrito_id_dir">
                                                         <input type="hidden" class="mant" id="txt_provincia_id_dir" name="txt_provincia_id_dir">
                                                         <input type="hidden" class="mant" id="txt_region_id_dir" name="txt_region_id_dir">
-                                                        <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id_dir,#txt_provincia_id_dir,#txt_region_id_dir,#txt_provincia_dir,#txt_region_dir');" id="txt_distrito_dir" placeholder="Distrito Dirección">
+                                                        <div id="txt_distrito_dir_ico" class="has-error has-feedback">
+                                                            <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id_dir,#txt_provincia_id_dir,#txt_region_id_dir,#txt_provincia_dir,#txt_region_dir');" id="txt_distrito_dir" placeholder="Distrito Dirección">
+                                                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label>Provincia:</label>

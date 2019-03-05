@@ -18,7 +18,13 @@ var EmpleadoOpciones = {
     url: "AjaxDinamic/Mantenimiento.EmpleadoMA@ListEmpleado",
     listLocation: "data",
     getValue: "empleado",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalLocalForm #txt_empleado").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalLocalForm #txt_empleado").val();
         return data;
@@ -29,7 +35,11 @@ var EmpleadoOpciones = {
             var value2 = $("#ModalLocalForm #txt_empleado").getSelectedItemData().dni;
             $("#ModalLocalForm #txt_empleado_id").val(value).trigger("change");
             $("#ModalLocalForm #txt_dni").val(value2).trigger("change");
-        }
+            $("#ModalLocalForm #txt_empleado_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalLocalForm #txt_empleado_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "custom",
@@ -56,10 +66,12 @@ $(document).ready(function() {
     $('#ModalLocal').on('shown.bs.modal', function (event) {
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalLocalForm #txt_empleado_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalLocalForm").append("<input type='hidden' value='"+LocalG.id+"' name='id'>");
+            $("#ModalLocalForm #txt_empleado_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
 
         $('#ModalLocalForm #txt_local').val( LocalG.local );
@@ -94,7 +106,7 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalLocalForm #txt_empleado").val() )=='' ){
+    if( $("#ModalLocalForm #txt_empleado_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Empleado',4000);
     }

@@ -567,7 +567,10 @@
                                                                 </td>
                                                                 <td>
                                                                     <input type="hidden" class="mant" id="txt_curso_id_nro" name="txt_curso_id_nro">
-                                                                    <input class="form-control" style="width:200px !important;" type="text" onblur="masterG.Limpiar('#txt_curso_id_nro',this.value);" id="txt_curso_nro" name="txt_curso_nro" placeholder="Curso">
+                                                                    <div id="txt_curso_nro_ico" class="has-error has-feedback">
+                                                                        <input class="form-control" style="width:200px !important;" type="text" onblur="masterG.Limpiar('#txt_curso_id_nro',this.value);" id="txt_curso_nro" name="txt_curso_nro" placeholder="Curso">
+                                                                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                                                    </div>
                                                                 </td>
                                                                 <td><select style="width:120px !important;" id="slct_tipo_estudio_nro" name="slct_tipo_estudio_nro">
                                                                         <option value="1">General</option>

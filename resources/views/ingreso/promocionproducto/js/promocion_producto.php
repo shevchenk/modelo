@@ -8,7 +8,13 @@ var Nivel3Opciones = {
     url: "AjaxDinamic/Ingreso.Nivel3IN@ListNivel3",
     listLocation: "data",
     getValue: "nivel3",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPromocionForm #txt_nivel3").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPromocionForm #txt_nivel3").val();
         data.tipo = $("#ModalPromocionForm #txt_tipo").val();
@@ -26,7 +32,11 @@ var Nivel3Opciones = {
             $("#ModalPromocionForm #txt_nivel2").val(nivel2).trigger("change");
             $("#ModalPromocionForm #txt_ps_nivel1_id").val(ps_nivel1_id).trigger("change");
             $("#ModalPromocionForm #txt_nivel1").val(nivel1).trigger("change");
-        }
+            $("#ModalPromocionForm #txt_nivel3_ico, #ModalPromocionForm #txt_nivel2_ico, #ModalPromocionForm #txt_nivel1_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPromocionForm #txt_nivel3_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "custom",
@@ -42,7 +52,13 @@ var Nivel2Opciones = {
     url: "AjaxDinamic/Ingreso.Nivel2IN@ListNivel2",
     listLocation: "data",
     getValue: "nivel2",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPromocionForm #txt_nivel2").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPromocionForm #txt_nivel2").val();
         return data;
@@ -58,7 +74,12 @@ var Nivel2Opciones = {
 
             $("#ModalPromocionForm #txt_ps_nivel3_id").val('').trigger("change");
             $("#ModalPromocionForm #txt_nivel3").val('').trigger("change");
-        }
+            $("#ModalPromocionForm #txt_nivel2_ico, #ModalPromocionForm #txt_nivel1_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPromocionForm #txt_nivel3_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        onLoadEvent: function() {
+            $("#ModalPromocionForm #txt_nivel2_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -74,7 +95,13 @@ var Nivel1Opciones = {
     url: "AjaxDinamic/Ingreso.Nivel1IN@ListNivel1",
     listLocation: "data",
     getValue: "nivel1",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPromocionForm #txt_nivel1").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPromocionForm #txt_nivel1").val();
         return data;
@@ -88,7 +115,12 @@ var Nivel1Opciones = {
             $("#ModalPromocionForm #txt_nivel2").val('').trigger("change");
             $("#ModalPromocionForm #txt_ps_nivel3_id").val('').trigger("change");
             $("#ModalPromocionForm #txt_nivel3").val('').trigger("change");
-        }
+            $("#ModalPromocionForm #txt_nivel1_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPromocionForm #txt_nivel2_ico, #ModalPromocionForm #txt_nivel3_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        onLoadEvent: function() {
+            $("#ModalPromocionForm #txt_nivel1_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -98,7 +130,13 @@ var LocalOpciones = {
     url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocal",
     listLocation: "data",
     getValue: "local",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPromocionForm #txt_local").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPromocionForm #txt_local").val();
         return data;
@@ -109,7 +147,11 @@ var LocalOpciones = {
             var value2 = $("#ModalPromocionForm #txt_local").getSelectedItemData().codigo;
             $("#ModalPromocionForm #txt_local_id").val(value).trigger("change");
             $("#ModalPromocionForm #txt_codigo_local").val(value2).trigger("change");
-        }
+            $("#ModalPromocionForm #txt_local_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPromocionForm #txt_local_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -169,6 +211,7 @@ $(document).ready(function() {
 
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalPromocionForm #txt_nivel1_ico,#ModalPromocionForm #txt_nivel2_ico,#ModalPromocionForm #txt_nivel3_ico,#ModalPromocionForm #txt_local_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalPromocionForm #txt_nivel1').focus();
         }
         else{
@@ -185,11 +228,11 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalPromocionForm #txt_ps_nivel1_id").val() )=='' ){
+    if( $("#ModalPromocionForm #txt_nivel1_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Grupo',4000);
     }
-    else if( $.trim( $("#ModalPromocionForm #txt_ps_nivel3_id").val() )!='' && $.trim( $("#ModalPromocionForm #txt_ps_nivel2_id").val() )==''){
+    else if( $("#ModalPromocionForm #txt_nivel2_ico").hasClass("has-error") && $("#ModalPromocionForm #txt_nivel3_ico").hasClass("has-success") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Sub Grupo',4000);
     }

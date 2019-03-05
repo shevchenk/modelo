@@ -12,7 +12,10 @@
                         <div class="col-sm-12">
                             <label>Menu:</label>
                             <input type="hidden" class="mant" id="txt_menu_id" name="txt_menu_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_menu_id',this.value);" id="txt_menu" placeholder="Menu">
+                            <div id="txt_menu_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_menu_id',this.value);" id="txt_menu" placeholder="Menu">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">

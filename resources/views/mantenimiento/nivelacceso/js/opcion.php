@@ -6,7 +6,13 @@ var MenuOpciones = {
     url: "AjaxDinamic/Mantenimiento.MenuMA@ListMenu",
     listLocation: "data",
     getValue: "menu",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalOpcionForm #txt_menu").val()+' <b>sin resultados</b>',6000);
+            }
+        },
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalOpcionForm #txt_menu").val();
         return data;
@@ -15,7 +21,11 @@ var MenuOpciones = {
         onClickEvent: function() {
             var value = $("#ModalOpcionForm #txt_menu").getSelectedItemData().id;
             $("#ModalOpcionForm #txt_menu_id").val(value).trigger("change");
-        }
+            $("#ModalOpcionForm #txt_menu_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalOpcionForm #txt_menu_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -46,11 +56,13 @@ $(document).ready(function() {
         
         if( AddEditOpcion==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjaxOpcion();');
+            $("#ModalOpcionForm #txt_menu_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalOpcionForm #txt_menu').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjaxOpcion();');
             $("#ModalOpcionForm").append("<input type='hidden' value='"+OpcionG.id+"' name='id'>");
+            $("#ModalOpcionForm #txt_menu_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
     });
 
@@ -62,7 +74,7 @@ $(document).ready(function() {
 
 ValidaFormOpcion=function(){
     var r=true;
-    if( $.trim( $("#ModalOpcionForm #txt_menu").val() )=='' ){
+    if( $("#ModalOpcionForm #txt_menu_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Menu',4000);
     }

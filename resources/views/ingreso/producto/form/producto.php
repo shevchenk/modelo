@@ -13,7 +13,10 @@
                             <div class="form-group">
                                 <label>Sub Grupo:</label>
                                 <input type="hidden" class="mant" id="txt_ps_nivel2_id" name="txt_ps_nivel2_id">
-                                <input type="text" class="form-control" onblur="LimpiarNivelModal('txt_ps_nivel2_id,#txt_nivel2');" id="txt_nivel2" placeholder="Sub Grupo">
+                                <div id="txt_nivel2_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" id="txt_nivel2" onblur="masterG.Limpiar('#txt_ps_nivel2_id,#txt_nivel2',this.value);" placeholder="Sub Grupo">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">

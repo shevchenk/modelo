@@ -36,7 +36,13 @@ var ColegioOpciones = {
     url: "AjaxDinamic/Mantenimiento.ColegioMA@ListColegio",
     listLocation: "data",
     getValue: "colegio",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPersonaForm #txt_colegio").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPersonaForm #txt_colegio").val();
         return data;
@@ -45,17 +51,17 @@ var ColegioOpciones = {
         onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_colegio").getSelectedItemData().id;
             $("#ModalPersonaForm #txt_colegio_id").val(value).trigger("change");
-        }
+            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
         fields: {
             description: "distrito"
         }
-        /*type: "custom",
-        method: function(value, item) {
-            return value+' - '+'<b>Distrito:</b>'+item.distrito;
-        }*/
     },
     adjustWidth:false,
 };
@@ -64,9 +70,15 @@ var PaisOpciones = {
     url: "AjaxDinamic/Mantenimiento.PaisMA@ListPais",
     listLocation: "data",
     getValue: "pais",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPersonaForm #txt_pais").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_pais").val();
+        data.phrase = $("#ModalPersonaForm #txt_pais").val();
         return data;
     },
     list: {
@@ -78,7 +90,11 @@ var PaisOpciones = {
             if( $("#ModalPersonaForm #txt_pais").getSelectedItemData().id!=173 ){
                 $(".paisafectado input,.paisafectado2 input").val('').attr('disabled','true');
             }
-        }
+            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -93,9 +109,15 @@ var DistritoOpciones = {
     url: "AjaxDinamic/Mantenimiento.DistritoMA@ListDistrito",
     listLocation: "data",
     getValue: "distrito",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_distrito").val();
+        data.phrase = $("#ModalPersonaForm #txt_distrito").val();
         return data;
     },
     list: {
@@ -110,7 +132,11 @@ var DistritoOpciones = {
             $("#ModalPersonaForm #txt_region_id").val(value3).trigger("change");
             $("#ModalPersonaForm #txt_provincia").val(value4).trigger("change");
             $("#ModalPersonaForm #txt_region").val(value5).trigger("change");
-        }
+            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -125,9 +151,15 @@ var DistritoDirOpciones = {
     url: "AjaxDinamic/Mantenimiento.DistritoMA@ListDistrito",
     listLocation: "data",
     getValue: "distrito",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito_dir").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_distrito_dir").val();
+        data.phrase = $("#ModalPersonaForm #txt_distrito_dir").val();
         return data;
     },
     list: {
@@ -142,7 +174,11 @@ var DistritoDirOpciones = {
             $("#ModalPersonaForm #txt_region_id_dir").val(value3).trigger("change");
             $("#ModalPersonaForm #txt_provincia_dir").val(value4).trigger("change");
             $("#ModalPersonaForm #txt_region_dir").val(value5).trigger("change");
-        }
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -175,10 +211,12 @@ $(document).ready(function() {
         CargarModal();
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalPersonaForm").append("<input type='hidden' value='"+PersonaG.id+"' name='id'>");
+            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
 
         $('#ModalPersonaForm #txt_paterno').val( PersonaG.paterno );

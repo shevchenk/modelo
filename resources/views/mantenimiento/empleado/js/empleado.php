@@ -6,9 +6,15 @@ var PersonaOpciones = {
     url: "AjaxDinamic/Mantenimiento.PersonaEM@ListPersona",
     listLocation: "data",
     getValue: "persona",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalEmpleadoForm #txt_persona").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_persona").val();
+        data.phrase = $("#ModalEmpleadoForm #txt_persona").val();
         return data;
     },
     list: {
@@ -17,7 +23,11 @@ var PersonaOpciones = {
             var value2 = $("#ModalEmpleadoForm #txt_persona").getSelectedItemData().dni;
             $("#ModalEmpleadoForm #txt_persona_id").val(value).trigger("change");
             $("#ModalEmpleadoForm #txt_dni").val(value2).trigger("change");
-        }
+            $("#ModalEmpleadoForm #txt_persona_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalEmpleadoForm #txt_persona_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "custom",
@@ -32,16 +42,26 @@ var CargoOpciones = {
     url: "AjaxDinamic/Mantenimiento.CargoEM@ListCargo",
     listLocation: "data",
     getValue: "cargo",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalEmpleadoForm #txt_cargo").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_cargo").val();
+        data.phrase = $("#ModalEmpleadoForm #txt_cargo").val();
         return data;
     },
     list: {
         onClickEvent: function() {
             var value = $("#ModalEmpleadoForm #txt_cargo").getSelectedItemData().id;
             $("#ModalEmpleadoForm #txt_cargo_id").val(value).trigger("change");
-        }
+            $("#ModalEmpleadoForm #txt_cargo_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalEmpleadoForm #txt_cargo_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -50,9 +70,15 @@ var LocalOpciones = {
     url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocal",
     listLocation: "data",
     getValue: "local",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalEmpleadoForm #txt_local").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_local").val();
+        data.phrase = $("#ModalEmpleadoForm #txt_local").val();
         return data;
     },
     list: {
@@ -61,7 +87,11 @@ var LocalOpciones = {
             var value2 = $("#ModalEmpleadoForm #txt_local").getSelectedItemData().codigo;
             $("#ModalEmpleadoForm #txt_local_id").val(value).trigger("change");
             $("#ModalEmpleadoForm #txt_codigo_local").val(value2).trigger("change");
-        }
+            $("#ModalEmpleadoForm #txt_local_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalEmpleadoForm #txt_local_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -76,16 +106,26 @@ var MedioCaptacionOpciones = {
     url: "AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacionComision",
     listLocation: "data",
     getValue: "medio_captacion",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalEmpleadoForm #txt_medio_captacion").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
-        data.phrase = $("#txt_medio_captacion").val();
+        data.phrase = $("#ModalEmpleadoForm #txt_medio_captacion").val();
         return data;
     },
     list: {
         onClickEvent: function() {
             var value = $("#ModalEmpleadoForm #txt_medio_captacion").getSelectedItemData().id;
             $("#ModalEmpleadoForm #txt_medio_captacion_id").val(value).trigger("change");
-        }
+            $("#ModalEmpleadoForm #txt_medio_captacion_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalEmpleadoForm #txt_medio_captacion_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -123,12 +163,17 @@ $(document).ready(function() {
 
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalEmpleadoForm #txt_medio_captacion_ico, #ModalEmpleadoForm #txt_persona_ico, #ModalEmpleadoForm #txt_local_ico, #ModalEmpleadoForm #txt_cargo_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalEmpleadoForm #txt_persona').removeAttr( 'disabled' );
         }
         else{
             $('#ModalEmpleadoForm #txt_persona').attr( 'disabled','true' );
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalEmpleadoForm").append("<input type='hidden' value='"+EmpleadoG.id+"' name='id'>");
+            $("#ModalEmpleadoForm #txt_medio_captacion_ico, #ModalEmpleadoForm #txt_persona_ico, #ModalEmpleadoForm #txt_local_ico, #ModalEmpleadoForm #txt_cargo_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            if( EmpleadoG.medio_captacion_id=='' ){
+                $("#ModalEmpleadoForm #txt_medio_captacion_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            }
         }
         $('#ModalEmpleadoForm #txt_persona').val( EmpleadoG.persona );
         $('#ModalEmpleadoForm #txt_persona_id').val( EmpleadoG.persona_id );
@@ -154,15 +199,15 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if(  $.trim( $("#ModalEmpleadoForm #txt_persona").val() )=='' ){
+    if(  $("#ModalEmpleadoForm #txt_persona_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y seleccione una persona',4000);
     }
-    else if(  $.trim( $("#ModalEmpleadoForm #txt_cargo").val() )=='' ){
+    else if(  $("#ModalEmpleadoForm #txt_cargo_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y seleccione puesto de trabajo',4000);
     }
-    else if(  $.trim( $("#ModalEmpleadoForm #txt_local").val() )=='' ){
+    else if(  $("#ModalEmpleadoForm #txt_local_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y seleccione local',4000);
     }

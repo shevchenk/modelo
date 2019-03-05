@@ -7,7 +7,13 @@ var CursoOpciones = {
     url: "AjaxDinamic/PlanEstudio.CursoPE@ListCurso",
     listLocation: "data",
     getValue: "curso",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#PlanEstudioDetalleForm #txt_curso").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#PlanEstudioDetalleForm #txt_curso").val();
         return data;
@@ -16,7 +22,11 @@ var CursoOpciones = {
         onClickEvent: function() {
             var value = $("#PlanEstudioDetalleForm #txt_curso").getSelectedItemData().id;
             $("#PlanEstudioDetalleForm #txt_curso_id").val(value).trigger("change");
-        }
+            $("#PlanEstudioDetalleForm #txt_curso_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#PlanEstudioDetalleForm #txt_curso_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -203,7 +213,7 @@ CancelarPlantillaCurricularId=function(){
 }
 
 GuardarPlantillaCurricular=function(){
-    if( $.trim($("#PlanEstudioDetalleForm #txt_curso").val())=='' ){
+    if( $("#PlanEstudioDetalleForm #txt_curso_ico").hasClass("has-error") ){
         msjG.mensaje('warning','Busque y Seleccione Curso',4000);
     }
     else if( $.trim($("#PlanEstudioDetalleForm #txt_hora_teoria_presencial").val())=='' ){

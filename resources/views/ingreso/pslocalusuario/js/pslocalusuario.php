@@ -9,7 +9,13 @@ var Nivel3Opciones = {
     url: "AjaxDinamic/Ingreso.Nivel3IN@ListNivel3",
     listLocation: "data",
     getValue: "nivel3",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalProductoForm #txt_nivel3").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalProductoForm #txt_nivel3").val();
         data.tipo = $("#ModalProductoForm #slct_tipo").val();
@@ -21,7 +27,11 @@ var Nivel3Opciones = {
             var value2 = $("#ModalProductoForm #txt_nivel3").getSelectedItemData().nivel2;
             $("#ModalProductoForm #txt_ps_nivel3_id").val(value).trigger("change");
             $("#ModalProductoForm #txt_nivel2").val(value2).trigger("change");
-        }
+            $("#ModalProductoForm #txt_nivel3_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalProductoForm #txt_nivel3_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "custom",
@@ -36,7 +46,13 @@ var LocalOpciones = {
     url: "AjaxDinamic/Mantenimiento.LocalMA@ListLocalUser",
     listLocation: "data",
     getValue: "local",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalProductoForm #txt_local").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalProductoForm #txt_local").val();
         return data;
@@ -47,7 +63,11 @@ var LocalOpciones = {
             var value2 = $("#ModalProductoForm #txt_local").getSelectedItemData().codigo;
             $("#ModalProductoForm #txt_local_id").val(value).trigger("change");
             $("#ModalProductoForm #txt_codigo_local").val(value2).trigger("change");
-        }
+            $("#ModalProductoForm #txt_local_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalProductoForm #txt_local_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -103,18 +123,20 @@ $(document).ready(function() {
         $('#ModalProductoForm #txt_dias_vencimiento').val( ProductoG.dias_vencimiento );
         $('#ModalProductoForm #slct_estado').val( ProductoG.estado );
         $('#ModalProductoForm #slct_tipo').val( ProductoG.tipo );
-        $("#ModalProducto select").selectpicker('refresh');
 
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProductoForm #txt_local,#ModalProductoForm #txt_nivel3,#ModalProductoForm #slct_tipo").removeAttr("disabled");
+            $("#ModalProductoForm #txt_local_ico, #ModalProductoForm #txt_nivel3_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalProductoForm #txt_local').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProductoForm").append("<input type='hidden' value='"+ProductoG.id+"' name='id'>");
             $("#ModalProductoForm #txt_local,#ModalProductoForm #txt_nivel3,#ModalProductoForm #slct_tipo").attr("disabled",'true');
+            $("#ModalProductoForm #txt_local_ico, #ModalProductoForm #txt_nivel3_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
+        $("#ModalProducto select").selectpicker('refresh');
     });
 
     $('#ModalProducto').on('hidden.bs.modal', function (event) {
@@ -146,7 +168,7 @@ ValidaTipo=function(){
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProductoForm #txt_local_id").val() )=='' ){
+    if( $("#ModalProductoForm #txt_local_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Local',4000);
     }
@@ -154,7 +176,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Tipo',4000);
     }
-    else if( $.trim( $("#ModalProductoForm #txt_ps_nivel3_id").val() )=='' ){
+    else if( $("#ModalProductoForm #txt_nivel3_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione '+$("#ModalProductoForm #slct_tipo option:selected").text(),4000);
     }

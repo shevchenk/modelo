@@ -4,7 +4,13 @@ var PersonaOpciones = {
     url: "AjaxDinamic/Mantenimiento.PersonaEM@ListPersona",
     listLocation: "data",
     getValue: "persona",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#EntidadForm #txt_persona").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#EntidadForm #txt_persona").val();
         return data;
@@ -15,7 +21,11 @@ var PersonaOpciones = {
             var value2 = $("#EntidadForm #txt_persona").getSelectedItemData().dni;
             $("#EntidadForm #txt_persona_id").val(value).trigger("change");
             $("#EntidadForm #txt_dni").val(value2).trigger("change");
-        }
+            $("#EntidadForm #txt_persona_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#EntidadForm #txt_persona_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "custom",
@@ -32,7 +42,7 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#EntidadForm #txt_persona").val() )=='' ){
+    if( $("#EntidadForm #txt_persona_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Persona',4000);
     }

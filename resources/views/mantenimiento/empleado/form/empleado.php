@@ -13,7 +13,10 @@
                             <div class="col-sm-6">
                                 <label>Persona:</label>
                                 <input type="hidden" class="mant" id="txt_persona_id" name="txt_persona_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_persona_id,#txt_dni',this.value);" id="txt_persona" placeholder="Persona">
+                                <div id="txt_persona_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_persona_id,#txt_dni',this.value);" id="txt_persona" placeholder="Persona">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-sm-3">
                                 <label>DNI:</label>
@@ -28,12 +31,18 @@
                             <div class="col-sm-5">
                                 <label>Puesto de Trabajo:</label>
                                 <input type="hidden" class="mant" id="txt_cargo_id" name="txt_cargo_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_cargo_id',this.value);" id="txt_cargo" placeholder="Puesto de Trabajo">
+                                <div id="txt_cargo_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_cargo_id',this.value);" id="txt_cargo" placeholder="Puesto de Trabajo">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-sm-5">
                                 <label>Local:</label>
                                 <input type="hidden" class="mant" id="txt_local_id" name="txt_local_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_local_id,#txt_codigo_local',this.value);" id="txt_local" placeholder="Local">
+                                <div id="txt_local_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_local_id,#txt_codigo_local',this.value);" id="txt_local" placeholder="Local">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-sm-2">
                                 <label>Código Local:</label>
@@ -44,7 +53,10 @@
                             <div class="col-sm-6">
                                 <label>Medio de Captación:</label>
                                 <input type="hidden" class="mant" id="txt_medio_captacion_id" name="txt_medio_captacion_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_medio_captacion_id',this.value);" id="txt_medio_captacion" placeholder="Medio de Captación">
+                                <div id="txt_medio_captacion_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_medio_captacion_id',this.value);" id="txt_medio_captacion" placeholder="Medio de Captación">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-sm-3">
                                 <label>Fecha Ingreso:</label>

@@ -13,7 +13,10 @@
                             <div class="form-group">
                             <label>Facultad:</label>
                             <input type="hidden" class="mant" id="txt_facultad_id" name="txt_facultad_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_facultad_id',this.value);" id="txt_facultad" placeholder="Facultad">
+                            <div id="txt_facultad_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_facultad_id',this.value);" id="txt_facultad" placeholder="Facultad">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                             </div>
                         </div>
                         <div class="col-md-12">

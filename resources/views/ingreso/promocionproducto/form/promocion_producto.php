@@ -12,23 +12,35 @@
                         <div class="col-md-12">
                             <label>Grupo:</label>
                             <input type="hidden" class="mant" id="txt_ps_nivel1_id" name="txt_ps_nivel1_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel1_id,#txt_nivel1',this.value);" id="txt_nivel1" placeholder="Grupo">
+                            <div id="txt_nivel1_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel1_id,#txt_nivel1',this.value);" id="txt_nivel1" placeholder="Grupo">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <label>Sub Grupo:</label>
                             <input type="hidden" class="mant" id="txt_ps_nivel2_id" name="txt_ps_nivel2_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel2_id,#txt_nivel2',this.value);" id="txt_nivel2" placeholder="Sub Grupo">
+                            <div id="txt_nivel2_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel2_id,#txt_nivel2',this.value);" id="txt_nivel2" placeholder="Sub Grupo">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <label>Producto:</label>
                             <input type="hidden" class="mant" value="2" id="txt_tipo" name="txt_tipo">
                             <input type="hidden" class="mant" id="txt_ps_nivel3_id" name="txt_ps_nivel3_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel3_id,#txt_nivel3',this.value);" id="txt_nivel3" placeholder="Producto">
+                            <div id="txt_nivel3_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_ps_nivel3_id,#txt_nivel3',this.value);" id="txt_nivel3" placeholder="Producto">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                         </div>
                         <div class="col-md-8 col-xs-8">
                             <label>Local:</label>
                             <input type="hidden" class="mant" id="txt_local_id" name="txt_local_id">
-                            <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_local_id,#txt_codigo_local',this.value);" id="txt_local" placeholder="Local">
+                            <div id="txt_local_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_local_id,#txt_codigo_local',this.value);" id="txt_local" placeholder="Local">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
                         </div>
                         <div class="col-md-4 col-xs-4">
                             <label>Código Local:</label>

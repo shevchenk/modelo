@@ -13,7 +13,10 @@
               <div class="col-md-8">
                 <label>Responsable:</label>
                 <input type="hidden" class="mant" id="txt_empleado_id" name="txt_empleado_id">
-                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_empleado_id,#txt_dni',this.value);" id="txt_empleado" placeholder="Empleado">
+                <div id="txt_empleado_ico" class="has-error has-feedback">
+                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_empleado_id,#txt_dni',this.value);" id="txt_empleado" placeholder="Empleado">
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
               </div>
               <div class="col-sm-4">
                 <label>DNI::</label>

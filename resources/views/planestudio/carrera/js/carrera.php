@@ -6,7 +6,13 @@ var FacultadOpciones = {
     url: "AjaxDinamic/PlanEstudio.FacultadPE@ListFacultad",
     listLocation: "data",
     getValue: "facultad",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalCarreraForm #txt_facultad").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalCarreraForm #txt_facultad").val();
         return data;
@@ -15,7 +21,11 @@ var FacultadOpciones = {
         onClickEvent: function() {
             var value = $("#ModalCarreraForm #txt_facultad").getSelectedItemData().id;
             $("#ModalCarreraForm #txt_facultad_id").val(value).trigger("change");
-        }
+            $("#ModalCarreraForm #txt_facultad_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalCarreraForm #txt_facultad_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -48,11 +58,13 @@ $(document).ready(function() {
         
         if( AddEditCarrera==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjaxCarrera();');
+            $("#ModalCarreraForm #txt_facultad_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalCarreraForm #txt_facultad').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjaxCarrera();');
             $("#ModalCarreraForm").append("<input type='hidden' value='"+CarreraG.id+"' name='id'>");
+            $("#ModalCarreraForm #txt_facultad_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
     });
 
@@ -64,7 +76,7 @@ $(document).ready(function() {
 
 ValidaFormCarrera=function(){
     var r=true;
-    if( $.trim( $("#ModalCarreraForm #txt_facultad").val() )=='' ){
+    if( $("#ModalCarreraForm #txt_facultad_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Facultad',4000);
     }

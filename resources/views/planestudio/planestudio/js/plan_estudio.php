@@ -6,7 +6,13 @@ var ModalidadOpciones = {
     url: "AjaxDinamic/PlanEstudio.ModalidadPE@ListModalidad",
     listLocation: "data",
     getValue: "modalidad",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPlanEstudioForm #txt_modalidad").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPlanEstudioForm #txt_modalidad").val();
         return data;
@@ -15,7 +21,11 @@ var ModalidadOpciones = {
         onClickEvent: function() {
             var value = $("#ModalPlanEstudioForm #txt_modalidad").getSelectedItemData().id;
             $("#ModalPlanEstudioForm #txt_modalidad_id").val(value).trigger("change");
-        }
+            $("#ModalPlanEstudioForm #txt_modalidad_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPlanEstudioForm #txt_modalidad_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     adjustWidth:false,
 };
@@ -24,7 +34,13 @@ var CarreraOpciones = {
     url: "AjaxDinamic/PlanEstudio.CarreraPE@ListCarrera",
     listLocation: "data",
     getValue: "carrera",
-    ajaxSettings: { dataType: "json", method: "POST", data: {} },
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPlanEstudioForm #txt_carrera").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
     preparePostData: function(data) {
         data.phrase = $("#ModalPlanEstudioForm #txt_carrera").val();
         return data;
@@ -39,7 +55,11 @@ var CarreraOpciones = {
             $("#ModalPlanEstudioForm #txt_facultad").val(value2).trigger("change");
             $("#ModalPlanEstudioForm #txt_facultad_id").val(value3).trigger("change");
             $("#ModalPlanEstudioForm #txt_codigo").val(value4).trigger("change");
-        }
+            $("#ModalPlanEstudioForm #txt_carrera_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPlanEstudioForm #txt_carrera_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
     },
     template: {
         type: "description",
@@ -101,11 +121,13 @@ $(document).ready(function() {
         
         if( AddEditPlanEstudio==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjaxPlanEstudio();');
+            $("#ModalPlanEstudioForm #txt_carrera_ico, #ModalPlanEstudioForm #txt_modalidad_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $('#ModalPlanEstudioForm #txt_modalidad').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjaxPlanEstudio();');
             $("#ModalPlanEstudioForm").append("<input type='hidden' value='"+PlanEstudioG.id+"' name='id'>");
+            $("#ModalPlanEstudioForm #txt_carrera_ico, #ModalPlanEstudioForm #txt_modalidad_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
         }
     });
 
@@ -117,17 +139,29 @@ $(document).ready(function() {
 
 ValidaFormPlanEstudio=function(){
     var r=true;
-    if( $.trim( $("#ModalPlanEstudioForm #txt_modalidad").val() )=='' ){
+    if( $("#ModalPlanEstudioForm #txt_modalidad_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Modalidad',4000);
     }
-    else if( $.trim( $("#ModalPlanEstudioForm #txt_facultad").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Busque y Seleccione Facultad',4000);
-    }
-    else if( $.trim( $("#ModalPlanEstudioForm #txt_carrera").val() )=='' ){
+    else if( $("#ModalPlanEstudioForm #txt_carrera_ico").hasClass("has-error") ){
         r=false;
         msjG.mensaje('warning','Busque y Seleccione Carrera',4000);
+    }
+    else if ( $("#ModalPlanEstudioForm #txt_periodo_academico").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese N° periodo académico x año',4000);
+    }
+    else if ( $("#ModalPlanEstudioForm #txt_duracion").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese duración del programa',4000);
+    }
+    else if ( $("#ModalPlanEstudioForm #txt_credito_teoria").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese valor del crédito en H. Teórica',4000);
+    }
+    else if ( $("#ModalPlanEstudioForm #txt_credito_practica").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese valor del crédito en H. Práctica',4000);
     }
     return r;
 }

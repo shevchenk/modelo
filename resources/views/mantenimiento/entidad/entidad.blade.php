@@ -46,7 +46,10 @@
                                 <div class="col-sm-4">
                                     <label>Persona:</label>
                                     <input type="hidden" class="mant" id="txt_persona_id" name="txt_persona_id">
-                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_persona_id,#txt_dni',this.value);" id="txt_persona" placeholder="Persona">
+                                    <div id="txt_persona_ico" class="has-error has-feedback">
+                                        <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_persona_id,#txt_dni',this.value);" id="txt_persona" placeholder="Persona">
+                                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                    </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label>DNI:</label>

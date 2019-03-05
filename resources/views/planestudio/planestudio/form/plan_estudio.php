@@ -13,7 +13,10 @@
                             <div class="col-sm-4">
                                 <label>Modalidad:</label>
                                 <input type="hidden" class="mant" id="txt_modalidad_id" name="txt_modalidad_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_modalidad_id',this.value);" id="txt_modalidad" placeholder="Modalidad">
+                                <div id="txt_modalidad_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_modalidad_id',this.value);" id="txt_modalidad" placeholder="Modalidad">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-sm-8">
                                 <label>Facultad:</label>
@@ -25,7 +28,10 @@
                             <div class="col-md-8">
                                 <label>Carrera:</label>
                                 <input type="hidden" class="mant" id="txt_carrera_id" name="txt_carrera_id">
-                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_carrera_id',this.value);" id="txt_carrera" placeholder="Carrera">
+                                <div id="txt_carrera_ico" class="has-error has-feedback">
+                                    <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_carrera_id',this.value);" id="txt_carrera" placeholder="Carrera">
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label>Código:</label>
