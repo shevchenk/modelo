@@ -63,13 +63,14 @@
             <script src="js/flot/jquery.flot.js"></script>
             <script src="js/flot/jquery.flot.resize.js"></script>
             <script src="js/flot/flot-active.js"></script>
+            
+            {{ Html::script('lib/wave/js/waves.min.js') }} // despues de jquery.mCustomScrollbar.concat.min.js
+            {{ Html::script('lib/wave/js/wave-active.js') }}
             -->
             
             {{ Html::script('js/jquery.scrollUp.min.js') }}
             {{ Html::script('lib/meanmenu/js/jquery.meanmenu.js') }}
             {{ Html::script('lib/scrollbar/js/jquery.mCustomScrollbar.concat.min.js') }}
-            {{ Html::script('lib/wave/js/waves.min.js') }}
-            {{ Html::script('lib/wave/js/wave-active.js') }}
             {{ Html::script('lib/notification/js/bootstrap-growl.min.js') }}
             {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
             {{ Html::script('lib/chat/jquery.chat.js') }}

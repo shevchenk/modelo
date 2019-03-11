@@ -7,11 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">       
         <meta name="author" content="Jorge Salcedo (Shevchenko)">
         
-        <link rel="shortcut icon" href="favicon.ico">
-        <meta name="description" content="Software de Planillas">
-        <title>         
-                Software de Planillas (JS)
+        <link rel="shortcut icon" type="image/x-icon" href="img/entidad/logo_1.ico">
+        <meta name="description" content="Software Gestión Académico">
+        <title>
+            Software Gestión Académico (JS)
         </title>
+
             {{ Html::style('lib/bootstrap/css/bootstrap.min.css') }}
             {{ Html::style('lib/font-awesome/css/font-awesome.min.css') }}
             {{ Html::style('lib/ionicons/css/ionicons.min.css') }}

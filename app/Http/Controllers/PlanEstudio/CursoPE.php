@@ -105,7 +105,18 @@ class CursoPE extends Controller
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
             return response()->json($return);
-        }
+       }
     }
 
+    public function ListCursoPlan (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Curso::ListCursoPlan($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+       }
+    }
+ 
 }

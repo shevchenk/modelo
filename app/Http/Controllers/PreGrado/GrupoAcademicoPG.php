@@ -126,4 +126,16 @@ class GrupoAcademicoPG extends Controller
         }
     }
 
+    public function LoadProgramacion(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['estado'] = 1;
+            $renturnModel = GrupoAcademico::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }
