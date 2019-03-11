@@ -112,7 +112,8 @@ class Curso extends Model
                 ->on('ga.ciclo_id','=','ped.ciclo_id')
                 ->where('ga.estado',1);
             })
-            ->select('c.id','c.curso','c.codigo','ped.hora_total')
+            ->select('c.id','c.curso','c.codigo','ped.hora_total'
+                    ,'ped.id AS plan_estudio_detalle_id')
             ->where(
                 function($query) use ($r){
                     if( $r->has("phrase") ){

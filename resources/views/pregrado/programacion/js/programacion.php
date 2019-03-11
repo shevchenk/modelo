@@ -194,9 +194,14 @@ SlctCargarCurso=function(result){
     var html="";
     html+="<option value=''>.::Seleccione Curso::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.curso+"</option>";
+        html+="<option data-plan_estudio_detalle_id="+r.plan_estudio_detalle_id+" value="+r.id+">"+r.curso+"</option>";
     });
     $("#TableProgramacionAux #slct_curso_aux").html(html);
+}
+
+PlanEstudioDetalleId=function(t){
+    msjG.mensaje("info",$("#slct_curso"+t+" option:selected").attr("data-plan_estudio_detalle_id"),3000);
+    $("#txt_plan_estudio_detalle_id"+t).val( $("#slct_curso"+t+" option:selected").attr("data-plan_estudio_detalle_id") );
 }
 
 HTMLCargarProgramacion=function(result){
@@ -289,6 +294,7 @@ ValidaProgramacion=function(id){
 
 GuardarProgramacion=function(id){
     if( ValidaProgramacion(id) ){
+        var plan_estudio_detalle_id=$("#TableProgramacion #txt_plan_estudio_detalle_id"+id).val();
         var curso_id=$("#TableProgramacion #slct_curso"+id).val();
         var empleado_id=$("#TableProgramacion #txt_persona_id"+id).val();
         var lab=0; 
@@ -300,7 +306,10 @@ GuardarProgramacion=function(id){
         var horas = $("#"+id.substr(1)).parent("tr").find("td:eq(0)").text().split(" - ");
         var hora_inicio = horas[0];
         var hora_final = horas[1];
-        var datos={curso_id:curso_id, empleado_id:empleado_id, lab:lab, ambiente_id:ambiente_id, tipo_clase:tipo_clase, dia_id:dia_id, hora_inicio:hora_inicio, hora_final:hora_final};
+        var seccion = $('#slct_seccion').val();
+        var grupo_academico_id = ProgramacionG.grupo_academico_id;
+
+        var datos={plan_estudio_detalle_id:plan_estudio_detalle_id, curso_id:curso_id, empleado_id:empleado_id, lab:lab, ambiente_id:ambiente_id, tipo_clase:tipo_clase, dia_id:dia_id, hora_inicio:hora_inicio, hora_final:hora_final, seccion:seccion};
         AjaxProgramacion.AgregarEditar(HTMLAgregarEditar,datos);
     }
 }

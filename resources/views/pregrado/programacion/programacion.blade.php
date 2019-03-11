@@ -186,7 +186,8 @@
                                                 <td>
                                                     <div id="editar_aux" style="display: none;">
                                                         <table class="table"><tr><td>
-                                                            <select id="slct_curso_aux" class="form-control col-md-12">
+                                                            <input type="hidden" class="mant" id="txt_plan_estudio_detalle_id_aux" name="txt_plan_estudio_detalle_id_aux">
+                                                            <select id="slct_curso_aux" class="form-control col-md-12" onchange="PlanEstudioDetalleId('_aux');">
                                                                 <option>Seleccione</option>
                                                             </select>
                                                         </td></tr><tr><td>
