@@ -121,7 +121,7 @@ HTMLCargarGrupoAcademico=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='local'>"+r.local+"</td>"+
+            "<td class='local'><input type='hidden' class='local_id' value='"+r.local_id+"'>"+r.local+"</td>"+
             "<td class='plan_estudio'>"+r.plan_estudio+"</td>"+
             "<td class='carrera'>"+r.carrera+"</td>"+
             "<td class='semestre'>"+r.semestre+"</td>"+

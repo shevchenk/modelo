@@ -216,7 +216,7 @@ class GrupoAcademico extends Model
             ->select(DB::raw(' CONCAT(pe.nro_plan_estudio," - ",pe.plan_estudio) AS plan_estudio')
             ,'c.carrera', 'l.local', 's.semestre', 'ci.ciclo','ga.fecha_inicio_mat','ga.fecha_final_mat'
             ,'ga.fecha_inicio', 'ga.fecha_final', 'ga.hora_inicio', 'ga.hora_final', 'ga.frecuencia'
-            ,'ga.meta_minima_matricula', 'ga.meta_maxima_matricula','ga.estado','ga.id')
+            ,'ga.meta_minima_matricula', 'ga.meta_maxima_matricula','ga.estado','ga.id','ga.local_id')
             ->where( 
                 function($query) use ($r){
                     if( $r->has("local_id") ){

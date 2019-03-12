@@ -26,16 +26,27 @@ class GrupoAcademicoDetalle extends Model
         DB::beginTransaction();
         $persona_id=Auth::user()->id;
         $grupoAcademicoDetalle = new GrupoAcademicoDetalle;
+        $grupoAcademicoDetalle->local_id= trim( $r->local_id );
         $grupoAcademicoDetalle->grupo_academico_id= trim( $r->grupo_academico_id );
         $grupoAcademicoDetalle->plan_estudio_detalle_id= trim( $r->plan_estudio_detalle_id );
         $grupoAcademicoDetalle->curso_id= trim( $r->curso_id );
         $grupoAcademicoDetalle->tipo_clase= trim( $r->tipo_clase );
+        $grupoAcademicoDetalle->seccion= trim( $r->seccion );
         $grupoAcademicoDetalle->dia_id= trim( $r->dia_id );
         $grupoAcademicoDetalle->hora_inicio= trim( $r->hora_inicio );
         $grupoAcademicoDetalle->hora_final= trim( $r->hora_final );
+
+        if( trim($r->lab)==1 ){
+            $grupoAcademicoDetalle->ambiente_id= trim( $r->ambiente_id );
+        }
+
+        if( trim($r->empleado_id)!='' ){
+            $grupoAcademicoDetalle->empleado_id= trim( $r->empleado_id );
+        }
+
         $grupoAcademicoDetalle->estado=1;
         $grupoAcademicoDetalle->persona_id_created_at=$persona_id;
-        //$grupoAcademicoDetalle->save();
+        $grupoAcademicoDetalle->save();
         $resultado="Se insertó correctamente";
         DB::commit();
         return $resultado;
