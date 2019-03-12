@@ -6,9 +6,9 @@ var EfectoG=0;
 var idDocenteG='';
 var DocenteOpciones={
     placeholder: 'Docente',
-    url: "AjaxDinamic/Mantenimiento.PersonaEM@ListPersona",
+    url: "AjaxDinamic/Mantenimiento.EmpleadoMA@ListEmpleado",
     listLocation: "data",
-    getValue: "persona",
+    getValue: "empleado",
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
             if(r.data.length==0){ 
@@ -132,6 +132,10 @@ ProgramarCurso=function(id){
     $("#ProgramacionForm #txt_fechas").val( $("#TableGrupoAcademico #trid_"+id+" .fecha").text() );
     $(".nav.nav-tabs [href='#TABProgramacion']").click();
 
+    RefreshProgramarCurso();
+}
+
+RefreshProgramarCurso=function(){
     var fechaini= $("#ProgramacionForm #txt_fechas").val().split(" / ")[0];
     var fechafin= $("#ProgramacionForm #txt_fechas").val().split(" / ")[1];
 
@@ -174,7 +178,7 @@ ProgramarCurso=function(id){
     $("#TableProgramacion select").addClass("selectpicker show-menu-arrow");
     $("#TableProgramacion .selectpicker").selectpicker('refresh');
 
-    AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion,'A');
+    AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion, $('#TableProgramacion #slct_seccion').val() );
 }
 
 String.prototype.to45HHMM=function(){
@@ -318,7 +322,7 @@ GuardarProgramacion=function(id){
 HTMLAgregarEditar=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,3000);
-        AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion, $("#ProgramacionForm #slct_seccion").val() );
+        RefreshProgramarCurso();
     }
     else{
         msjG.mensaje('warning', result.msj,3000);
