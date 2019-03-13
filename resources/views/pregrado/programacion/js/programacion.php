@@ -1,5 +1,7 @@
 <script type="text/javascript">
 var ProgramacionG={id:0,estado:1};
+var horarioAuxG='';
+var horarioG=[]; var horarioIDG=-1;
 var diasId=['Lu','Ma','Mi','Ju','Vi','Sa','Do'];
 var diasG=['Lunes','Martes','Miercoles','Jueves','Viernes','Sábado','Domingo'];
 var EfectoG=0;
@@ -75,6 +77,15 @@ var AmbienteOpciones={
     adjustWidth:false,
 }
 $(document).ready(function() {
+    var hora='07:00'; var html='';
+    html+="<option value=''>.::Seleccione Horario::.</option>";
+    while( hora<='22:00' ){
+        html+='<option value="'+hora+'">'+hora+'</option>';
+        hora=hora.toHHMM(5);
+    }
+    $('#ProgramacionForm #slct_horario').html(html);
+    $('#ProgramacionForm #slct_horario').selectpicker('refresh');
+
     $("#ProgramacionForm #slct_seccion").change(function(){ RefreshProgramarCurso() });
 
     $("#ProgramacionForm #txt_ambiente").easyAutocomplete(
@@ -135,7 +146,16 @@ ProgramarCurso=function(id){
     RefreshProgramarCurso();
 }
 
+GenerarHorarios=function(result){
+    horarioG=[];
+    horarioIDG=-1;
+    $.each(result.data,function(index,r){
+        horarioG.push(r.hora_inicio.substr(0,5));
+    });
+}
+
 RefreshProgramarCurso=function(){
+    AjaxProgramacion.CargarHoras(GenerarHorarios, $('#ProgramacionForm #slct_seccion').val() );
     var fechaini= $("#ProgramacionForm #txt_fechas").val().split(" / ")[0];
     var fechafin= $("#ProgramacionForm #txt_fechas").val().split(" / ")[1];
 
@@ -146,10 +166,45 @@ RefreshProgramarCurso=function(){
     var html=''; var html2='';
     horainiaux=horaini;
     horafinaux='';
+    horainiaux_reserva='';
+    horarioAuxAct=0;
+    horarioIDG=0;
     while( horainiaux<=horafin ){
-        
         if( i==0 ){ html+="<tr>"; html+='<th>HORAS</th>'; }
-        else{ horafinaux=horainiaux.to45HHMM(); html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; html2+="<td>"+horainiaux; horainiaux=horainiaux.to45HHMM(); html2+=" - "+horainiaux+"</td>" }
+        else{ 
+            if( horarioAuxG!='' && horarioAuxG<=horainiaux){
+                horainiaux_reserva= horainiaux;
+                if( horarioAuxG==horainiaux ){
+                    horainiaux= horainiaux_reserva;
+                    horainiaux_reserva= '';
+                    horarioAuxAct= 0;
+                    horarioAuxG='';
+                }
+                else{
+                    horainiaux= horarioAuxG;
+                    horarioAuxAct=1;
+                }
+            }
+
+            if( horarioG.length>0 && horarioIDG<horarioG.length ){
+                if( horarioG[horarioIDG]<=horainiaux ){
+                    horainiaux_reserva= horainiaux;
+                    if( horarioG[horarioIDG]==horainiaux ){
+                        horainiaux= horainiaux_reserva;
+                        horainiaux_reserva= '';
+                    }
+                    else{
+                        horainiaux= horarioG[horarioIDG];
+                        horarioAuxAct=2;
+                    }
+                    horarioIDG++;
+                }
+            }
+
+            horafinaux=horainiaux.toHHMM(45); 
+            html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
+            html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
+        }
 
         for (var j = 1; j <= horario.length; j++) {
             if( i==0 ){
@@ -160,31 +215,73 @@ RefreshProgramarCurso=function(){
             }
         }
         if( i==0 ){ html+="</tr>"; }
-        html2+="</tr>";
+        else{
+            html2+="</tr>";
+            if( horarioAuxAct==1 ){
+                horainiaux= horainiaux_reserva;
+                horainiaux_reserva= '';
+                horarioAuxAct= 0;
+                horarioAuxG='';
+            }
+            else if( horarioAuxAct==2 ){
+                horainiaux= horainiaux_reserva;
+                horainiaux_reserva= '';
+                horarioAuxAct= 0;
+            }
+        }
         i++;
     }
+
+    for( x=horarioIDG; x<horarioG.length; x++  ){
+        if( horarioAuxG!='' ){
+            if( horarioAuxG<=horarioG[x] ){
+                
+            }
+        }
+        horainiaux= horarioG[x];
+        horafinaux=horainiaux.toHHMM(45); 
+        html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
+        html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
+        for (var j = 1; j <= horario.length; j++) {
+            html2+="<td class='D"+horario[(j-1)]+"' id='f"+i+"c"+j+"'></td>";
+        }
+        html2+="</tr>";
+    }
+        horarioIDG=-1; //Inicializar valores del arreglo
+    if( horarioAuxG!='' ){
+        horainiaux= horarioAuxG;
+        horafinaux=horainiaux.toHHMM(45); 
+        html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
+        html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
+        for (var j = 1; j <= horario.length; j++) {
+            html2+="<td class='D"+horario[(j-1)]+"' id='f"+i+"c"+j+"'></td>";
+        }
+        html2+="</tr>";
+        horainiaux_reserva= '';
+        horarioAuxAct= 0;
+        horarioAuxG='';
+        i++;
+    }
+
     $("#TableProgramacion thead").html(html);
     $("#TableProgramacion tbody").html(html2);
-    horainiaux=horaini;
-    i=0;
-    while( horainiaux<=horafin ){
-        i++;
-        for (var j = 1; j <= horario.length; j++) {
-            idDocenteG="f"+i+"c"+j;
+    
+    $('#TableProgramacion tbody tr td').each(function(){
+        if( $.trim(this.id)!='' ){
+            idDocenteG=this.id;
             $("#TableProgramacion #"+idDocenteG).html( $("#TableProgramacionAux td").html().split("_aux").join("_"+idDocenteG) );
         }
-        horainiaux=horainiaux.to45HHMM();
-    }
+    })
     $("#TableProgramacion select").addClass("selectpicker show-menu-arrow");
     $("#TableProgramacion .selectpicker").selectpicker('refresh');
 
     AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion, $('#ProgramacionForm #slct_seccion').val() );
 }
 
-String.prototype.to45HHMM=function(){
+String.prototype.toHHMM=function(ad){
     var h= this.split(":")[0]*3600;
     var m= this.split(":")[1]*60;
-    var adicional= 45*60;
+    var adicional= ad*60;
     var total= h+m+adicional;
 
     var hours   = Math.floor(total / 3600);
@@ -252,21 +349,17 @@ AgregarEditarProgramacion=function(btn,curso){
         var horario= $("#ProgramacionForm #txt_horario").val().split(" de ")[0].split(",");
         var horaini= $("#ProgramacionForm #txt_horario").val().split(" de ")[1].split(" a ")[0].substr(0,5);
         var horafin= $("#ProgramacionForm #txt_horario").val().split(" de ")[1].split(" a ")[1];
-        horainiaux=horaini;
-        i=0;
         var btns=[];
         var cursos=[];
-        while( horainiaux<=horafin ){
-            i++;
-            for (var j = 1; j <= horario.length; j++) {
-                idDocenteG="f"+i+"c"+j;
+        $('#TableProgramacion tbody tr td').each(function(){
+            if( $.trim(this.id)!='' ){
+                idDocenteG=this.id;
                 if( $("#editar_"+idDocenteG).is(':visible') ){
                     cursos.push("#editar_"+idDocenteG);
                     btns.push("#crear_"+idDocenteG+",#listar_"+idDocenteG);
                 }
             }
-            horainiaux=horainiaux.to45HHMM();
-        }
+        })
 
         CancelarProgramacion(btns.join(","),cursos.join(","));
         $(btn).addClass("animated zoomOutDown").one("webkitAnimationEnd mozAnimationEnd oAnimationEnd animationend", function(){
@@ -406,6 +499,17 @@ HTMLAgregarEditar=function(result){
 EliminarProgramacion=function(id){
     idf=$("#TableProgramacion #lbl_id"+id).val();
     sweetalertG.confirm('Programación de Cursos','Esta seguro de eliminar: '+$("#TableProgramacion #lbl_curso_t"+id).text(), function(){ AjaxProgramacion.Eliminar(HTMLAgregarEditar,idf); });
+}
+
+AgregarHorario=function(){
+    horarioAuxG= '';
+    if( $('#ProgramacionForm #slct_horario').val()!='' ){
+        horarioAuxG= $('#ProgramacionForm #slct_horario').val();
+        RefreshProgramarCurso();
+    }
+    else{
+        msjG.mensaje('warning','Seleccione horario agregar',3000);
+    }
 }
 
 </script>

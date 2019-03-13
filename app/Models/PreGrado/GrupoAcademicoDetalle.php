@@ -112,14 +112,6 @@ class GrupoAcademicoDetalle extends Model
         return $resultado;
     }
 
-    public static function runEdit($r)
-    {
-        DB::beginTransaction();
-        $persona_id=Auth::user()->id;
-        DB::commit();
-        return $resultado;
-    }
-
     public static function runLoadProgramacion($r)
     {
         $sql=DB::table('ep_programaciones_cursos AS pc')
@@ -156,6 +148,20 @@ class GrupoAcademicoDetalle extends Model
             )
             ->where('pc.estado',1);
         $result = $sql->orderBy('c.curso','asc')->get();
+        return $result;
+    }
+
+    public static function runListHoras($r)
+    {
+        $sql=DB::table('ep_programaciones_cursos AS pc')
+            ->select('pc.hora_inicio','pc.hora_final')
+            ->where('pc.estado',1)
+            ->where('pc.seccion',$r->seccion)
+            ->where('pc.grupo_academico_id',$r->grupo_academico_id);
+        $result = $sql->groupBy('pc.hora_inicio')
+                    ->groupBy('pc.hora_final')
+                    ->orderBy('pc.hora_inicio','asc')
+                    ->get();
         return $result;
     }
 

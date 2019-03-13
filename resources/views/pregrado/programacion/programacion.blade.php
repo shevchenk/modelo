@@ -179,7 +179,7 @@
 
                                 <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <legend>PROGRAMACIÓN</legend>
-                                    <div class="panel panel-body table-responsive">
+                                    <div class="panel panel-body">
                                         <!-- left container (table with subjects) -->
                                         <table id="TableProgramacionAux" style="display: none;">
                                             <tr>
@@ -256,12 +256,22 @@
                                                 </td>
                                             </tr>
                                         </table>
+                                        <div class="col-lg-4 col-md-4">
+                                            <select id="slct_horario" class="selectpicker show-menu-arrow">
+                                                <option value="">.::Seleccione::.</option>
+                                            </select>
+                                            <button type="button" onclick="AgregarHorario();" class="btn notika-btn-bluegray"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 table-responsive">
+                                            
                                         <table id="TableProgramacion" class="table table-hover table-bordered">
                                             <thead>
                                             </thead>
                                             <tbody>
                                             </tbody>
                                         </table>
+                                            
+                                        </div>
                                     </div>
                                 </fieldset>
                             </form>

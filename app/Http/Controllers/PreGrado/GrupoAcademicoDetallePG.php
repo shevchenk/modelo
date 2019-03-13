@@ -64,4 +64,15 @@ class GrupoAcademicoDetallePG extends Controller
         }
     }
 
+    public function ListHoras(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = GrupoAcademicoDetalle::runListHoras($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }

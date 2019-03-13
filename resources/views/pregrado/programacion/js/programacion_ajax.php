@@ -15,6 +15,11 @@ var AjaxProgramacion={
         url='AjaxDinamic/PlanEstudio.CursoPE@listCursoPlan';
         masterG.postAjax(url,data,evento,null,false);
     },
+    CargarHoras:function(evento, valor){
+        var data={grupo_academico_id: ProgramacionG.grupo_academico_id, seccion:valor};
+        url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@ListHoras';
+        masterG.postAjax(url,data,evento,null,false);
+    },
     CargarProgramacion:function(evento,valor){
         var data={grupo_academico_id: ProgramacionG.grupo_academico_id, seccion:valor};
         url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@LoadProgramacion';
