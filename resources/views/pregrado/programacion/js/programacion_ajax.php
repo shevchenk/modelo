@@ -1,5 +1,10 @@
 <script type="text/javascript">
 var AjaxProgramacion={
+    Eliminar:function(evento,id){
+        var data={id:id};
+        url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@EditStatus';
+        masterG.postAjax(url,data,evento);
+    },
     AgregarEditar:function(evento,datos){
         var data=datos;
         url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@NewEdit';

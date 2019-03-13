@@ -75,7 +75,7 @@ var AmbienteOpciones={
     adjustWidth:false,
 }
 $(document).ready(function() {
-    $("#ProgramacionForm #slct_seccion").change(function(){ AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion,this.value); });
+    $("#ProgramacionForm #slct_seccion").change(function(){ RefreshProgramarCurso() });
 
     $("#ProgramacionForm #txt_ambiente").easyAutocomplete(
         {
@@ -145,10 +145,11 @@ RefreshProgramarCurso=function(){
     i=0;
     var html=''; var html2='';
     horainiaux=horaini;
+    horafinaux='';
     while( horainiaux<=horafin ){
         
         if( i==0 ){ html+="<tr>"; html+='<th>HORAS</th>'; }
-        else{ html2+="<tr class='H"+horainiaux+"'>"; html2+="<td>"+horainiaux; horainiaux=horainiaux.to45HHMM(); html2+=" - "+horainiaux+"</td>" }
+        else{ horafinaux=horainiaux.to45HHMM(); html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; html2+="<td>"+horainiaux; horainiaux=horainiaux.to45HHMM(); html2+=" - "+horainiaux+"</td>" }
 
         for (var j = 1; j <= horario.length; j++) {
             if( i==0 ){
@@ -171,14 +172,13 @@ RefreshProgramarCurso=function(){
         for (var j = 1; j <= horario.length; j++) {
             idDocenteG="f"+i+"c"+j;
             $("#TableProgramacion #"+idDocenteG).html( $("#TableProgramacionAux td").html().split("_aux").join("_"+idDocenteG) );
-
         }
         horainiaux=horainiaux.to45HHMM();
     }
     $("#TableProgramacion select").addClass("selectpicker show-menu-arrow");
     $("#TableProgramacion .selectpicker").selectpicker('refresh');
 
-    AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion, $('#TableProgramacion #slct_seccion').val() );
+    AjaxProgramacion.CargarProgramacion(HTMLCargarProgramacion, $('#ProgramacionForm #slct_seccion').val() );
 }
 
 String.prototype.to45HHMM=function(){
@@ -210,8 +210,40 @@ PlanEstudioDetalleId=function(t){
 
 HTMLCargarProgramacion=function(result){
     $.each(result.data,function(index,r){
+        hora= r.hora_inicio.replace(":","").substr(0,4)+r.hora_final.replace(":","").substr(0,4);
+        id= $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.listarp").attr("id").split("_")[1];
+        $("#lbl_plan_estudio_detalle_id_"+id).val(r.plan_estudio_detalle_id);
+        $("#lbl_curso_"+id).val(r.curso_id);
+        $("#lbl_curso_t_"+id).text(r.curso);
+        $("#lbl_persona_id_"+id).val( $.trim(r.empleado_id) );
+        $("#lbl_persona_id_t_"+id).text( $.trim(r.persona) );
         
+        lab=0;
+        labt="No";
+        if( $.trim(r.ambiente_id)!='' ){
+            lab=1;
+            labt="Si =>";
+        }
+
+        $("#lbllab_"+id).val(lab);
+        $("#lbl_ambiente_id_"+id).val( $.trim(r.ambiente_id) );
+        $("#lbllab_t_"+id).text(labt);
+        $("#lbl_ambiente_id_t_"+id).text( $.trim(r.ambiente) );
+
+        virt="Presencial";
+        if( r.tipo_clase==2 ){
+            virt="Virtual";
+        }
+
+        $("#lblvir_"+id).val(r.tipo_clase);
+        $("#lblvir_t_"+id).text(virt);
+        $("#lbl_id_"+id).val(r.id);
+
+        $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.crearp").remove();
+        $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.listarp").addClass("mant").fadeIn(1000);
     });
+    $("#TableProgramacion tr td div.listarp").not(".mant").remove();
+
 };
 
 AgregarEditarProgramacion=function(btn,curso){
@@ -230,7 +262,7 @@ AgregarEditarProgramacion=function(btn,curso){
                 idDocenteG="f"+i+"c"+j;
                 if( $("#editar_"+idDocenteG).is(':visible') ){
                     cursos.push("#editar_"+idDocenteG);
-                    btns.push("#crear_"+idDocenteG);
+                    btns.push("#crear_"+idDocenteG+",#listar_"+idDocenteG);
                 }
             }
             horainiaux=horainiaux.to45HHMM();
@@ -241,10 +273,45 @@ AgregarEditarProgramacion=function(btn,curso){
             $(this).removeClass("animated zoomOutDown");
             $(this).hide();
             $(curso).show();
+            idDocenteG= btn.split("_")[1];
+            $("#TableProgramacion #txt_persona_"+btn.split("_")[1]).easyAutocomplete(DocenteOpciones);
+            $("#TableProgramacion #txt_ambiente_"+btn.split("_")[1]).easyAutocomplete(AmbienteOpciones);
             $(curso).addClass("animated zoomIn").one("webkitAnimationEnd mozAnimationEnd oAnimationEnd animationend", function(){ $(this).removeClass("animated zoomIn"); EfectoG=0; 
-                idDocenteG= btn.split("_")[1];
-                $("#TableProgramacion #txt_persona_"+btn.split("_")[1]).easyAutocomplete(DocenteOpciones);
-                $("#TableProgramacion #txt_ambiente_"+btn.split("_")[1]).easyAutocomplete(AmbienteOpciones);
+                if( btn.split("_")[0]=="#listar" ){
+                    id= btn.split("_")[1];
+                    $("#txt_plan_estudio_detalle_id_"+id).val( $("#lbl_plan_estudio_detalle_id_"+id).val() );
+                    $("#slct_curso_"+id).selectpicker( 'val',$("#lbl_curso_"+id).val() );
+                    $("#txt_persona_id_"+id).val( $("#lbl_persona_id_"+id).val() );
+                    $("#txt_persona_"+id).val( $("#lbl_persona_id_t_"+id).text() );
+
+                    $("#TableProgramacion #txt_persona_ico_"+id).removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+
+                    if( $("#lbl_persona_id_"+id).val()!='' ){
+                        $("#TableProgramacion #txt_persona_ico_"+id).removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+                    }
+                    
+                    
+                    $("#TableProgramacion #checklab_"+id).removeAttr("checked");
+                    $("#txt_ambiente_id_"+id).val('');
+                    $("#txt_ambiente_"+id).val('');
+                    $("#TableProgramacion #txt_ambiente_ico_"+id).removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+
+                    if( $("#lbllab_"+id).val()==1 ){
+                        $("#TableProgramacion #checklab_"+id).click();
+                        $("#txt_ambiente_id_"+id).val( $("#lbl_ambiente_id_"+id).val() );
+                        $("#txt_ambiente_"+id).val( $("#lbl_ambiente_id_t_"+id).text() );
+                        $("#TableProgramacion #txt_ambiente_ico_"+id).removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+                    }
+                    
+                    $("#TableProgramacion #checkvir_"+id).removeAttr("checked");
+                    if( $("#lblvir_"+id).val()==2 ){
+                        $("#TableProgramacion #checkvir_"+id).click();
+                    }
+                    $("#TableProgramacion #txt_tipo_clase_"+id).val( $("#lblvir_"+id).val() );
+                    
+                    $("#editar_"+id+" input[type='hidden']").not(".mant").remove();
+                    $("#editar_"+id).append("<input type='hidden' id='txt_id_"+id+"' value='"+$("#lbl_id_"+id).val()+"'>");
+                }
             });
         });
     }
@@ -310,11 +377,18 @@ GuardarProgramacion=function(id){
         var horas = $("#"+id.substr(1)).parent("tr").find("td:eq(0)").text().split(" - ");
         var hora_inicio = horas[0];
         var hora_final = horas[1];
-        var seccion = $('#slct_seccion').val();
+        var seccion = $('#ProgramacionForm #slct_seccion').val();
         var grupo_academico_id = ProgramacionG.grupo_academico_id;
         var local_id = ProgramacionG.local_id;
 
         var datos={plan_estudio_detalle_id:plan_estudio_detalle_id, curso_id:curso_id, empleado_id:empleado_id, lab:lab, ambiente_id:ambiente_id, tipo_clase:tipo_clase, dia_id:dia_id, hora_inicio:hora_inicio, hora_final:hora_final, seccion:seccion, grupo_academico_id:grupo_academico_id, local_id:local_id};
+        
+        if( $.trim($("#TableProgramacion #txt_id"+id).val())!="" ){
+            var id= $("#TableProgramacion #txt_id"+id).val();
+
+            var datos={plan_estudio_detalle_id:plan_estudio_detalle_id, curso_id:curso_id, empleado_id:empleado_id, lab:lab, ambiente_id:ambiente_id, tipo_clase:tipo_clase, dia_id:dia_id, hora_inicio:hora_inicio, hora_final:hora_final, seccion:seccion, grupo_academico_id:grupo_academico_id, local_id:local_id, id:id};
+        }
+
         AjaxProgramacion.AgregarEditar(HTMLAgregarEditar,datos);
     }
 }
@@ -327,6 +401,11 @@ HTMLAgregarEditar=function(result){
     else{
         msjG.mensaje('warning', result.msj,3000);
     }
+}
+
+EliminarProgramacion=function(id){
+    idf=$("#TableProgramacion #lbl_id"+id).val();
+    sweetalertG.confirm('Programación de Cursos','Esta seguro de eliminar: '+$("#TableProgramacion #lbl_curso_t"+id).text(), function(){ AjaxProgramacion.Eliminar(HTMLAgregarEditar,idf); });
 }
 
 </script>

@@ -181,10 +181,10 @@
                                     <legend>PROGRAMACIÓN</legend>
                                     <div class="panel panel-body table-responsive">
                                         <!-- left container (table with subjects) -->
-                                        <table id="TableProgramacionAux">
+                                        <table id="TableProgramacionAux" style="display: none;">
                                             <tr>
                                                 <td>
-                                                    <div id="editar_aux" style="display: none;">
+                                                    <div id="editar_aux" class="editarp" style="display: none;">
                                                         <table class="table"><tr><td>
                                                             <input type="hidden" class="mant" id="txt_plan_estudio_detalle_id_aux" name="txt_plan_estudio_detalle_id_aux">
                                                             <select id="slct_curso_aux" class="form-control col-md-12" onchange="PlanEstudioDetalleId('_aux');">
@@ -215,35 +215,42 @@
                                                                 <label class="ts-helper"></label>
                                                             </div>
                                                         </td></tr><tr><td>
-                                                            <button type="button" class="btn btn-danger col-md-3 col-xs-4" onclick="CancelarProgramacion('#crear_aux','#editar_aux');"><i class="glyphicon glyphicon-remove"></i></button>
+                                                            <button type="button" class="btn btn-danger col-md-3 col-xs-4" onclick="CancelarProgramacion('#crear_aux,#listar_aux','#editar_aux');"><i class="glyphicon glyphicon-remove"></i></button>
                                                             <button type="button" class="btn btn-success col-md-3 col-md-offset-6 col-xs-4 col-xs-offset-4" onclick="GuardarProgramacion('_aux');"><i class="glyphicon glyphicon-ok"></i></button>
                                                         </td></tr></table>
                                                     </div>
-                                                    <div id="listar_aux" style="display: none;">
-                                                        <table class="table"><tr><td>
+                                                    <div id="listar_aux" class="listarp" style="display: none;">
+                                                        <div class="col-lg-6">
+                                                            <input type="hidden" class="mant" id="lbl_id_aux">
                                                             <input type="hidden" class="mant" id="lbl_plan_estudio_detalle_id_aux">
                                                             <input type="hidden" class="mant" id="lbl_curso_aux">
                                                             <label><b>Curso:</b></label>
-                                                            <span id="lbl_curso_t_aux">Hola Mundo</span>
-                                                        </td></tr><tr><td>
+                                                            <span id="lbl_curso_t_aux"></span>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <input type="hidden" class="mant" id="lbl_persona_id_aux">
                                                             <label><b>Docente:</b></label>
                                                             <span id="lbl_persona_id_t_aux"></span>
-                                                        </td></tr><tr><td>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <input type="hidden" class="mant" id="lbllab_aux">
                                                             <input type="hidden" class="mant" id="lbl_ambiente_id_aux">
                                                             <label><b>Laboratorio:</b></label>
-                                                            <span id="lbllab_t_aux">Si</span>
-                                                            <span id="lbl_ambiente_id_t_aux">Sala de Cómputo</span>
-                                                        </td></tr><tr><td>
+                                                            <span id="lbllab_t_aux"></span>
+                                                            <span id="lbl_ambiente_id_t_aux"></span>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <input type="hidden" class="mant" id="lblvir_aux">
                                                             <label><b>Virtual:</b></label>
-                                                            <span id="lblvir_t_aux">Si</span>
-                                                        </td></tr><tr><td class="centrar">
-                                                            <button type="button" onclick="AgregarEditarProgramacion('#listar_aux','#editar_aux');" class="btn btn-warning col-md-4 col-xs-4"><i class="glyphicon glyphicon-edit"></i></button>
-                                                        </td></tr></table>
+                                                            <span id="lblvir_t_aux"></span>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button type="button" class="btn btn-danger col-md-3 col-xs-4" onclick="EliminarProgramacion('_aux');"><i class="glyphicon glyphicon-trash"></i></button>
+                                                            <button type="button" onclick="AgregarEditarProgramacion('#listar_aux','#editar_aux');" class="btn btn-warning col-md-3 col-md-offset-6 col-xs-4 col-xs-offset-4"><i class="glyphicon glyphicon-edit"></i></button>
+                                                            
+                                                        </div>
                                                     </div>
-                                                    <div id="crear_aux" class="centrar">
+                                                    <div id="crear_aux" class="crearp centrar">
                                                         <button type="button" onclick="AgregarEditarProgramacion('#crear_aux','#editar_aux');" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i></button>
                                                     </div>
                                                 </td>

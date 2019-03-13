@@ -12,7 +12,17 @@ class GrupoAcademicoDetallePG extends Controller
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
-    } 
+    }
+
+    public function EditStatus(Request $r )
+    {
+        if ( $r->ajax() ) {
+            GrupoAcademicoDetalle::runEditStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro eliminado';
+            return response()->json($return);
+        }
+    }
 
     public function NewEdit(Request $r)
     {

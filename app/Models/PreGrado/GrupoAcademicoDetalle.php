@@ -14,18 +14,61 @@ class GrupoAcademicoDetalle extends Model
 
     public static function runEditStatus($r)
     {
+        DB::beginTransaction();
         $persona_id=Auth::user()->id;
         $grupoAcademicoDetalle = GrupoAcademicoDetalle::find($r->id);
-        $grupoAcademicoDetalle->estado = trim( $r->estadof );
+        $grupoAcademicoDetalle->estado = 0;
         $grupoAcademicoDetalle->persona_id_updated_at=$persona_id;
         $grupoAcademicoDetalle->save();
+
+        $grupoAcademicoDetalleHistorico= new GrupoAcademicoDetalleHistorico;
+        $grupoAcademicoDetalleHistorico->programacion_curso_id = $grupoAcademicoDetalle->id;
+        $grupoAcademicoDetalleHistorico->local_id = $grupoAcademicoDetalle->local_id;
+        $grupoAcademicoDetalleHistorico->grupo_academico_id = $grupoAcademicoDetalle->grupo_academico_id;
+        $grupoAcademicoDetalleHistorico->plan_estudio_detalle_id = $grupoAcademicoDetalle->plan_estudio_detalle_id;
+        $grupoAcademicoDetalleHistorico->curso_id = $grupoAcademicoDetalle->curso_id;
+        $grupoAcademicoDetalleHistorico->tipo_clase = $grupoAcademicoDetalle->tipo_clase;
+        $grupoAcademicoDetalleHistorico->seccion = $grupoAcademicoDetalle->seccion;
+        $grupoAcademicoDetalleHistorico->dia_id = $grupoAcademicoDetalle->dia_id;
+        $grupoAcademicoDetalleHistorico->hora_inicio = $grupoAcademicoDetalle->hora_inicio;
+        $grupoAcademicoDetalleHistorico->hora_final = $grupoAcademicoDetalle->hora_final;
+        $grupoAcademicoDetalleHistorico->ambiente_id = $grupoAcademicoDetalle->ambiente_id;
+        $grupoAcademicoDetalleHistorico->empleado_id = $grupoAcademicoDetalle->empleado_id;
+        $grupoAcademicoDetalleHistorico->estado = $grupoAcademicoDetalle->estado;
+        $grupoAcademicoDetalleHistorico->persona_id_created_at = $persona_id;
+        $grupoAcademicoDetalleHistorico->save();
+        DB::commit();
     }
 
     public static function runNewEdit($r)
     {
         DB::beginTransaction();
         $persona_id=Auth::user()->id;
-        $grupoAcademicoDetalle = new GrupoAcademicoDetalle;
+        $resultado='';
+
+        if( $r->has('id') ){
+            $grupoAcademicoDetalle = GrupoAcademicoDetalle::find($r->id);
+            $grupoAcademicoDetalle->persona_id_updated_at=$persona_id;
+            $resultado="Se actualizó correctamente";
+        }
+        else{
+            $grupoAcademicoDetalle = GrupoAcademicoDetalle::where('local_id',$r->local_id)
+                                    ->where('grupo_academico_id',$r->grupo_academico_id)
+                                    ->where('seccion',$r->seccion)
+                                    ->where('dia_id',$r->dia_id)
+                                    ->where('hora_inicio',$r->hora_inicio)
+                                    ->where('hora_final',$r->hora_final)
+                                    ->first();
+            if( !isset($grupoAcademicoDetalle->id) ){
+                $grupoAcademicoDetalle = new GrupoAcademicoDetalle;
+                $grupoAcademicoDetalle->persona_id_created_at=$persona_id;
+            }
+            else{
+                $grupoAcademicoDetalle->persona_id_updated_at=$persona_id;
+            }
+                $resultado="Se insertó correctamente";
+        }
+
         $grupoAcademicoDetalle->local_id= trim( $r->local_id );
         $grupoAcademicoDetalle->grupo_academico_id= trim( $r->grupo_academico_id );
         $grupoAcademicoDetalle->plan_estudio_detalle_id= trim( $r->plan_estudio_detalle_id );
@@ -36,18 +79,35 @@ class GrupoAcademicoDetalle extends Model
         $grupoAcademicoDetalle->hora_inicio= trim( $r->hora_inicio );
         $grupoAcademicoDetalle->hora_final= trim( $r->hora_final );
 
+        $grupoAcademicoDetalle->ambiente_id=NULL;
         if( trim($r->lab)==1 ){
             $grupoAcademicoDetalle->ambiente_id= trim( $r->ambiente_id );
         }
 
+        $grupoAcademicoDetalle->empleado_id=NULL;
         if( trim($r->empleado_id)!='' ){
             $grupoAcademicoDetalle->empleado_id= trim( $r->empleado_id );
         }
 
         $grupoAcademicoDetalle->estado=1;
-        $grupoAcademicoDetalle->persona_id_created_at=$persona_id;
         $grupoAcademicoDetalle->save();
-        $resultado="Se insertó correctamente";
+
+        $grupoAcademicoDetalleHistorico= new GrupoAcademicoDetalleHistorico;
+        $grupoAcademicoDetalleHistorico->programacion_curso_id = $grupoAcademicoDetalle->id;
+        $grupoAcademicoDetalleHistorico->local_id = $grupoAcademicoDetalle->local_id;
+        $grupoAcademicoDetalleHistorico->grupo_academico_id = $grupoAcademicoDetalle->grupo_academico_id;
+        $grupoAcademicoDetalleHistorico->plan_estudio_detalle_id = $grupoAcademicoDetalle->plan_estudio_detalle_id;
+        $grupoAcademicoDetalleHistorico->curso_id = $grupoAcademicoDetalle->curso_id;
+        $grupoAcademicoDetalleHistorico->tipo_clase = $grupoAcademicoDetalle->tipo_clase;
+        $grupoAcademicoDetalleHistorico->seccion = $grupoAcademicoDetalle->seccion;
+        $grupoAcademicoDetalleHistorico->dia_id = $grupoAcademicoDetalle->dia_id;
+        $grupoAcademicoDetalleHistorico->hora_inicio = $grupoAcademicoDetalle->hora_inicio;
+        $grupoAcademicoDetalleHistorico->hora_final = $grupoAcademicoDetalle->hora_final;
+        $grupoAcademicoDetalleHistorico->ambiente_id = $grupoAcademicoDetalle->ambiente_id;
+        $grupoAcademicoDetalleHistorico->empleado_id = $grupoAcademicoDetalle->empleado_id;
+        $grupoAcademicoDetalleHistorico->estado = $grupoAcademicoDetalle->estado;
+        $grupoAcademicoDetalleHistorico->persona_id_created_at = $persona_id;
+        $grupoAcademicoDetalleHistorico->save();
         DB::commit();
         return $resultado;
     }
@@ -81,7 +141,8 @@ class GrupoAcademicoDetalle extends Model
             })
             ->select('pc.hora_inicio','pc.hora_final','pc.dia_id','pc.ambiente_id'
             ,'la.ambiente',DB::raw('CONCAT( p.paterno," ",p.materno,", ",p.nombre ) persona')
-            ,'pc.seccion','pc.tipo_clase','pc.curso_id','c.curso'
+            ,'pc.seccion','pc.tipo_clase','pc.curso_id','c.curso','pc.plan_estudio_detalle_id'
+            ,'pc.empleado_id','pc.id'
             )
             ->where( 
                 function($query) use ($r){
