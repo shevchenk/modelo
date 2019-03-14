@@ -5,6 +5,11 @@ var AjaxProgramacion={
         url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@EditStatus';
         masterG.postAjax(url,data,evento);
     },
+    DefinirAula:function(evento,datos){
+        var data=datos;
+        url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@EditAula';
+        masterG.postAjax(url,data,evento);
+    },
     AgregarEditar:function(evento,datos){
         var data=datos;
         url='AjaxDinamic/PreGrado.GrupoAcademicoDetallePG@NewEdit';

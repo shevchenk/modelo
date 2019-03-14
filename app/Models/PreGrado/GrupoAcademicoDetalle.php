@@ -33,11 +33,51 @@ class GrupoAcademicoDetalle extends Model
         $grupoAcademicoDetalleHistorico->hora_inicio = $grupoAcademicoDetalle->hora_inicio;
         $grupoAcademicoDetalleHistorico->hora_final = $grupoAcademicoDetalle->hora_final;
         $grupoAcademicoDetalleHistorico->ambiente_id = $grupoAcademicoDetalle->ambiente_id;
+        $grupoAcademicoDetalleHistorico->ambiente_id_aula = $grupoAcademicoDetalle->ambiente_id_aula;
         $grupoAcademicoDetalleHistorico->empleado_id = $grupoAcademicoDetalle->empleado_id;
         $grupoAcademicoDetalleHistorico->estado = $grupoAcademicoDetalle->estado;
         $grupoAcademicoDetalleHistorico->persona_id_created_at = $persona_id;
         $grupoAcademicoDetalleHistorico->save();
         DB::commit();
+    }
+
+    public static function runEditAula($r)
+    {
+        DB::beginTransaction();
+        $persona_id=Auth::user()->id;
+        $grupoAcademicoDetalle = GrupoAcademicoDetalle::where('grupo_academico_id',$r->grupo_academico_id)
+                                    ->where('seccion',$r->seccion)
+                                    ->update(['ambiente_id_aula'=>$r->ambiente_id_aula]);
+        $result['cant']=$grupoAcademicoDetalle;
+        $grupoAcademicoDetalle = GrupoAcademicoDetalle::where('grupo_academico_id',$r->grupo_academico_id)
+                                    ->where('seccion',$r->seccion)
+                                    ->get();
+        foreach ($grupoAcademicoDetalle as $key => $value) {
+            $grupoAcademicoDetalleHistorico= new GrupoAcademicoDetalleHistorico;
+            $grupoAcademicoDetalleHistorico->programacion_curso_id = $value->id;
+            $grupoAcademicoDetalleHistorico->local_id = $value->local_id;
+            $grupoAcademicoDetalleHistorico->grupo_academico_id = $value->grupo_academico_id;
+            $grupoAcademicoDetalleHistorico->plan_estudio_detalle_id = $value->plan_estudio_detalle_id;
+            $grupoAcademicoDetalleHistorico->curso_id = $value->curso_id;
+            $grupoAcademicoDetalleHistorico->tipo_clase = $value->tipo_clase;
+            $grupoAcademicoDetalleHistorico->seccion = $value->seccion;
+            $grupoAcademicoDetalleHistorico->dia_id = $value->dia_id;
+            $grupoAcademicoDetalleHistorico->hora_inicio = $value->hora_inicio;
+            $grupoAcademicoDetalleHistorico->hora_final = $value->hora_final;
+            $grupoAcademicoDetalleHistorico->ambiente_id = $value->ambiente_id;
+            $grupoAcademicoDetalleHistorico->ambiente_id_aula = $value->ambiente_id_aula;
+            $grupoAcademicoDetalleHistorico->empleado_id = $value->empleado_id;
+            $grupoAcademicoDetalleHistorico->estado = $value->estado;
+            $grupoAcademicoDetalleHistorico->persona_id_created_at = $persona_id;
+            $grupoAcademicoDetalleHistorico->save();
+        }
+        DB::commit();
+        $result['rst']=1;
+        if( $result['cant']==0 ){
+            $result['rst']=2;
+            $result['msj']='No hay ningún curso registrado, para asignar el aula';
+        }
+        return $result;
     }
 
     public static function runNewEdit($r)
@@ -104,6 +144,7 @@ class GrupoAcademicoDetalle extends Model
         $grupoAcademicoDetalleHistorico->hora_inicio = $grupoAcademicoDetalle->hora_inicio;
         $grupoAcademicoDetalleHistorico->hora_final = $grupoAcademicoDetalle->hora_final;
         $grupoAcademicoDetalleHistorico->ambiente_id = $grupoAcademicoDetalle->ambiente_id;
+        $grupoAcademicoDetalleHistorico->ambiente_id_aula = $grupoAcademicoDetalle->ambiente_id_aula;
         $grupoAcademicoDetalleHistorico->empleado_id = $grupoAcademicoDetalle->empleado_id;
         $grupoAcademicoDetalleHistorico->estado = $grupoAcademicoDetalle->estado;
         $grupoAcademicoDetalleHistorico->persona_id_created_at = $persona_id;
@@ -131,10 +172,13 @@ class GrupoAcademicoDetalle extends Model
             ->leftJoin('am_locales_ambientes AS la',function($join){
                 $join->on('la.id','=','pc.ambiente_id');
             })
+            ->leftJoin('am_locales_ambientes AS la2',function($join){
+                $join->on('la2.id','=','pc.ambiente_id_aula');
+            })
             ->select('pc.hora_inicio','pc.hora_final','pc.dia_id','pc.ambiente_id'
             ,'la.ambiente',DB::raw('CONCAT( p.paterno," ",p.materno,", ",p.nombre ) persona')
             ,'pc.seccion','pc.tipo_clase','pc.curso_id','c.curso','pc.plan_estudio_detalle_id'
-            ,'pc.empleado_id','pc.id'
+            ,'pc.empleado_id','pc.id','pc.ambiente_id_aula','la2.ambiente AS aula'
             )
             ->where( 
                 function($query) use ($r){

@@ -24,6 +24,14 @@ class GrupoAcademicoDetallePG extends Controller
         }
     }
 
+    public function EditAula(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return=GrupoAcademicoDetalle::runEditAula($r);
+            return response()->json($return);
+        }
+    }
+
     public function NewEdit(Request $r)
     {
         if ( $r->ajax() ) {

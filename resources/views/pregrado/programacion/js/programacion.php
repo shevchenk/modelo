@@ -110,7 +110,8 @@ $(document).ready(function() {
                     var value = $("#ProgramacionForm #txt_ambiente").getSelectedItemData().id;
                     $("#ProgramacionForm #txt_ambiente_id").val(value).trigger("change");
                     $("#ProgramacionForm #txt_ambiente_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
-                    msjG.mensaje('info','Falta guardar Selección',5000);
+                    var datos={ grupo_academico_id: ProgramacionG.grupo_academico_id, seccion: $("#ProgramacionForm #slct_seccion").val(), ambiente_id_aula:value }
+                    AjaxProgramacion.DefinirAula(HTMLDefinirAula,datos);
                 },
                 onLoadEvent: function() {
                     $("#ProgramacionForm #txt_ambiente_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
@@ -127,6 +128,16 @@ $(document).ready(function() {
     );
 
 });
+
+HTMLDefinirAula=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success','Se asignó el Aula: '+$("#ProgramacionForm #txt_ambiente").val(),5000);
+    }
+    else{
+        msjG.mensaje('warning', result.msj, 5000);
+        $("#ProgramacionForm #txt_ambiente_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+    }
+}
 
 ProgramarCurso=function(id){
     ProgramacionG.grupo_academico_id=id;
@@ -343,6 +354,8 @@ PlanEstudioDetalleId=function(t){
 }
 
 HTMLCargarProgramacion=function(result){
+    var ambiente_id_aula='';
+    var aula='';
     $.each(result.data,function(index,r){
         hora= r.hora_inicio.replace(":","").substr(0,4)+r.hora_final.replace(":","").substr(0,4);
         id= $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.listarp").attr("id").split("_")[1];
@@ -375,7 +388,16 @@ HTMLCargarProgramacion=function(result){
 
         $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.crearp").remove();
         $("#TableProgramacion tbody tr.H"+hora+" td.D"+diasId[(r.dia_id-1)]+" div.listarp").addClass("mant").fadeIn(1000);
+        ambiente_id_aula= $.trim(r.ambiente_id_aula);
+        aula= $.trim(r.aula);
     });
+
+    $("#ProgramacionForm #txt_ambiente_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+    $("#ProgramacionForm #txt_ambiente_id").val(ambiente_id_aula);
+    $("#ProgramacionForm #txt_ambiente").val(aula);
+    if( $.trim(ambiente_id_aula)!='' ){
+        $("#ProgramacionForm #txt_ambiente_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+    }
     $("#TableProgramacion tr td div.listarp").not(".mant").remove();
 
 };
