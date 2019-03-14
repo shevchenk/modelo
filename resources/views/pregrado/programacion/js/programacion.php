@@ -172,22 +172,28 @@ RefreshProgramarCurso=function(){
     while( horainiaux<=horafin ){
         if( i==0 ){ html+="<tr>"; html+='<th>HORAS</th>'; }
         else{ 
-            if( horarioAuxG!='' && horarioAuxG<=horainiaux){
-                horainiaux_reserva= horainiaux;
-                if( horarioAuxG==horainiaux ){
-                    horainiaux= horainiaux_reserva;
-                    horainiaux_reserva= '';
-                    horarioAuxAct= 0;
-                    horarioAuxG='';
-                }
-                else{
-                    horainiaux= horarioAuxG;
-                    horarioAuxAct=1;
-                }
-            }
 
             if( horarioG.length>0 && horarioIDG<horarioG.length ){
-                if( horarioG[horarioIDG]<=horainiaux ){
+                if( horarioAuxG!='' && horarioAuxG<=horarioG[horarioIDG] && horarioG[horarioIDG]<=horainiaux){
+                    horainiaux_reserva= horainiaux;
+                    if( horarioAuxG==horainiaux ){
+                        if( horarioAuxG==horarioG[horarioIDG] ){
+                            horarioIDG++;
+                        }
+                        horainiaux= horainiaux_reserva;
+                        horainiaux_reserva= '';
+                        horarioAuxAct= 0;
+                        horarioAuxG='';
+                    }
+                    else{
+                        if( horarioAuxG==horarioG[horarioIDG] ){
+                            horarioIDG++;
+                        }
+                        horainiaux= horarioAuxG;
+                        horarioAuxAct=1;
+                    }
+                }
+                else if( horarioG[horarioIDG]<=horainiaux ){
                     horainiaux_reserva= horainiaux;
                     if( horarioG[horarioIDG]==horainiaux ){
                         horainiaux= horainiaux_reserva;
@@ -198,6 +204,22 @@ RefreshProgramarCurso=function(){
                         horarioAuxAct=2;
                     }
                     horarioIDG++;
+                }
+            }
+
+            if( horarioAuxG!='' && horarioAuxG<=horainiaux && horarioAuxAct==0){
+                if( horainiaux_reserva=='' ){
+                    horainiaux_reserva= horainiaux;
+                }
+                if( horarioAuxG==horainiaux ){
+                    horainiaux= horainiaux_reserva;
+                    horainiaux_reserva= '';
+                    horarioAuxAct= 0;
+                    horarioAuxG='';
+                }
+                else{
+                    horainiaux= horarioAuxG;
+                    horarioAuxAct=1;
                 }
             }
 
@@ -233,19 +255,34 @@ RefreshProgramarCurso=function(){
     }
 
     for( x=horarioIDG; x<horarioG.length; x++  ){
-        if( horarioAuxG!='' ){
-            if( horarioAuxG<=horarioG[x] ){
-                
+        if( horarioAuxG!='' && horarioAuxG<=horarioG[x] ){
+            horainiaux= horarioAuxG;
+            horafinaux=horainiaux.toHHMM(45); 
+            html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
+            html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
+            for (var j = 1; j <= horario.length; j++) {
+                html2+="<td class='D"+horario[(j-1)]+"' id='f"+i+"c"+j+"'></td>";
             }
+            html2+="</tr>";
+            if( horarioAuxG<horarioG[x] ){
+                x--;
+            }
+            horainiaux_reserva= '';
+            horarioAuxAct= 0;
+            horarioAuxG='';
+            i++;
         }
-        horainiaux= horarioG[x];
-        horafinaux=horainiaux.toHHMM(45); 
-        html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
-        html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
-        for (var j = 1; j <= horario.length; j++) {
-            html2+="<td class='D"+horario[(j-1)]+"' id='f"+i+"c"+j+"'></td>";
+        else{
+            horainiaux= horarioG[x];
+            horafinaux=horainiaux.toHHMM(45); 
+            html2+="<tr class='H"+horainiaux.replace(":","")+horafinaux.replace(":","")+"'>"; 
+            html2+="<td>"+horainiaux; horainiaux=horainiaux.toHHMM(45); html2+=" - "+horainiaux+"</td>";
+            for (var j = 1; j <= horario.length; j++) {
+                html2+="<td class='D"+horario[(j-1)]+"' id='f"+i+"c"+j+"'></td>";
+            }
+            html2+="</tr>";
+            i++;
         }
-        html2+="</tr>";
     }
         horarioIDG=-1; //Inicializar valores del arreglo
     if( horarioAuxG!='' ){
