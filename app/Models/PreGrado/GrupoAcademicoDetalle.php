@@ -100,8 +100,16 @@ class GrupoAcademicoDetalle extends Model
                                     ->where('hora_final',$r->hora_final)
                                     ->first();
             if( !isset($grupoAcademicoDetalle->id) ){
+                $grupoAcademicoDetalle2 = GrupoAcademicoDetalle::where('grupo_academico_id',$r->grupo_academico_id)
+                                    ->where('seccion',$r->seccion)
+                                    ->first();
                 $grupoAcademicoDetalle = new GrupoAcademicoDetalle;
                 $grupoAcademicoDetalle->persona_id_created_at=$persona_id;
+                if( isset($grupoAcademicoDetalle2->ambiente_id_aula) ){
+                    if( trim($grupoAcademicoDetalle2->ambiente_id_aula)!=''){
+                        $grupoAcademicoDetalle->ambiente_id_aula= $grupoAcademicoDetalle2->ambiente_id_aula;
+                    }
+                }
             }
             else{
                 $grupoAcademicoDetalle->persona_id_updated_at=$persona_id;

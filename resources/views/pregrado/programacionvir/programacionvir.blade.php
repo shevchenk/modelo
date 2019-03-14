@@ -17,10 +17,10 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-    @include( 'pregrado.programacion.js.grupoacademico_ajax' )
-    @include( 'pregrado.programacion.js.grupoacademico' )
-    @include( 'pregrado.programacion.js.programacion_ajax' )
-    @include( 'pregrado.programacion.js.programacion' )
+    @include( 'pregrado.programacionvir.js.grupoacademicovir_ajax' )
+    @include( 'pregrado.programacionvir.js.grupoacademicovir' )
+    @include( 'pregrado.programacionvir.js.programacionvir_ajax' )
+    @include( 'pregrado.programacionvir.js.programacionvir' )
 @stop
 
 @section('content')
@@ -36,8 +36,8 @@
                                     <i class="fa fa-cogs"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Programación de Cursos</h2>
-                                    <p>Gestionar la programación de los curso</p>
+                                    <h2>Programación de Cursos - Semi Presenciales</h2>
+                                    <p>Gestionar la programación de los cursos - Semi Presenciales</p>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             </form>
                             <form id="GrupoAcademicoForm" name="GrupoAcademicoForm">
                                 <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <legend>GRUPOS ACADÉMICOS:</legend>
+                                    <legend>GRUPOS ACADÉMICOS SEMI PRESENCIAL:</legend>
                                     <div class="panel panel-body table-responsive">
                                         <table id="TableGrupoAcademico" class="table table-bordered table-hover">
                                             <thead>
@@ -207,7 +207,7 @@
                                                                 <input type="text" class="form-control col-md-12" onblur="masterG.Limpiar('#txt_ambiente_id_aux',this.value);" id="txt_ambiente_aux" placeholder="Laboratorio">
                                                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                                             </div>
-                                                        </td></tr><tr style="display: none;"><td>
+                                                        </td></tr><tr><td>
                                                             <div class="nk-toggle-switch form-control col-md-12" data-ts-color="blue">
                                                                 <label class="ts-label">Clase:</label>
                                                                 <input type="hidden" class="mant" id="txt_tipo_clase_aux" name="txt_tipo_clase_aux" value="1">
