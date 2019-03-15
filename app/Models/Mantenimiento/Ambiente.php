@@ -62,7 +62,7 @@ class Ambiente extends Model
             ->select(
                 'la.id', 'la.local_id', 'la.pabellon_id', 'la.ambiente',
                 'la.tipo_ambiente', 'la.estado', 'la.piso', 'la.aforo',
-                'l.local', 'lp.pabellon'
+                'l.local', 'lp.pabellon', 'l.codigo AS codigo_local'
             )
             ->where( 
                 function($query) use ($r){

@@ -46,11 +46,11 @@ class Pabellon extends Model
     {
         $sql=DB::table('am_locales_pabellones as lp')
             ->join('am_locales AS l',function($join){
-                $join->on('l.id','=','la.local_id');
+                $join->on('l.id','=','lp.local_id');
             })
             ->select(
                 'lp.id', 'lp.local_id', 'lp.pabellon',
-                'l.local','lp.estado'
+                'l.local','lp.estado','l.codigo as codigo_local'
             )
             ->where( 
                 function($query) use ($r){
@@ -74,7 +74,7 @@ class Pabellon extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('la.pabellon','asc')->paginate(10);
+        $result = $sql->orderBy('lp.pabellon','asc')->paginate(10);
         return $result;
     }
 

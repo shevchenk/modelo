@@ -8,13 +8,20 @@ var PabellonOpciones = {
     getValue: "pabellon",
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
-            if(r.data.length==0){ 
+            if( r.rst==2 ){
+                msjG.mensaje('warning','Busque y Seleccione Local',6000);
+            }
+            else if(r.data.length==0){ 
                 msjG.mensaje('warning',$("#ModalAmbienteForm #txt_pabellon").val()+' <b>sin resultados</b>',6000);
             }
         }, 
     },
     preparePostData: function(data) {
         data.phrase = $("#ModalAmbienteForm #txt_pabellon").val();
+        data.local_id = '';
+        if( $("#ModalAmbienteForm #txt_local_ico").hasClass("has-success") ){
+            data.local_id = $("#ModalAmbienteForm #txt_local_id").val();
+        }
         return data;
     },
     list: {
@@ -88,6 +95,7 @@ $(document).ready(function() {
         $('#ModalAmbienteForm #txt_ambiente').val( AmbienteG.ambiente );
         $('#ModalAmbienteForm #txt_local').val( AmbienteG.local );
         $('#ModalAmbienteForm #txt_local_id').val( AmbienteG.local_id );
+        $('#ModalAmbienteForm #txt_codigo_local').val( AmbienteG.codigo_local );
         $('#ModalAmbienteForm #txt_pabellon').val( AmbienteG.pabellon );
         $('#ModalAmbienteForm #txt_pabellon_id').val( AmbienteG.pabellon_id );
         $('#ModalAmbienteForm #txt_piso').val( AmbienteG.piso );
@@ -100,12 +108,14 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjaxAmbiente();');
             $("#ModalAmbienteForm #txt_pabellon_ico, #ModalAmbienteForm #txt_local_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
             $("#ModalAmbienteForm #slct_tipo_ambiente").selectpicker('val','1');
+            $('#ModalAmbienteForm #txt_local, #ModalAmbienteForm #txt_pabellon').removeAttr('disabled');
             $('#ModalAmbienteForm #txt_local').focus();
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjaxAmbiente();');
             $("#ModalAmbienteForm").append("<input type='hidden' value='"+AmbienteG.id+"' name='id'>");
             $("#ModalAmbienteForm #txt_pabellon_ico, #ModalAmbienteForm #txt_local_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $('#ModalAmbienteForm #txt_local, #ModalAmbienteForm #txt_pabellon').attr('disabled','true');
         }
     });
 
@@ -153,6 +163,7 @@ AgregarEditarAmbiente=function(val,id){
     AmbienteG.pabellon_id='';
     AmbienteG.local='';
     AmbienteG.local_id='';
+    AmbienteG.codigo_local='';
     AmbienteG.piso='';
     AmbienteG.aforo='';
     AmbienteG.estado='1';
@@ -165,6 +176,7 @@ AgregarEditarAmbiente=function(val,id){
         AmbienteG.pabellon_id=$("#TableAmbiente #trid_"+id+" .pabellon_id").val();
         AmbienteG.local=$("#TableAmbiente #trid_"+id+" .local").text();
         AmbienteG.local_id=$("#TableAmbiente #trid_"+id+" .local_id").val();
+        AmbienteG.codigo_local=$("#TableAmbiente #trid_"+id+" .codigo_local").val();
         AmbienteG.piso=$("#TableAmbiente #trid_"+id+" .piso").text();
         AmbienteG.aforo=$("#TableAmbiente #trid_"+id+" .aforo").text();
         AmbienteG.estado=$("#TableAmbiente #trid_"+id+" .estado").val();
@@ -232,6 +244,7 @@ HTMLCargarAmbiente=function(result){
             "<td>"+
             "<input type='hidden' class='tipo_ambiente' value='"+r.tipo_ambiente+"'>"+
             "<input type='hidden' class='pabellon_id' value='"+r.pabellon_id+"'>"+
+            "<input type='hidden' class='codigo_local' value='"+r.codigo_local+"'>"+
             "<input type='hidden' class='local_id' value='"+r.local_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditarAmbiente(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
