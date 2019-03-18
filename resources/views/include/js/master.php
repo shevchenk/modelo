@@ -227,6 +227,9 @@ var masterG ={
             $(archivo).val(e.target.result);
             $(src).attr('src',e.target.result);
         };
+        reader.onprogress=() => {
+            //msjG.mensaje('warning','Cargando yo ando',2000);
+        }
         reader.readAsDataURL(files[0]);
         $(nombre).val(files[0].name);
         console.log(files[0].name);
