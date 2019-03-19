@@ -73,13 +73,13 @@
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-xs-12">
                                             <label>Local de Registro:</label>
-                                            <select id="slct_local_registro_id" name="slct_local_registro_id" class="form-control selectpicker show-menu-arrow">
+                                            <select id="slct_local_id_registro" name="slct_local_id_registro" class="form-control selectpicker show-menu-arrow" data-live-search="true">
                                                 <option value="">.::Seleccione::.</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-xs-12">
                                             <label>Local de Informes:</label>
-                                            <select id="slct_local_informe_id" name="slct_local_informe_id" class="form-control selectpicker show-menu-arrow">
+                                            <select id="slct_local_id_informe" name="slct_local_id_informe" class="form-control selectpicker show-menu-arrow" data-live-search="true">
                                                 <option value="">.::Seleccione::.</option>
                                             </select>
                                         </div>
