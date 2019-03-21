@@ -89,13 +89,17 @@
                                                 <option value="">.::Seleccione::.</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                        <div class="col-md-4 col-sm-10 col-xs-12">
                                             <label>Inscrito:</label>
                                             <input type="hidden" class="form-control" id="txt_inscrito_id" name="txt_inscrito_id">
                                             <div id="txt_inscrito_ico" class="has-error has-feedback">
                                                 <input type="text" class="form-control" id="txt_inscrito" onblur="masterG.Limpiar('#txt_inscrito_id',this.value);" placeholder="Paterno | Materno | Nombre | DNI">
                                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                                             </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <label>Inscrito:</label>
+                                            <input type="text" class="form-control" id="txt_dni" placeholder="DNI" disabled>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -105,102 +109,102 @@
                                         <div class="row">
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Estado Civil:</label>
-                                                <input type="text" class="form-control" id="txt_estado_civil" placeholder="Estado Civil" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_estado_civil" placeholder="Estado Civil" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Documento Identidad:</label>
-                                                <input type="text" class="form-control" id="txt_dni" placeholder="Documento de Identidad" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_dni" placeholder="Documento de Identidad" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Fecha de Nacimiento:</label>
-                                                <input type="text" class="form-control" id="txt_fecha_nacimiento" placeholder="Fecha de Nacimiento" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_fecha_nacimiento" placeholder="Fecha de Nacimiento" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Edad:</label>
-                                                <input type="text" class="form-control" id="txt_edad" placeholder="Edad" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_edad" placeholder="Edad" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Género:</label>
-                                                <input type="text" class="form-control" id="txt_genero" placeholder="Género" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_genero" placeholder="Género" readonly>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>País de Nacimiento:</label>
-                                                <input type="text" class="form-control" id="txt_pais" placeholder="País" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_pais" placeholder="País" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Departamento de Nacimiento:</label>
-                                                <input type="text" class="form-control" id="txt_departamento" placeholder="Departamento" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_region" placeholder="Departamento" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Provincia de Nacimiento:</label>
-                                                <input type="text" class="form-control" id="txt_provincia" placeholder="Provincia" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_provincia" placeholder="Provincia" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Distrito de Nacimiento:</label>
-                                                <input type="text" class="form-control" id="txt_distrito" placeholder="Distrito" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_distrito" placeholder="Distrito" readonly>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                                 <label>Dirección donde vive:</label>
-                                                <textarea type="text" class="form-control" id="txt_direccion" placeholder="Dirección" readonly>
+                                                <textarea type="text" class="form-control adicionales" id="txt_direccion" placeholder="Dirección" readonly>
                                                 </textarea>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Tenencia de casa:</label>
-                                                <input type="text" class="form-control" id="txt_tenencia" placeholder="Tenencia" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_tenencia" placeholder="Tenencia" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Departamento donde Vive:</label>
-                                                <input type="text" class="form-control" id="txt_departamento_dir" placeholder="Departamento" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_region_dir" placeholder="Departamento" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Provincia donde Vive:</label>
-                                                <input type="text" class="form-control" id="txt_provincia_dir" placeholder="Provincia" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_provincia_dir" placeholder="Provincia" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Distrito donde Vive:</label>
-                                                <input type="text" class="form-control" id="txt_distrito_dir" placeholder="Distrito" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_distrito_dir" placeholder="Distrito" readonly>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Dirección Laboral:</label>
-                                                <textarea type="text" class="form-control" id="txt_direccion_laboral" placeholder="Dirección de Trabajo" readonly>
+                                                <textarea type="text" class="form-control adicionales" id="txt_direccion_laboral" placeholder="Dirección de Trabajo" readonly>
                                                 </textarea>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Empresa Laboral:</label>
-                                                <input type="text" class="form-control" id="txt_empresa_laboral" placeholder="Empresa Laboral" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_empresa_laboral" placeholder="Empresa Laboral" readonly>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <label>Teléfono Laboral:</label>
-                                                <input type="text" class="form-control" id="txt_telefono_laboral" placeholder="Teléfono Laboral" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_telefono_laboral" placeholder="Teléfono Laboral" readonly>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                                 <label>Colegio:</label>
-                                                <textarea type="text" class="form-control" id="txt_colegio" placeholder="Colegio" readonly>
+                                                <textarea type="text" class="form-control adicionales" id="txt_colegio" placeholder="Colegio" readonly>
                                                 </textarea>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Tipo Colegio:</label>
-                                                <input type="text" class="form-control" id="txt_distrito_col" placeholder="Distrito" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_distrito_col" placeholder="Distrito" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Departamento Colegio:</label>
-                                                <input type="text" class="form-control" id="txt_departamento_col" placeholder="Departamento" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_region_col" placeholder="Departamento" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Provincia Colegio:</label>
-                                                <input type="text" class="form-control" id="txt_provincia_col" placeholder="Provincia" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_provincia_col" placeholder="Provincia" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Distrito Colegio:</label>
-                                                <input type="text" class="form-control" id="txt_distrito_col" placeholder="Distrito" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_distrito_col" placeholder="Distrito" readonly>
                                             </div>
                                         </div>
                                     </div>
