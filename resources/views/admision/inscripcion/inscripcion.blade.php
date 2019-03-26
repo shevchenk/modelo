@@ -192,7 +192,7 @@
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Tipo Colegio:</label>
-                                                <input type="text" class="form-control adicionales" id="txt_distrito_col" placeholder="Distrito" readonly>
+                                                <input type="text" class="form-control adicionales" id="txt_tipo_colegio" placeholder="Distrito" readonly>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                 <label>Departamento Colegio:</label>
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="col-md-1 col-xs-1">
                                                 <br>
-                                                <button type="button" class="btn btn-info">
+                                                <button type="button" onclick="OpcionAcademica();" class="btn btn-info">
                                                     <i class="fa fa-search fa-2x"></i>
                                                 </button>
                                             </div>

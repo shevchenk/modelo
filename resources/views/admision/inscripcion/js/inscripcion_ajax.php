@@ -12,7 +12,7 @@ var AjaxInscripcion={
     },
     CargarPersonaAdicional:function(evento){
         url='AjaxDinamic/Mantenimiento.PersonaEM@LoadAdicional';
-        data={persona_id:InscripcionG.persona_id};
+        data={persona_id:InscripcionG.persona_id,todo:1};
         masterG.postAjax(url,data,evento);
     },
 };

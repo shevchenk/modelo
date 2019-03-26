@@ -316,8 +316,31 @@ class Persona extends Model
                 ,'pa.direccion','pa.tenencia','pa.empresa_laboral','pa.direccion_laboral'
                 ,'pa.telefono_laboral','di.distrito','pr.provincia','re.region','p.pais'
                 ,'di2.distrito AS distrito_dir','pr2.provincia AS provincia_dir'
-                ,'re2.region AS region_dir','co.colegio')
-                ->where('pa.persona_id',$r->persona_id)
+                ,'re2.region AS region_dir','co.colegio');
+
+                if( $r->has('todo') ){
+                    if( $r->todo==1 ){
+                        $result->leftJoin('aa_distritos AS di3',function($join){
+                            $join->on('co.distrito_id','=','di3.id')
+                            ->where('di3.estado','=',1);
+                        })
+                        ->leftJoin('aa_provincias AS pr3',function($join){
+                            $join->on('di3.provincia_id','=','pr3.id')
+                            ->where('pr3.estado','=',1);
+                        })
+                        ->leftJoin('aa_regiones AS re3',function($join){
+                            $join->on('pr3.region_id','=','re3.id')
+                            ->where('re3.estado','=',1);
+                        })
+                        ->join('am_personas AS pe','pe.id','=','pa.persona_id')
+                        ->addSelect('di3.distrito AS distrito_col'
+                        ,'pr3.provincia AS provincia_col','re3.region AS region_col'
+                        ,'pe.estado_civil','pe.fecha_nacimiento','pe.sexo'
+                        );
+                    }
+                }
+
+        $result= $result->where('pa.persona_id',$r->persona_id)
                 ->first();
         return $result;
     }
