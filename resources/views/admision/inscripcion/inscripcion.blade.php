@@ -1,4 +1,4 @@
-@extends('layout.master')  
+@extends('layout.master')
 
 @section('include')
     @parent
@@ -478,7 +478,7 @@
                                     <div class="panel panel-body">
                                         <div class="col-md-4 col-xs-12">
                                             <label>Local de Estudios:</label>
-                                            <input type="text" class="form-control" id="txt_local" placeholder="Local de Estudios">
+                                            <input type="text" class="form-control" id="txt_local_estudio_grupo" placeholder="Local de Estudios" disabled>
                                         </div>
                                         <div class="col-md-4 col-xs-12">
                                             <label>Carrera - Plan Estudios:</label>

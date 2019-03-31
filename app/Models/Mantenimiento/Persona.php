@@ -335,7 +335,7 @@ class Persona extends Model
                         ->join('am_personas AS pe','pe.id','=','pa.persona_id')
                         ->addSelect('di3.distrito AS distrito_col'
                         ,'pr3.provincia AS provincia_col','re3.region AS region_col'
-                        ,'pe.estado_civil','pe.fecha_nacimiento','pe.sexo'
+                        ,'pe.estado_civil','pe.fecha_nacimiento','pe.sexo','co.tipo'
                         );
                     }
                 }

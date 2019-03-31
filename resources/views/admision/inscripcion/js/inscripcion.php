@@ -72,6 +72,12 @@ HTMLPersonaAdicional = function(result){
         }
     }
 
+    var tipo='Nacional';
+    if( $.trim(result.data.tipo)=='2' ){
+        tipo='Particular';
+    }
+
+
     $('#InscripcionForm #txt_estado_civil').val( estado_civil );
     $('#InscripcionForm #txt_genero').val( genero );
     $('#InscripcionForm #txt_edad').val( edad );
@@ -93,9 +99,16 @@ HTMLPersonaAdicional = function(result){
     $('#InscripcionForm #txt_region_col').val( $.trim(result.data.region_col) );
     $('#InscripcionForm #txt_provincia_col').val( $.trim(result.data.provincia_col) );
     $('#InscripcionForm #txt_distrito_col').val( $.trim(result.data.distrito_col) );
+    $('#InscripcionForm #txt_tipo_colegio').val( tipo );
 }
 
 OpcionAcademica=function(){
-    
+    if( $('#slct_local_estudio_id').val()=='' ){
+        msjG.mensaje('warning','Seleccione Local de Estudios para buscar grupos académicos',5000);
+    }
+    else{
+        $(".nav.nav-tabs [href='#TABGrupoAcademico']").click();
+        $('#txt_local_estudio_grupo').val( $('#slct_local_estudio_id option:selected').text() );
+    }
 }
 </script>
