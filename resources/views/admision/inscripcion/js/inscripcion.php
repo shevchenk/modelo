@@ -103,12 +103,28 @@ HTMLPersonaAdicional = function(result){
 }
 
 OpcionAcademica=function(){
-    if( $('#slct_local_estudio_id').val()=='' ){
+    if( $('#slct_modalidad_id').val()=='' ){
+        msjG.mensaje('warning','Seleccione Modalidad de Estudios para buscar grupos académicos',5000);
+    }
+    else if( $('#slct_local_estudio_id').val()=='' ){
         msjG.mensaje('warning','Seleccione Local de Estudios para buscar grupos académicos',5000);
     }
     else{
         $(".nav.nav-tabs [href='#TABGrupoAcademico']").click();
-        $('#txt_local_estudio_grupo').val( $('#slct_local_estudio_id option:selected').text() );
+        $('#TableGrupoAcademico tbody').html('');
+        $('#GrupoAcademicoFiltroForm #txt_plan_estudio_id, #GrupoAcademicoFiltroForm #txt_nro_plan_estudio, #GrupoAcademicoFiltroForm #txt_plan_estudio, #GrupoAcademicoFiltroForm #txt_carrera').val('');
+        $("#GrupoAcademicoFiltroForm #txt_carrera_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        $("#GrupoAcademicoFiltroForm #txt_carrera").focus();
     }
+}
+
+ModalidadSeleccionada=function(){
+    $('#txt_modalidad_estudio').val( $('#slct_modalidad_id option:selected').text() );
+    $('#txt_modalidad_id').val( $('#slct_modalidad_id').val() );
+}
+
+LocalEstudioSeleccionada=function(){
+    $('#txt_local_estudio_grupo').val( $('#slct_local_estudio_id option:selected').text() );
+    $('#txt_local_estudio_id').val( $('#slct_local_estudio_id').val() );
 }
 </script>

@@ -132,4 +132,15 @@ class CarreraPE extends Controller
         }
     }
 
+    public function ListCarreraPlanEstudioLibre (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['modalidad_id']=array($r->modalidad_id);
+            $renturnModel = Carrera::ListCarreraPlanEstudio($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 }

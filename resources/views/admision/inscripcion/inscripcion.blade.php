@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-xs-12">
                                             <label>Modalidad de Estudios:</label>
-                                            <select id="slct_modalidad_id" name="slct_modalidad_id" class="form-control selectpicker show-menu-arrow">
+                                            <select id="slct_modalidad_id" name="slct_modalidad_id" onchange="ModalidadSeleccionada();" class="form-control selectpicker show-menu-arrow">
                                                 <option value="">.::Seleccione::.</option>
                                             </select>
                                         </div>
@@ -213,13 +213,20 @@
                                     <legend>DATOS DE ADMISIÓN:</legend>
                                     <div class="panel panel-body">
                                         <div class="col-lg-12 col-md-12 col-sx-12">
-                                            <div class="col-md-4 col-xs-11">
+                                            <div class="col-md-4 col-xs-12">
                                                 <label>Local de Estudios:</label>
-                                                <select id="slct_local_estudio_id" name="slct_local_estudio_id" class="form-control selectpicker show-menu-arrow">
+                                                <select id="slct_local_estudio_id" name="slct_local_estudio_id" onchange="LocalEstudioSeleccionada();" class="form-control selectpicker show-menu-arrow">
                                                     <option value="">.::Seleccione::.</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-1 col-xs-1">
+                                            <div class="col-md-4 col-xs-8">
+                                                <label>Buscar para:</label>
+                                                <select id="slct_opcion" class="form-control selectpicker show-menu-arrow">
+                                                    <option value="1">1° Opción</option>
+                                                    <option value="2">2° Opción</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-1 col-xs-4">
                                                 <br>
                                                 <button type="button" onclick="OpcionAcademica();" class="btn btn-info">
                                                     <i class="fa fa-search fa-2x"></i>
@@ -229,42 +236,50 @@
                                         <fieldset class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <legend>1° Opción:</legend>
                                             <div class="panel panel-body">
-                                                <div class="col-lg-6 col-md-12 col-xs-12">
-                                                    <label>Carrera:</label>
-                                                    <input type="text" class="form-control" id="txt_carrera" placeholder="Carrera" readonly>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <label>Plan de Estudios:</label>
+                                                    <input type="text" class="form-control" id="txt_plan_estudio_1" placeholder="Plan de Estudios" disabled>
                                                 </div>
-                                                <div class="col-lg-6 col-md-12 col-xs-12">
+                                                <div class="col-lg-9 col-md-12 col-xs-12">
+                                                    <label>Carrera:</label>
+                                                    <input type="text" class="form-control" id="txt_carrera_1" placeholder="Carrera" disabled>
+                                                </div>
+                                                <div class="col-lg-3 col-md-12 col-xs-12">
                                                     <label>Semestre:</label>
-                                                    <input type="text" class="form-control" id="txt_semestre" placeholder="Semestre" readonly>
+                                                    <input type="text" class="form-control" id="txt_semestre_1" placeholder="Semestre" disabled>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-xs-12">
                                                     <label>Fecha de Inicio:</label>
-                                                    <input type="text" class="form-control" id="txt_fecha_inicio" placeholder="Fecha de Inicio" readonly>
+                                                    <input type="text" class="form-control" id="txt_fecha_inicio_1" placeholder="Fecha de Inicio" disabled>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-xs-12">
                                                     <label>Horario:</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Horario" readonly>
+                                                    <input type="text" class="form-control" id="txt_horario_1" placeholder="Horario" disabled>
                                                 </div>
                                             </div>
                                         </fieldset>
                                         <fieldset class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <legend>2° Opción:</legend>
                                             <div class="panel panel-body">
-                                                <div class="col-lg-6 col-md-12 col-xs-12">
-                                                    <label>Carrera:</label>
-                                                    <input type="text" class="form-control" id="txt_carrera_2" placeholder="Carrera" readonly>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <label>Plan de Estudios:</label>
+                                                    <input type="text" class="form-control" id="txt_plan_estudio_2" placeholder="Plan de Estudios" disabled>
                                                 </div>
-                                                <div class="col-lg-6 col-md-12 col-xs-12">
+                                                <div class="col-lg-9 col-md-12 col-xs-12">
+                                                    <label>Carrera:</label>
+                                                    <input type="text" class="form-control" id="txt_carrera_2" placeholder="Carrera" disabled>
+                                                </div>
+                                                <div class="col-lg-3 col-md-12 col-xs-12">
                                                     <label>Semestre:</label>
-                                                    <input type="text" class="form-control" id="txt_semestre_2" placeholder="Semestre" readonly>
+                                                    <input type="text" class="form-control" id="txt_semestre_2" placeholder="Semestre" disabled>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-xs-12">
                                                     <label>Fecha de Inicio:</label>
-                                                    <input type="text" class="form-control" id="txt_fecha_inicio_2" placeholder="Fecha de Inicio" readonly>
+                                                    <input type="text" class="form-control" id="txt_fecha_inicio_2" placeholder="Fecha de Inicio" disabled>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-xs-12">
                                                     <label>Horario:</label>
-                                                    <input type="text" class="form-control" id="txt_horario_2" placeholder="Horario" readonly>
+                                                    <input type="text" class="form-control" id="txt_horario_2" placeholder="Horario" disabled>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -479,6 +494,7 @@
                                         <div class="col-md-4 col-xs-12">
                                             <label>Local de Estudios:</label>
                                             <input type="text" class="form-control" id="txt_local_estudio_grupo" placeholder="Local de Estudios" disabled>
+                                            <input type="hidden" name="txt_local_id[]" id="txt_local_estudio_id">
                                         </div>
                                         <div class="col-md-4 col-xs-12">
                                             <label>Carrera - Plan Estudios:</label>
@@ -502,8 +518,12 @@
                                         </div>
                                         <div class="col-md-4 col-xs-12">
                                             <label>Ciclo de Estudios:</label>
-                                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_ciclo_id" name="slct_ciclo_id">
-                                            </select>
+                                            <input type="text" class="form-control" id="txt_ciclo_id" placeholder="Ciclo" value="I Ciclo" disabled>
+                                        </div>
+                                        <div class="col-md-4 col-xs-12">
+                                            <label>Modalidad de Estudios:</label>
+                                            <input type="text" class="form-control" id="txt_modalidad_estudio" placeholder="Modalidad de Estudios" disabled>
+                                            <input type="hidden" name="txt_modalidad_id" id="txt_modalidad_id">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -524,7 +544,7 @@
                                                     <th>Frecuencia / Horario</th>
                                                     <th>Meta Mínima / Meta Máxima</th>
                                                     <th>Fecha Inicio Matrícula / Fecha Final Matrícula</th>
-                                                    <th>Ver Programación</th>
+                                                    <th>Seleccionar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -2,7 +2,7 @@
 var AjaxGrupoAcademico={
     Cargar:function(evento,pag){
         data=$("#GrupoAcademicoFiltroForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/PreGrado.GrupoAcademicoPG@LoadProgramacion';
+        url='AjaxDinamic/Admision.GrupoAcademicoAD@LoadProgramacion';
         masterG.postAjax(url,data,evento);
     },
     CargarLocal:function(evento){
