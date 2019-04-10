@@ -13,6 +13,7 @@ $(document).ready(function() {
     });
     AjaxInscripcion.CargarLocal(HTMLCargarLocal);
     AjaxInscripcion.CargarModalidad(HTMLCargarModalidad);
+    AjaxInscripcion.CargarModalidadIngreso(HTMLCargarModalidadIngreso);
     $("#InscripcionForm #txt_inscrito").easyAutocomplete(PersonaOpciones);
 });
 
@@ -36,6 +37,21 @@ HTMLCargarModalidad = function(result){
     });
     $("#InscripcionForm #slct_modalidad_id").html(html);
     $("#InscripcionForm #slct_modalidad_id").selectpicker('refresh');
+}
+
+HTMLCargarModalidadIngreso = function(result){
+    var html='';
+    $("#InscripcionForm #slct_modalidad_ingreso_id").html(html);
+    html='<option value="">.::Seleccione::.</option>';
+    $.each(result.data,function(index,r){
+        tipo='Extra Ordinario';
+        if( r.tipo==1 ){
+            tipo='Ordinario';
+        }
+        html+="<option data-subtext='"+tipo+"' value="+r.id+">"+r.modalidad_ingreso+"</option>";
+    });
+    $("#InscripcionForm #slct_modalidad_ingreso_id").html(html);
+    $("#InscripcionForm #slct_modalidad_ingreso_id").selectpicker('refresh');
 }
 
 HTMLPersonaAdicional = function(result){
@@ -126,5 +142,22 @@ ModalidadSeleccionada=function(){
 LocalEstudioSeleccionada=function(){
     $('#txt_local_estudio_grupo').val( $('#slct_local_estudio_id option:selected').text() );
     $('#txt_local_estudio_id').val( $('#slct_local_estudio_id').val() );
+}
+
+ModalidadIngresoSeleccionada=function(){
+    if( $("#slct_modalidad_ingreso_id").val()!='' ){
+        AjaxInscripcion.DetallarModalidadIngreso(HTMLDetallarModalidadIngreso);
+    }
+    else{
+        msjG.mensaje('warning','Seleccione Modalidad de Ingreso',5000);
+    }
+}
+
+HTMLDetallarModalidadIngreso=function(result){
+    $("#div_requisito>.plantilla").not("#plantilla_requisito").remove();
+    $.each(result.data,function(index,r){
+        agregar= $("#plantilla_requisito").html().split("textoaux").join(r.requisito);
+        $("#div_requisito").append( agregar );
+    });
 }
 </script>

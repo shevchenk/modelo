@@ -71,7 +71,7 @@ class ModalidadIngreso extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mi.modalidad_ingreso','desc')->paginate(10);
+        $result = $sql->orderBy('mi.id','desc')->paginate(10);
         return $result;
     }
     
@@ -94,7 +94,9 @@ class ModalidadIngreso extends Model
                 }
             )
             ->where('mi.estado','=','1');
-        $result = $sql->orderBy('mi.modalidad_ingreso','desc')->get();
+        $result = $sql->orderBy('mi.tipo','asc')
+                    ->orderBy('mi.modalidad_ingreso','asc')
+                    ->get();
         return $result;
     }
     

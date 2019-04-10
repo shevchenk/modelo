@@ -286,52 +286,32 @@
                                         <div class="col-lg-12 col-md-12 col-sx-12">
                                             <div class="col-md-4 col-xs-12">
                                                 <label>Modalidad de Ingreso:</label>
-                                                <select id="slct_modalidad_ingreso_id" name="slct_modalidad_ingreso_id" class="form-control selectpicker show-menu-arrow">
+                                                <select id="slct_modalidad_ingreso_id" name="slct_modalidad_ingreso_id" onchange="ModalidadIngresoSeleccionada();" class="form-control selectpicker show-menu-arrow">
                                                     <option value="">.::Seleccione::.</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sx-12 mg-t-20 mx-t-20" id="div_requerimiento">
-                                            <div class="col-lg-12 col-md-12 col-xs-12">
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-sx-12">
-                                                        <div class="nk-toggle-switch form-control" data-ts-color="lime">
-                                                            <label class="ts-label">1.- Req A:</label>
-                                                            <input id="checklab_aux" type="checkbox">
-                                                            <label class="ts-helper"></label>
-                                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sx-12 mg-t-20 mx-t-20" id="div_requisito">
+                                            <div id="plantilla_requisito" class="plantilla col-lg-12 col-md-12 col-xs-12" style="display: none;">
+                                                <div class="plantilla col-lg-4 col-md-4 col-sm-4 col-sx-12">
+                                                    <div class="nk-toggle-switch form-control" data-ts-color="lime">
+                                                        <label class="ts-label">textoaux</label>
+                                                        <input id="checklab_aux" type="checkbox">
+                                                        <label class="ts-helper"></label>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-sx-12">
-                                                        <input type="text"  readOnly class="form-control input-sm" id="txt_imagen_nombre_1"  name="txt_imagen_nombre_1" value="">
-                                                        <input type="text" class="mant" style="display: none;" id="txt_imagen_archivo_1" name="txt_imagen_archivo_1">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-sx-12">
-                                                        <label class="btn btn-default btn-flat margin btn-xs">
-                                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
-                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#InscripcionForm #txt_imagen_nombre_1','#InscripcionForm #txt_imagen_archivo_1','#InscripcionForm #img_1');" >
-                                                        </label>
-                                                    </div>
-                                                
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-sx-12">
-                                                        <div class="nk-toggle-switch form-control" data-ts-color="lime">
-                                                            <label class="ts-label">2.- Req B:</label>
-                                                            <input id="checklab_aux" type="checkbox">
-                                                            <label class="ts-helper"></label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-sx-12">
-                                                        <input type="text"  readOnly class="form-control input-sm" id="txt_imagen_nombre_2"  name="txt_imagen_nombre_2" value="">
-                                                        <input type="text" class="mant" style="display: none;" id="txt_imagen_archivo_2" name="txt_imagen_archivo_2">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-sx-12">
-                                                        <label class="btn btn-default btn-flat margin btn-xs">
-                                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
-                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#InscripcionForm #txt_imagen_nombre_2','#InscripcionForm #txt_imagen_archivo_2','#InscripcionForm #img_2');" >
-                                                        </label>
-                                                    </div>
-                                                
-                                            </ol>
+                                                </div>
+                                                <div class="plantilla col-lg-6 col-md-6 col-sm-6 col-sx-12">
+                                                    <input type="text"  readOnly class="form-control input-sm" id="txt_imagen_nombre_aux"  name="txt_imagen_nombre_aux" value="">
+                                                    <input type="text" class="mant" style="display: none;" id="txt_imagen_archivo_aux" name="txt_imagen_archivo_aux">
+                                                </div>
+                                                <div class="plantilla col-lg-2 col-md-2 col-sm-2 col-sx-12">
+                                                    <label class="btn btn-default btn-flat margin btn-xs">
+                                                        <i class="fa fa-file-image-o fa-3x"></i>
+                                                        <i class="fa fa-file-pdf-o fa-3x"></i>
+                                                        <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#InscripcionForm #txt_imagen_nombre_aux','#InscripcionForm #txt_imagen_archivo_aux','#InscripcionForm #img_aux');" >
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>

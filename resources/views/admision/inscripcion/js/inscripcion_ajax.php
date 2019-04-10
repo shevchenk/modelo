@@ -10,9 +10,19 @@ var AjaxInscripcion={
         url='AjaxDinamic/PlanEstudio.ModalidadPE@listModalidad';
         masterG.postAjax(url,data,evento);
     },
+    CargarModalidadIngreso:function(evento){
+        var data={};
+        url='AjaxDinamic/Admision.ModalidadIngresoAD@ListModalidadIngreso';
+        masterG.postAjax(url,data,evento);
+    },
     CargarPersonaAdicional:function(evento){
+        var data={persona_id:InscripcionG.persona_id,todo:1};
         url='AjaxDinamic/Mantenimiento.PersonaEM@LoadAdicional';
-        data={persona_id:InscripcionG.persona_id,todo:1};
+        masterG.postAjax(url,data,evento);
+    },
+    DetallarModalidadIngreso:function(evento){
+        var data={modalidad_ingreso_id:$("#slct_modalidad_ingreso_id").val()};
+        url='AjaxDinamic/Admision.ModalidadIngresoRequisitoAD@ListRequisitos';
         masterG.postAjax(url,data,evento);
     },
 };

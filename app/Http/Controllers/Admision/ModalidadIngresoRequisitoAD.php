@@ -68,4 +68,15 @@ class ModalidadIngresoRequisitoAD extends Controller
         }
     }
 
+    public function ListRequisitos(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = ModalidadIngresoRequisito::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);   
+        }
+    }
+
 }
