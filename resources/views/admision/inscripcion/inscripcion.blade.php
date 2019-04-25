@@ -327,28 +327,28 @@
                                             <div class="panel panel-body">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Fecha de Pago:</label>
-                                                    <input type="text" class="form-control" id="txt_carrera" placeholder="Fecha de Pago" readonly>
+                                                    <input type="text" class="form-control" id="txt_fecha_pago_i" placeholder="Fecha de Pago" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Serie Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_fecha_inicio" placeholder="Serie Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_serie_doc_i" placeholder="Serie Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Nro Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_semestre" placeholder="Nro Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_nro_doc_i" placeholder="Nro Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto:</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_i" placeholder="Monto" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Descripción Promoción</label>
-                                                    <textarea id="txt_horario" class="form-control" readonly>
+                                                    <textarea id="txt_promocion_i" class="form-control" readonly>
                                                     </textarea>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto Promoción</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_promocion_i" placeholder="Monto" readonly>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -361,28 +361,28 @@
                                             <div class="panel panel-body">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Fecha de Pago:</label>
-                                                    <input type="text" class="form-control" id="txt_carrera" placeholder="Fecha de Pago" readonly>
+                                                    <input type="text" class="form-control" id="txt_fecha_pago_m" placeholder="Fecha de Pago" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Serie Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_fecha_inicio" placeholder="Serie Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_serie_doc_m" placeholder="Serie Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Nro Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_semestre" placeholder="Nro Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_nro_doc_m" placeholder="Nro Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto:</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_m" placeholder="Monto" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Descripción Promoción</label>
-                                                    <textarea id="txt_horario" class="form-control" readonly>
+                                                    <textarea id="txt_promocion_m" class="form-control" readonly>
                                                     </textarea>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto Promoción</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_promocion_m" placeholder="Monto" readonly>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -395,28 +395,28 @@
                                             <div class="panel panel-body">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Fecha de Pago:</label>
-                                                    <input type="text" class="form-control" id="txt_carrera" placeholder="Fecha de Pago" readonly>
+                                                    <input type="text" class="form-control" id="txt_fecha_pago_p" placeholder="Fecha de Pago" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Serie Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_fecha_inicio" placeholder="Serie Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_serie_doc_p" placeholder="Serie Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Nro Documento:</label>
-                                                    <input type="text" class="form-control" id="txt_semestre" placeholder="Nro Documento" readonly>
+                                                    <input type="text" class="form-control" id="txt_nro_doc_p" placeholder="Nro Documento" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto:</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_p" placeholder="Monto" readonly>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Descripción Promoción</label>
-                                                    <textarea id="txt_horario" class="form-control" readonly>
+                                                    <textarea id="txt_promocion_p" class="form-control" readonly>
                                                     </textarea>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Monto Promoción</label>
-                                                    <input type="text" class="form-control" id="txt_horario" placeholder="Monto" readonly>
+                                                    <input type="text" class="form-control" id="txt_monto_promocion_p" placeholder="Monto" readonly>
                                                 </div>
                                             </div>
                                         </fieldset>
