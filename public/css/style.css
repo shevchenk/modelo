@@ -2643,7 +2643,11 @@ hr {
     margin-bottom:20px;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    font-size:14px;
+    font-size:13px !important;
+    color:#333;
+}
+.table>tfoot>tr>th h4,.table>thead>tr>th h4 {
+    font-size:13px !important;
     color:#333;
 }
 /*----------------------------------------*/
@@ -2740,9 +2744,6 @@ hr {
 }
 #data-table-basic_filter label, #data-table-basic_length label{
     margin-bottom: 0px;
-}
-.dataTable thead h4{
-    font-size: 13px !important;
 }
 /*----------------------------------------*/
 /*  35.  Form Element CSS
@@ -4628,3 +4629,4 @@ body.box-layout {
 /*----------------------------------------*/
 .mCS-light-1.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ background-color: #00c292; }
 .mCS-light-1.mCSB_scrollTools .mCSB_draggerRail{ background-color: #ccc; }
+
