@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="logo-area">
-                <a href="#"><img src="img/logo/logoeip.png" alt="" style="width: 150px;height: 80px;" /></a>
+                <a href="#"><img src="img/logo/logoiep.png" alt="" style="width: 150px;height: 80px;" /></a>
                 <!-- style="width:100px; height:80px;" -->
             </div>
         </div>
