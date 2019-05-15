@@ -2741,6 +2741,9 @@ hr {
 #data-table-basic_filter label, #data-table-basic_length label{
     margin-bottom: 0px;
 }
+.dataTable thead h4{
+    font-size: 13px !important;
+}
 /*----------------------------------------*/
 /*  35.  Form Element CSS
 /*----------------------------------------*/
